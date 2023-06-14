@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="~/Default.aspx" title="Principal"  description="Página principal do web site">
+
+    <siteMapNode url="" title="Administração" roles="Administradores" description="Administração do Site">
+      
+      <siteMapNode url="~/Restrito/UsuariosOnLine.aspx" title="Usuários Online" description="Usuários Online" />
+
+      <siteMapNode url="~/Restrito/CadastroUsuario.aspx" title="Cadastro Usuário" description="Cadastro de novos usuários do sistema" />
+      <siteMapNode url="~/Restrito/Permissao.aspx" title="Permissões" description="Cadastro de permissões para usuários do sistema" />
+      <siteMapNode url="~/Restrito/DesbloqueioUsuario.aspx" title="Desbloquear Usuário" description="Página para desbloquear de Usuário" />
+      <siteMapNode url="~/Restrito/ResetSenha.aspx" title="Resetar Senha" description="Resetar Senha do Usuário" />
+      <siteMapNode url="~/Restrito/Alterarcadastro.aspx" title="Alterar Usuário" description="Página para alterar Login de Usuário" />
+      <siteMapNode url="~/Restrito/DeletarUsuario.aspx" title="Excluir Usuário" description="Página para exclusão de Usuário" />
+
+      <siteMapNode url="~/Restrito/Novidades.aspx" title="Novidades e atualizações" description="Página com descrição das novidades e atualizações do sistema" />
+    </siteMapNode>
+
+    <siteMapNode url="" title="Relatórios" roles="Administradores" description="Páginas relácionadas a informações relatórios" >
+      <siteMapNode url="~/Relatorios/RelatorioAtivosRealizados.aspx" title="Ativos Realizados" description="Relatório de total ativos relizados" />
+      <siteMapNode url="~/Grafico/dadosMes.aspx" title="Gráficos de Ativos" description="Gráficos de ativos realizados por mês" />
+      <siteMapNode url="~/Grafico/dadosMesUsuario.aspx" title="Gráficos de Ativos Usuário " description="Gráficos de ativos realizados no mês por usuário" />
+      <siteMapNode url="~/Grafico/Perfil.aspx" title="Ativos Individual" description="Gráficos de ativos realizados no mês por usuário Individual" />
+    </siteMapNode>
+
+
+  
+    
+
+    <siteMapNode url="" title="Encaminhamento" roles="pós-consulta" description="">
+      <siteMapNode url="~/encaminhamento/cadencaminhamento.aspx" title="Cadastro Solicitação de Exame"  description="Cadastro de Pedido de Consulta" />
+      <siteMapNode url="~/encaminhamento/pedidospendentes.aspx" title="Exames Solicitados"  description="Pedidos de Consulta Pendentes" />
+      <siteMapNode url="~/encaminhamento/pedidospendentesporrh.aspx" title="Exames Solicitados Por RH"  description="Pedidos de Consulta Por RH" />
+		<siteMapNode url="~/encaminhamento/pedidosarquivados.aspx" title="Exames Arquivados"  description="Pedidos de Consulta Arquivados" />
+		
+
+      
+    </siteMapNode>
+
+ 
+
+    <siteMapNode url="" title="Meu Perfil" roles="Ativo, Administradores" description="Páginas relácionadas ao perfil de usuário" >
+      <siteMapNode url="~/Profile/AlterarSenha.aspx" title="Alterar Senha" description="Alteração de senha do usuário" />
+      <siteMapNode url="~/Profile/Perfil.aspx" title="Minhas Informações" description="Informações do perfil" />
+    </siteMapNode>
+
+    <siteMapNode url="" title="Informações" roles="Ativo, Administradores" description="Páginas relácionadas a informações de uso/atendimento" >
+      <siteMapNode url="~/manuais/Roteiro.aspx" title="Roteiro" description="Roteiro do fluxo de ligação" />
+      <siteMapNode url="~/manuais/Fluxo.aspx" title="Fluxo do Sistema" description="Fluxo de uso do sistema para ligações" />
+      <siteMapNode url="~/manuais/PassoaPasso.aspx" title="Passao a Passo do Atendimento" description="Passao a Passo do Atendimento para ligações" />
+    </siteMapNode>
+
+  </siteMapNode>
+</siteMap>
