@@ -31,7 +31,7 @@ public class StatusConsultaDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT [status]"+
-                              " FROM [hspmAtendimento_Call].[dbo].[status_consulta] "+
+                              " FROM [hspmAtendimento_Call_Homologacao].[dbo].[status_consulta] "+
                               " WHERE id_status = " + _cod;
 
             try

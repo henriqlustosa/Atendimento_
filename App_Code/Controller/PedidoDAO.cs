@@ -247,6 +247,7 @@ public class PedidoDAO
                               ",[outras_informacoes]" +
                               ",[solicitante]" +
                               ",[usuario]" +
+                              ",[usuario_baixa]" +
                               " FROM [pedido_consulta] " +
                               " where status = 2 ORDER BY cod_pedido DESC";
 
@@ -274,6 +275,7 @@ public class PedidoDAO
                     p.outras_informacoes = dr1.GetString(7);
                     p.solicitante = dr1.GetString(8);
                     p.usuario = dr1.GetString(9);
+                    p.usuario_baixa = dr1.GetString(10);
 
                     listaPedidos.Add(p);
                 }
@@ -295,7 +297,7 @@ public class PedidoDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento_Call].[dbo].[exame] e join[hspmAtendimento_Call].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
+                             " FROM[hspmAtendimento_Call_Homologacao].[dbo].[exame] e join[hspmAtendimento_Call_Homologacao].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
                              "  where status = 'A' and cod_pedido = " + cod_pedido;
 
 
@@ -555,7 +557,7 @@ public class PedidoDAO
         string _dtbaixa = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
 
         string msg = "";
-        string usuario = System.Web.HttpContext.Current.User.Identity.Name.ToUpper();
+        string usuario_baixa = System.Web.HttpContext.Current.User.Identity.Name.ToUpper();
         int _status = 2;
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -574,18 +576,19 @@ public class PedidoDAO
 
                 // Atualiza tabela de pedido de consulta
                 cmm.CommandText = "UPDATE pedido_consulta" +
-                        " SET status = @status , data_baixa = @data_baixa" +
+                        " SET status = @status , data_baixa = @data_baixa, usuario_baixa = @usuario_baixa" +
                         " WHERE  cod_pedido = @cod_ped";
                 cmm.Parameters.Add(new SqlParameter("@cod_ped", _idPedido));
                 cmm.Parameters.Add(new SqlParameter("@status", _status));
                 cmm.Parameters.Add(new SqlParameter("@data_baixa", _dtbaixa));
+                cmm.Parameters.Add(new SqlParameter("@usuario_baixa", usuario_baixa));
                 cmm.ExecuteNonQuery();
 
                 mt.Commit();
                 mt.Dispose();
                 cnn.Close();
 
-                LogDAO.gravaLog("DELETE: CÓDIGO PEDIDO " + _idPedido, "CAMPO STATUS", usuario);
+                LogDAO.gravaLog("ARQUIVADO: CÓDIGO PEDIDO " + _idPedido, "CAMPO STATUS", usuario_baixa);
                 msg = "Cadastro realizado com sucesso!";
 
             }

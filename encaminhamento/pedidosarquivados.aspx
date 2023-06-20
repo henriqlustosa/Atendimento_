@@ -35,6 +35,8 @@
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                      <asp:BoundField DataField="lista_exames" HeaderText="Exames" SortExpression="solicitante"
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
+                        <asp:BoundField DataField="usuario_baixa" HeaderText="Usuario_Baixa" SortExpression="usuario_baixa"
+                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                     
                      <asp:TemplateField HeaderStyle-CssClass="sorting_disabled">
                         

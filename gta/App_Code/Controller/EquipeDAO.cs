@@ -23,7 +23,7 @@ public class EquipeDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT id_equipe, equipe "+
-                             " FROM [hspmAtendimento_Call].[dbo].[equipe] " +
+                             " FROM [hspmAtendimento_Call_Homologacao].[dbo].[equipe] " +
                              " ORDER BY equipe";
 
             try

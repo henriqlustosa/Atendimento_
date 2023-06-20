@@ -49,6 +49,7 @@ public partial class encaminhamento_pedidospendentes : System.Web.UI.Page
         }
         if (e.CommandName.Equals("fileRecord"))
         {
+            String usuario = System.Web.HttpContext.Current.User.Identity.Name.ToUpper();
             index = Convert.ToInt32(e.CommandArgument);
 
             int _id_pedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString()); //id da consulta

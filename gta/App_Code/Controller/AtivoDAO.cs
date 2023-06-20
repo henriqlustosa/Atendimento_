@@ -35,7 +35,7 @@ public class AtivoDAO
                                  " [status]" +
                                  " ,[observacao]" +
                                  " ,[data_ligacao]" +
-                             " FROM [hspmAtendimento_Call].[dbo].[ativo_ligacao]" +
+                             " FROM [hspmAtendimento_Call_Homologacao].[dbo].[ativo_ligacao]" +
                              " WHERE usuario = '"+ usuario +"'" +
                              " ORDER BY data_ligacao DESC";
 
@@ -76,7 +76,7 @@ public class AtivoDAO
                                   ",[data_ligacao]" +
                                   ",[tentativa]" +
                                   ",[usuario] " +
-                              "FROM [hspmAtendimento_Call].[dbo].[ativo_ligacao] " +
+                              "FROM [hspmAtendimento_Call_Homologacao].[dbo].[ativo_ligacao] " +
                               "WHERE id_consulta = '" + _id_consulta + "'";
 
             try
