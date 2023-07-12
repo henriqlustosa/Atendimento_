@@ -32,6 +32,10 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             cblExame.DataTextField = "descricao_exame";
             cblExame.DataValueField = "cod_exame";
             cblExame.DataBind();
+            cblRessonancia.DataSource = RessonanciaDAO.listaRessonancia();
+            cblRessonancia.DataTextField = "descricao_ressonancia";
+            cblRessonancia.DataValueField = "cod_ressonancia";
+            cblRessonancia.DataBind();
         }
     }
 
@@ -81,10 +85,11 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
     {
         int _cod_pedido = 0;
         List<Exame> exames = new List<Exame>();
-        
+        List<Ressonancia> ressonancias = new List<Ressonancia>();
        
 
         string _exames_solicitados = "";
+        string _ressonancia_solicitados = "";
 
         for (int i = 0; i < cblExames.Items.Count; i++)
         {
@@ -98,7 +103,17 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             _exames_solicitados = _exames_solicitados.Substring(0, _exames_solicitados.Length - 2); // Remove Last "," from the string .  
         }
 
-
+        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        {
+            if (cblRessonancia.Items[i].Selected == true)// getting selected value from CheckBox List  
+            {
+                _ressonancia_solicitados += cblRessonancia.Items[i].Text + ", "; // add selected Item text to the String .  
+            }
+        }
+        if (_ressonancia_solicitados != "")
+        {
+            _ressonancia_solicitados = _ressonancia_solicitados.Substring(0, _ressonancia_solicitados.Length - 2); // Remove Last "," from the string .  
+        }
 
         Pedido p = new Pedido();
         p.prontuario = Convert.ToInt32(txbProntuario.Text);
@@ -126,7 +141,18 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
                 exames.Add(exm);
             }
         }
+        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        {
+            if (cblRessonancia.Items[i].Selected)
+            {
+                Ressonancia ress = new Ressonancia();
+                ress.descricao_ressonancia = cblRessonancia.Items[i].Text;
+                ress.cod_ressonancia = int.Parse(cblRessonancia.Items[i].Value);
+                ressonancias.Add(ress);
+            }
+        }
         ExameDAO.GravaExamesPorPedidos(exames,_cod_pedido);
+        RessonanciaDAO.GravaRessonanciaPorPedidos(ressonancias, _cod_pedido);
         //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mensagem + "');", true);
 
         System.Text.StringBuilder sb = new System.Text.StringBuilder();

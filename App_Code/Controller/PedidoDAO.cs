@@ -149,6 +149,7 @@ public class PedidoDAO
                     p.prontuario = dr1.GetInt32(1);
                     p.nome_paciente = dr1.GetString(2);
                     p.lista_exames = obterListaDeExames(p.cod_pedido);
+                    p.lista_ressonancia = obterListaDeRessonancia(p.cod_pedido);
                     p.data_pedido = dr1.GetDateTime(3);
                     p.data_cadastro = dr1.GetDateTime(4);
                     p.cod_especialidade = dr1.GetInt32(5);
@@ -206,6 +207,7 @@ public class PedidoDAO
                     Pedido p = new Pedido();
                     p.cod_pedido = dr1.GetInt32(0);
                     p.lista_exames = obterListaDeExames(p.cod_pedido);
+                    p.lista_ressonancia = obterListaDeRessonancia(p.cod_pedido);
                     p.prontuario = dr1.GetInt32(1);
                     p.nome_paciente = dr1.GetString(2);
                     p.data_pedido = dr1.GetDateTime(3);
@@ -265,6 +267,7 @@ public class PedidoDAO
                     Pedido p = new Pedido();
                     p.cod_pedido = dr1.GetInt32(0);
                     p.lista_exames = obterListaDeExames(p.cod_pedido);
+                    p.lista_ressonancia = obterListaDeRessonancia(p.cod_pedido);
                     p.prontuario = dr1.GetInt32(1);
                     p.nome_paciente = dr1.GetString(2);
                     p.data_pedido = dr1.GetDateTime(3);
@@ -326,6 +329,45 @@ public class PedidoDAO
         }
 
         string list = string.Join(", ", listaEspec.Select(c => c.descricao_exame.ToString()).ToArray<string>());
+
+        return list;
+    }
+    private static string obterListaDeRessonancia(int cod_pedido)
+    {
+        var listaEspec = new List<Ressonancia>();
+        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
+        {
+            SqlCommand cmm = cnn.CreateCommand();
+            cmm.CommandText = "SELECT e.cod_ressonancia, descricao_ressonancia " +
+                             " FROM[hspmAtendimento_Call_Homologacao].[dbo].[ressonancia] e join[hspmAtendimento_Call_Homologacao].[dbo].[pedido_ressonancia] pe on e.cod_ressonancia = pe.cod_ressonancia " +
+                             "  where status = 'A' and cod_pedido = " + cod_pedido;
+
+
+
+
+
+            try
+            {
+                cnn.Open();
+
+                SqlDataReader dr1 = cmm.ExecuteReader();
+
+                while (dr1.Read())
+                {
+                    Ressonancia ress = new Ressonancia();
+                    ress.cod_ressonancia = dr1.GetInt32(0);
+                    ress.descricao_ressonancia = dr1.GetString(1);
+
+                    listaEspec.Add(ress);
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+        }
+
+        string list = string.Join(", ", listaEspec.Select(c => c.descricao_ressonancia.ToString()).ToArray<string>());
 
         return list;
     }

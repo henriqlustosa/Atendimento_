@@ -29,7 +29,10 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
             cblExame.DataValueField = "cod_exame";
             cblExame.DataBind();
 
-
+            cblRessonancia.DataSource = RessonanciaDAO.listaRessonancia();
+            cblRessonancia.DataTextField = "descricao_ressonancia";
+            cblRessonancia.DataValueField = "cod_ressonancia";
+            cblRessonancia.DataBind();
             
             
             Pedido pedido = new Pedido();
@@ -59,7 +62,8 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
             List<Exame> exames_escolhidos = new List<Exame>();
             exames_escolhidos = ExameDAO.ObterListaDeExamesEscolhidos(_idPedido);
 
-
+            List<Ressonancia> ressonancia_escolhidos = new List<Ressonancia>();
+            ressonancia_escolhidos = RessonanciaDAO.ObterListaDeRessonanciasEscolhidos(_idPedido);
 
             foreach (Exame exame in exames_escolhidos)
             {
@@ -67,7 +71,12 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
                 cblExame.Items[exame.cod_exame].Selected = true;
                 
             }
+            foreach (Ressonancia ressonancia in ressonancia_escolhidos)
+            {
 
+                cblRessonancia.Items[ressonancia.cod_ressonancia].Selected = true;
+
+            }
 
         }
     }
@@ -152,6 +161,19 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
             }
         }
         ExameDAO.AtualizaExamesPorPedidos(exames, _idPedido);
+        List<Ressonancia> ressonancias = new List<Ressonancia>();
+        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        {
+            if (cblRessonancia.Items[i].Selected)
+            {
+                Ressonancia ress = new Ressonancia();
+                ress.descricao_ressonancia = cblRessonancia.Items[i].Text;
+                ress.cod_ressonancia = int.Parse(cblRessonancia.Items[i].Value);
+                ressonancias.Add(ress);
+            }
+        }
+        RessonanciaDAO.AtualizaRessonanciaPorPedidos(ressonancias, _idPedido);
+
         string msg = PedidoDAO.AtualizaPedido(txbOutrasInformacoes.Text, _idPedido);
 
 
@@ -196,6 +218,21 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
             }
         }
         ExameDAO.AtualizaExamesPorPedidos(exames, _idPedido);
+
+
+        List<Ressonancia> ressonancias = new List<Ressonancia>();
+        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        {
+            if (cblRessonancia.Items[i].Selected)
+            {
+                Ressonancia ress = new Ressonancia();
+                ress.descricao_ressonancia = cblRessonancia.Items[i].Text;
+                ress.cod_ressonancia = int.Parse(cblRessonancia.Items[i].Value);
+                ressonancias.Add(ress);
+            }
+        }
+        RessonanciaDAO.AtualizaRessonanciaPorPedidos(ressonancias, _idPedido);
+
         string msg = PedidoDAO.AtualizaPedido(txbOutrasInformacoes.Text , _idPedido);
 
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
