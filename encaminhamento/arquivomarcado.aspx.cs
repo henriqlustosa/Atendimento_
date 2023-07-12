@@ -29,7 +29,10 @@ public partial class encaminhamento_arquivomarcado : System.Web.UI.Page
             cblExame.DataValueField = "cod_exame";
             cblExame.DataBind();
 
-
+            cblRessonancia.DataSource =RessonanciaDAO.listaRessonancia();
+            cblRessonancia.DataTextField = "descricao_ressonancia";
+            cblRessonancia.DataValueField = "cod_ressonancia";
+            cblRessonancia.DataBind();
             
             
             Pedido pedido = new Pedido();
@@ -67,7 +70,17 @@ public partial class encaminhamento_arquivomarcado : System.Web.UI.Page
                 cblExame.Items[exame.cod_exame].Selected = true;
                 
             }
+            List<Ressonancia> ressonancia_escolhida = new List<Ressonancia>();
+            ressonancia_escolhida = RessonanciaDAO.ObterListaDeRessonanciasEscolhidos(_idPedido);
 
+
+
+            foreach (Ressonancia ressonancia in ressonancia_escolhida)
+            {
+
+                cblRessonancia.Items[ressonancia.cod_ressonancia].Selected = true;
+
+            }
 
         }
     }

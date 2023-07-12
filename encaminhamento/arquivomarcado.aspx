@@ -120,6 +120,24 @@
                     </div>
 
                 </div>
+                 <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Informações da Ressonancia
+                         <asp:Label ID="Label3" runat="server" Text="" Style="color: Black" ></asp:Label></h2>
+                        <div class="clearfix">
+                        </div>
+                    </div>
+                    <div class="w-30 p-3">
+
+                        <div>
+                            <div class="col-xs-9 col-xs-9 col-xs-12">
+                                <asp:CheckBoxList ID="cblRessonancia" CellSpacing="40" RepeatColumns="4" runat="server"  Enabled="false">
+                                </asp:CheckBoxList>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

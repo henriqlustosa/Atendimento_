@@ -37,12 +37,11 @@
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                         <asp:BoundField DataField="lista_ressonancia" HeaderText="Ressonancia" SortExpression="ressonancia"
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-<<<<<<< HEAD
+
                         <asp:BoundField DataField="usuario_baixa" HeaderText="Usuario_Baixa" SortExpression="usuario_baixa"
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                     
-=======
->>>>>>> desenvolvimento
+
                      <asp:TemplateField HeaderStyle-CssClass="sorting_disabled">
                         
                           <ItemTemplate>
