@@ -24,7 +24,7 @@ public class EspecialidadeDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT descricao_espec" +
-                             " FROM [hspmAtendimento_Call].[dbo].[especialidade] " +
+                             " FROM [hspmAtendimento_Call_Homologacao].[dbo].[especialidade] " +
                              " WHERE cod_especialidade = " + _cod;
 
             try
@@ -53,7 +53,7 @@ public class EspecialidadeDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT cod_especialidade, descricao_espec, status_espec " +
-                             " FROM [hspmAtendimento_Call].[dbo].[especialidade] " +
+                             " FROM [hspmAtendimento_Call_Homologacao].[dbo].[especialidade] " +
                              " ORDER BY descricao_espec";
 
             try

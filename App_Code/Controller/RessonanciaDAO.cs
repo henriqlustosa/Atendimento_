@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using System.Web.UI.WebControls;
-using System.Xml.Linq;
+using System.Data.SqlClient;
+using System.Configuration;
 
 /// <summary>
-/// Summary description for ExameDAO
+/// Summary description for RessonanciaDAO
 /// </summary>
-public class ExameDAO
+public class RessonanciaDAO
 {
-    public ExameDAO()
-    {
-        //
-        // TODO: Add constructor logic here
-        //
-    }
-
-    public static void AtualizaExamesPorPedidos(List<Exame> exames, int _cod_pedido)
+	public RessonanciaDAO()
+	{
+		//
+		// TODO: Add constructor logic here
+		//
+	}
+    public static void AtualizaRessonanciaPorPedidos(List<Ressonancia> ressonancias, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -31,9 +28,9 @@ public class ExameDAO
             try
             {
 
-                cmm.CommandText = "UPDATE pedido_exame" +
+                cmm.CommandText = "UPDATE pedido_ressonancia" +
                  " SET status = @status " +
-                 " WHERE  cod_pedido = " + _cod_pedido ;
+                 " WHERE  cod_pedido = " + _cod_pedido;
                 cmm.Parameters.Add(new SqlParameter("@status", "I"));
 
                 cmm.ExecuteNonQuery();
@@ -69,11 +66,11 @@ public class ExameDAO
             try
             {
 
-                foreach (Exame exame in exames)
+                foreach (Ressonancia ressonancia in ressonancias)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_ressonancia (cod_ressonancia, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + exame.cod_exame + "','"
+                                + ressonancia.cod_ressonancia + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
                                 + status
@@ -96,7 +93,7 @@ public class ExameDAO
 
     }
 
-    public static void GravaExamesPorPedidos(List<Exame> exames, int _cod_pedido)
+    public static void GravaRessonanciaPorPedidos(List<Ressonancia> ressonancias, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -110,14 +107,14 @@ public class ExameDAO
             try
             {
 
-                foreach (Exame exame in exames)
+                foreach (Ressonancia ressonancia in ressonancias)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_ressonancia (cod_ressonancia, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + exame.cod_exame + "','"
+                                + ressonancia.cod_ressonancia + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
-                                + status 
+                                + status
                                 + "');";
                     cmm.ExecuteNonQuery();
 
@@ -135,7 +132,7 @@ public class ExameDAO
             }
         }
 
-       
+
 
 
 
@@ -147,15 +144,15 @@ public class ExameDAO
 
     }
 
-    public static List<Exame> listaExame()
+    public static List<Ressonancia> listaRessonancia()
     {
-        var listaEspec = new List<Exame>();
+        var listaRessonancia = new List<Ressonancia>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT cod_exame, descricao_exame, status_exame " +
-                             " FROM [hspmAtendimento_Call_Homologacao].[dbo].[exame] " +
-                             " ORDER BY cod_exame";
+            cmm.CommandText = "SELECT cod_ressonancia, descricao_ressonancia, status_ressonancia " +
+                             " FROM [hspmAtendimento_Call_Homologacao].[dbo].[ressonancia] " +
+                             " ORDER BY cod_ressonancia";
 
             try
             {
@@ -165,11 +162,11 @@ public class ExameDAO
 
                 while (dr1.Read())
                 {
-                    Exame exm = new Exame();
-                    exm.cod_exame = dr1.GetInt32(0);
-                    exm.descricao_exame = dr1.GetString(1);
-                    exm.status_exame = dr1.GetString(2);
-                    listaEspec.Add(exm);
+                    Ressonancia ress = new Ressonancia();
+                    ress.cod_ressonancia = dr1.GetInt32(0);
+                    ress.descricao_ressonancia = dr1.GetString(1);
+                    ress.status_ressonancia = dr1.GetString(2);
+                    listaRessonancia.Add(ress);
                 }
             }
             catch (Exception ex)
@@ -178,21 +175,21 @@ public class ExameDAO
             }
 
         }
-        return listaEspec;
+        return listaRessonancia;
     }
 
-    public static List<Exame> ObterListaDeExamesEscolhidos(int idPedido)
+    public static List<Ressonancia> ObterListaDeRessonanciasEscolhidos(int idPedido)
     {
-        var listaEspec = new List<Exame>();
+        var listaRessonancia = new List<Ressonancia>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento_Call_Homologacao].[dbo].[exame] e join[hspmAtendimento_Call_Homologacao].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
-                             "  where status = 'A' and cod_pedido = "+ idPedido;
-            
-                           
-                            
+            cmm.CommandText = "SELECT e.cod_ressonancia, descricao_ressonancia " +
+                             " FROM[hspmAtendimento_Call_Homologacao].[dbo].[ressonancia] e join[hspmAtendimento_Call_Homologacao].[dbo].[pedido_ressonancia] pe on e.cod_ressonancia = pe.cod_ressonancia " +
+                             "  where status = 'A' and cod_pedido = " + idPedido;
+
+
+
 
 
             try
@@ -203,11 +200,11 @@ public class ExameDAO
 
                 while (dr1.Read())
                 {
-                    Exame exm = new Exame();
-                    exm.cod_exame = dr1.GetInt32(0);
-                    exm.descricao_exame = dr1.GetString(1);
-                 
-                    listaEspec.Add(exm);
+                    Ressonancia ress = new Ressonancia();
+                    ress.cod_ressonancia = dr1.GetInt32(0);
+                    ress.descricao_ressonancia = dr1.GetString(1);
+
+                    listaRessonancia.Add(ress);
                 }
             }
             catch (Exception ex)
@@ -216,7 +213,7 @@ public class ExameDAO
             }
 
         }
-        return listaEspec;
+        return listaRessonancia;
 
     }
 }
