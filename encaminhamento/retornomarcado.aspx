@@ -3,19 +3,37 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
-    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>'
+  
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+ <asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
+      <Scripts>
+       <asp:ScriptReference Path="../vendors/jquery/dist/jquery.js" />
+      </Scripts>
+     
+  </asp:ScriptManagerProxy>
+
+    <script src="../js/chosen.jquery.min.js" type="text/javascript"></script>
+    <!-- CDN for chosen plugin -->
+    <link href="../js/chosen.min.css" rel="stylesheet" type="text/css" />
+  
+ 
+    <!-- <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>'
         type="text/javascript"></script>
+    iCheck -->
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet" />
 
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("input").attr("autocomplete", "off");
 
-            $('.numeric').keyup(function () {
+            $('.numeric').keyup(function() {
                 $(this).val(this.value.replace(/\D/g, ''));
             });
 
             function validaEspecialidade() {
-                $(function () {
+                $(function() {
                     $('.valida').css("border", "1px solid red");
                 });
 
@@ -23,15 +41,16 @@
         });
 
         function validaCampo() {
-            $(function () {
+            $(function() {
                 $('.valida').css("border", "1px solid red");
             });
         }
-
+        // Initiating the chosen plugin
+        $(document).ready(function() {
+            $("#<%=select1.ClientID %>").chosen();
+            $("#<%=select2.ClientID %>").chosen();
+        });
     </script>
-
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
     <div class="x_panel">
         <div class="x_title">
             <h2>Editar Cadastro
@@ -113,8 +132,7 @@
 
                         <div>
                             <div class="col-xs-9 col-xs-9 col-xs-12">
-                                <asp:CheckBoxList ID="cblExame" CellSpacing="40" RepeatColumns="4" runat="server">
-                                </asp:CheckBoxList>
+                                <select  ID="select2"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
                             </div>
                         </div>
                     </div>
@@ -131,8 +149,7 @@
 
                         <div>
                             <div class="col-xs-9 col-xs-9 col-xs-12">
-                                <asp:CheckBoxList ID="cblRessonancia" CellSpacing="40" RepeatColumns="4" runat="server">
-                                </asp:CheckBoxList>
+                                 <select  ID="select1"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
                             </div>
                         </div>
                     </div>

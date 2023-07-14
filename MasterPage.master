@@ -10,7 +10,8 @@
     <title>HSPM ATENDIMENTO</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-    
+
+ 
     <!-- Bootstrap  
     <link href="vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
     -->
@@ -27,7 +28,14 @@
     <link href="vendors/paginationjs/pagination.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="nav-sm">
-    <form id="form1" runat="server">
+
+  <form id="Form1" runat="server"> 
+     <asp:ScriptManager ID="ScriptManager1" runat="server">
+      <Scripts>
+        <asp:ScriptReference Path="vendors/jquery/dist/jquery.js" />
+      </Scripts>
+    </asp:ScriptManager>
+   
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
@@ -158,11 +166,10 @@
     </div>
     </form>
     <!-- Ficava no rodapé da página -->
-    <!-- jQuery   -->
+       
 
-    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
-  
    
+
 
     <!-- Bootstrap -->
 
@@ -189,6 +196,6 @@
     
     <!-- jquery.inputmask -->
     <script src='<%= ResolveUrl("~/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js") %>' type="text/javascript"></script>
-  
+   </form>
 </body>
 </html>

@@ -4,8 +4,7 @@
    <link href="../build/css/jquery.dataTable.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
-<asp:ScriptManager ID="ScriptManager1" runat="server">
-    </asp:ScriptManager>
+
             <h3>
                 <asp:Label ID="lbTitulo" runat="server" Text="Exames Solicitados por RH"></asp:Label></h3>
             <div class="x_content">
@@ -115,7 +114,7 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                $.noConflict();
+              
 
                 $('#<%= GridView1.ClientID %>').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
                     language: {

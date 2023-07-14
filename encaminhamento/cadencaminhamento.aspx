@@ -2,14 +2,35 @@
     CodeFile="cadencaminhamento.aspx.cs" Inherits="publico_cadencaminhamento" Title="HSPM ATENDIMENTO" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+  
 
-    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>'
+</asp:Content>
+
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+
+  <!-- CDN 
+        <asp:ScriptReference Path="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" />of jQuery -->
+
+<asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
+      <Scripts>
+       <asp:ScriptReference Path="../vendors/jquery/dist/jquery.js" />
+      </Scripts>
+     
+  </asp:ScriptManagerProxy>
+
+    <script src="../js/chosen.jquery.min.js" type="text/javascript"></script>
+    <!-- CDN for chosen plugin -->
+    <link href="../js/chosen.min.css" rel="stylesheet" type="text/css" />
+  
+ 
+    <!-- <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>'
         type="text/javascript"></script>
-    <!-- iCheck -->
+    iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet" />
 
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("input").attr("autocomplete", "off");
 
             $('input').iCheck({
@@ -18,15 +39,21 @@
                 increaseArea: '20%' // optional
             });
 
-            $('.numeric').keyup(function () {
+            $('.numeric').keyup(function() {
                 $(this).val(this.value.replace(/\D/g, ''));
             });
         });
 
+        // Initiating the chosen plugin
+        $(document).ready(function() {
+        $("#<%=select1.ClientID %>").chosen();
+        $("#<%=select2.ClientID %>").chosen();
+        });
+  
     </script>
+   
 
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+
     <h3>
         <asp:Label ID="lbTitulo" runat="server" Text="Cadastro Solicitação de Exame"></asp:Label></h3>
     <div class="x_panel">
@@ -52,6 +79,7 @@
                     <asp:Button ID="SearchButton" Text="Pesquisar" runat="server" Enabled="true" class="btn btn-primary"
                         OnClick="btnPesquisapaciente_Click" />
                 </div>
+           
             </div>
         </div>
         <div class="row">
@@ -119,12 +147,9 @@
                     </div>
                     <div class="w-30 p-3">
 
-                        <div>
-                            <div class="col-xs-9 col-xs-9 col-xs-12">
-                                <asp:CheckBoxList ID="cblExame" CellSpacing="40" RepeatColumns="4" runat="server">
-                                </asp:CheckBoxList>
-                            </div>
-                        </div>
+                        <select  ID="select2"    multiple style="width:750px" runat="server" ClientIDMode="Static" >
+          
+                        </select>
                     </div>
 
                 </div>
@@ -132,18 +157,18 @@
                     <div class="x_title">
                         <h2>Informações de Ressonância
                          <asp:Label ID="Label4" runat="server" Text="" Style="color: Black"></asp:Label></h2>
+                          
+       
+           
                         <div class="clearfix">
                         </div>
+        
                     </div>
-                    <div class="w-30 p-3">
+                     <div class="w-30 p-3">
+                  <select  ID="select1"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
+                 </div>
 
-                        <div>
-                            <div class="col-xs-9 col-xs-9 col-xs-12">
-                                <asp:CheckBoxList ID="cblRessonancia" CellSpacing="40" RepeatColumns="4" runat="server">
-                                </asp:CheckBoxList>
-                            </div>
-                        </div>
-                    </div>
+                        
 
                 </div>
 
@@ -193,7 +218,7 @@
                         </div>
                     </div>
                 </div>
-
+ 
 
                 <script type="text/javascript">
                     $(document).ready(function () {
@@ -203,6 +228,7 @@
                     });
 
                 </script>
+         
                 <%--
     <script type="text/javascript">
         // uso no checkbox iCheck
@@ -253,4 +279,5 @@
             }
         });
     </script>--%>
+ 
 </asp:Content>

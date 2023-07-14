@@ -24,15 +24,15 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
         if (!IsPostBack)
         {
            
-            cblExame.DataSource = ExameDAO.listaExame();
-            cblExame.DataTextField = "descricao_exame";
-            cblExame.DataValueField = "cod_exame";
-            cblExame.DataBind();
+            select2.DataSource = ExameDAO.listaExame();
+            select2.DataTextField = "descricao_exame";
+            select2.DataValueField = "cod_exame";
+            select2.DataBind();
 
-            cblRessonancia.DataSource = RessonanciaDAO.listaRessonancia();
-            cblRessonancia.DataTextField = "descricao_ressonancia";
-            cblRessonancia.DataValueField = "cod_ressonancia";
-            cblRessonancia.DataBind();
+            select1.DataSource = RessonanciaDAO.listaRessonancia();
+            select1.DataTextField = "descricao_ressonancia";
+            select1.DataValueField = "cod_ressonancia";
+            select1.DataBind();
             
             
             Pedido pedido = new Pedido();
@@ -68,13 +68,13 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
             foreach (Exame exame in exames_escolhidos)
             {
 
-                cblExame.Items[exame.cod_exame].Selected = true;
+                select2.Items[exame.cod_exame].Selected = true;
                 
             }
             foreach (Ressonancia ressonancia in ressonancia_escolhidos)
             {
 
-                cblRessonancia.Items[ressonancia.cod_ressonancia].Selected = true;
+                select1.Items[ressonancia.cod_ressonancia].Selected = true;
 
             }
 
@@ -150,25 +150,25 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
     {
         int _idPedido = Convert.ToInt32(Request.QueryString["idpedido"]);
         List<Exame> exames = new List<Exame>();
-        for (int i = 0; i < cblExame.Items.Count; i++)
+        for (int i = 0; i < select2.Items.Count; i++)
         {
-            if (cblExame.Items[i].Selected)
+            if (select2.Items[i].Selected)
             {
                 Exame exm = new Exame();
-                exm.descricao_exame = cblExame.Items[i].Text;
-                exm.cod_exame = int.Parse(cblExame.Items[i].Value);
+                exm.descricao_exame = select2.Items[i].Text;
+                exm.cod_exame = int.Parse(select2.Items[i].Value);
                 exames.Add(exm);
             }
         }
         ExameDAO.AtualizaExamesPorPedidos(exames, _idPedido);
         List<Ressonancia> ressonancias = new List<Ressonancia>();
-        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        for (int i = 0; i < select1.Items.Count; i++)
         {
-            if (cblRessonancia.Items[i].Selected)
+            if (select1.Items[i].Selected)
             {
                 Ressonancia ress = new Ressonancia();
-                ress.descricao_ressonancia = cblRessonancia.Items[i].Text;
-                ress.cod_ressonancia = int.Parse(cblRessonancia.Items[i].Value);
+                ress.descricao_ressonancia = select1.Items[i].Text;
+                ress.cod_ressonancia = int.Parse(select1.Items[i].Value);
                 ressonancias.Add(ress);
             }
         }
@@ -207,13 +207,13 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
         Response.Redirect("~/encaminhamento/pedidospendentesporrh.aspx");*/
         List<Exame> exames = new List<Exame>();
-        for (int i = 0; i < cblExame.Items.Count ; i++)
+        for (int i = 0; i < select2.Items.Count ; i++)
         {
-            if (cblExame.Items[i].Selected)
+            if (select2.Items[i].Selected)
             {
                 Exame exm = new Exame();
-                exm.descricao_exame = cblExame.Items[i].Text;
-                exm.cod_exame = int.Parse(cblExame.Items[i].Value);
+                exm.descricao_exame = select2.Items[i].Text;
+                exm.cod_exame = int.Parse(select2.Items[i].Value);
                 exames.Add(exm);
             }
         }
@@ -221,13 +221,13 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
 
 
         List<Ressonancia> ressonancias = new List<Ressonancia>();
-        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        for (int i = 0; i < select1.Items.Count; i++)
         {
-            if (cblRessonancia.Items[i].Selected)
+            if (select1.Items[i].Selected)
             {
                 Ressonancia ress = new Ressonancia();
-                ress.descricao_ressonancia = cblRessonancia.Items[i].Text;
-                ress.cod_ressonancia = int.Parse(cblRessonancia.Items[i].Value);
+                ress.descricao_ressonancia = select1.Items[i].Text;
+                ress.cod_ressonancia = int.Parse(select1.Items[i].Value);
                 ressonancias.Add(ress);
             }
         }

@@ -28,14 +28,20 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             ddlEspecialidade.DataTextField = "descricao_espec";
             ddlEspecialidade.DataValueField = "cod_especialidade";
             ddlEspecialidade.DataBind();
-            cblExame.DataSource = ExameDAO.listaExame();
-            cblExame.DataTextField = "descricao_exame";
-            cblExame.DataValueField = "cod_exame";
-            cblExame.DataBind();
-            cblRessonancia.DataSource = RessonanciaDAO.listaRessonancia();
-            cblRessonancia.DataTextField = "descricao_ressonancia";
-            cblRessonancia.DataValueField = "cod_ressonancia";
-            cblRessonancia.DataBind();
+            select2.DataSource = ExameDAO.listaExame();
+            select2.DataTextField = "descricao_exame";
+            select2.DataValueField = "cod_exame";
+            select2.DataBind();
+          
+         
+
+            // Get a reference to the ContentPlaceHolder
+            // Get a reference to the master page
+
+            select1.DataSource = RessonanciaDAO.listaRessonancia();
+            select1.DataTextField = "descricao_ressonancia";
+            select1.DataValueField = "cod_ressonancia";
+            select1.DataBind();
         }
     }
 
@@ -91,11 +97,11 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
         string _exames_solicitados = "";
         string _ressonancia_solicitados = "";
 
-        for (int i = 0; i < cblExames.Items.Count; i++)
+        for (int i = 0; i < select2.Items.Count; i++)
         {
-            if (cblExames.Items[i].Selected == true)// getting selected value from CheckBox List  
+            if (select2.Items[i].Selected == true)// getting selected value from CheckBox List  
             {
-                _exames_solicitados += cblExames.Items[i].Text + ", "; // add selected Item text to the String .  
+                _exames_solicitados += select2.Items[i].Text + ", "; // add selected Item text to the String .  
             }
         }
         if (_exames_solicitados != "")
@@ -103,11 +109,11 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             _exames_solicitados = _exames_solicitados.Substring(0, _exames_solicitados.Length - 2); // Remove Last "," from the string .  
         }
 
-        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        for (int i = 0; i < select1.Items.Count; i++)
         {
-            if (cblRessonancia.Items[i].Selected == true)// getting selected value from CheckBox List  
+            if (select1.Items[i].Selected == true)// getting selected value from CheckBox List  
             {
-                _ressonancia_solicitados += cblRessonancia.Items[i].Text + ", "; // add selected Item text to the String .  
+                _ressonancia_solicitados += select1.Items[i].Text + ", "; // add selected Item text to the String .  
             }
         }
         if (_ressonancia_solicitados != "")
@@ -131,23 +137,23 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
 
 
 
-        for (int i = 0; i < cblExame.Items.Count ; i++)
+        for (int i = 0; i < select2.Items.Count ; i++)
         {
-            if (cblExame.Items[i].Selected)
+            if (select2.Items[i].Selected)
             {
                 Exame exm = new Exame();
-                exm.descricao_exame = cblExame.Items[i].Text;
-                exm.cod_exame = int.Parse(cblExame.Items[i].Value);
+                exm.descricao_exame = select2.Items[i].Text;
+                exm.cod_exame = int.Parse(select2.Items[i].Value);
                 exames.Add(exm);
             }
         }
-        for (int i = 0; i < cblRessonancia.Items.Count; i++)
+        for (int i = 0; i < select1.Items.Count; i++)
         {
-            if (cblRessonancia.Items[i].Selected)
+            if (select1.Items[i].Selected)
             {
                 Ressonancia ress = new Ressonancia();
-                ress.descricao_ressonancia = cblRessonancia.Items[i].Text;
-                ress.cod_ressonancia = int.Parse(cblRessonancia.Items[i].Value);
+                ress.descricao_ressonancia = select1.Items[i].Text;
+                ress.cod_ressonancia = int.Parse(select1.Items[i].Value);
                 ressonancias.Add(ress);
             }
         }

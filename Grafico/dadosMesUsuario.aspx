@@ -7,8 +7,7 @@
     <script src='<%= ResolveUrl("https://cdn.jsdelivr.net/npm/chart.js@2.8.0") %>' type="text/javascript"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
-<asp:ScriptManager ID="ScriptManager1" runat="server">
-    </asp:ScriptManager>
+
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
            <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>
