@@ -151,7 +151,7 @@ public class RessonanciaDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT cod_ressonancia, descricao_ressonancia, status_ressonancia " +
-                             " FROM [hspmAtendimento_Call_Homologacao].[dbo].[ressonancia] " +
+                             " FROM [hspmAtendimento_Call].[dbo].[ressonancia] " +
                              " ORDER BY cod_ressonancia";
 
             try
@@ -185,7 +185,7 @@ public class RessonanciaDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT e.cod_ressonancia, descricao_ressonancia " +
-                             " FROM[hspmAtendimento_Call_Homologacao].[dbo].[ressonancia] e join[hspmAtendimento_Call_Homologacao].[dbo].[pedido_ressonancia] pe on e.cod_ressonancia = pe.cod_ressonancia " +
+                             " FROM[hspmAtendimento_Call].[dbo].[ressonancia] e join[hspmAtendimento_Call].[dbo].[pedido_ressonancia] pe on e.cod_ressonancia = pe.cod_ressonancia " +
                              "  where status = 'A' and cod_pedido = " + idPedido;
 
 

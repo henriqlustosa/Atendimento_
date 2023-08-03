@@ -46,8 +46,8 @@
 
         // Initiating the chosen plugin
         $(document).ready(function() {
-        $("#<%=select1.ClientID %>").chosen();
-        $("#<%=select2.ClientID %>").chosen();
+        $("#<%=select1.ClientID %>").chosen({ no_results_text: "Nada encontrado!" });
+        $("#<%=select2.ClientID %>").chosen({ no_results_text: "Nada encontrado!" });
         });
   
     </script>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="w-30 p-3">
 
-                        <select  ID="select2"    multiple style="width:750px" runat="server" ClientIDMode="Static" >
+                        <select  data-placeholder="Selecione uma opção"  ID="select2" multiple style="width:750px" runat="server" ClientIDMode="Static" >
           
                         </select>
                     </div>
@@ -165,7 +165,7 @@
         
                     </div>
                      <div class="w-30 p-3">
-                  <select  ID="select1"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
+                  <select  data-placeholder="Selecione uma opção"   ID="select1"    multiple style="width:750px" runat="server"  ClientIDMode="Static" ></select>
                  </div>
 
                         

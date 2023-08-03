@@ -70,7 +70,7 @@
                 
                 <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                 <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <SelectedRowStyle BackColor="#ffffff" Font-Bold="True" ForeColor="#333333" />
+                <SelectedRowStyle  BackColor="#ffffff" Font-Bold="True" ForeColor="#333333" />
                 <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                 <EditRowStyle BackColor="#999999" />
             </asp:GridView>

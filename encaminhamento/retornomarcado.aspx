@@ -132,7 +132,7 @@
 
                         <div>
                             <div class="col-xs-9 col-xs-9 col-xs-12">
-                                <select  ID="select2"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
+                                <select   ID="select2"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
 
                         <div>
                             <div class="col-xs-9 col-xs-9 col-xs-12">
-                                 <select  ID="select1"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
+                                 <select   ID="select1"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
                             </div>
                         </div>
                     </div>

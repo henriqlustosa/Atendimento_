@@ -300,7 +300,7 @@ public class PedidoDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento_Call_Homologacao].[dbo].[exame] e join[hspmAtendimento_Call_Homologacao].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
+                             " FROM[hspmAtendimento_Call].[dbo].[exame] e join[hspmAtendimento_Call].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
                              "  where status = 'A' and cod_pedido = " + cod_pedido;
 
 
@@ -339,7 +339,7 @@ public class PedidoDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT e.cod_ressonancia, descricao_ressonancia " +
-                             " FROM[hspmAtendimento_Call_Homologacao].[dbo].[ressonancia] e join[hspmAtendimento_Call_Homologacao].[dbo].[pedido_ressonancia] pe on e.cod_ressonancia = pe.cod_ressonancia " +
+                             " FROM[hspmAtendimento_Call].[dbo].[ressonancia] e join[hspmAtendimento_Call].[dbo].[pedido_ressonancia] pe on e.cod_ressonancia = pe.cod_ressonancia " +
                              "  where status = 'A' and cod_pedido = " + cod_pedido;
 
 
