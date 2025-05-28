@@ -10,16 +10,16 @@ using System.Xml.Linq;
 /// <summary>
 /// Summary description for ExameDAO
 /// </summary>
-public class ExameDAO
+public class PreOperatorioDAO
 {
-    public ExameDAO()
+    public PreOperatorioDAO()
     {
         //
         // TODO: Add constructor logic here
         //
     }
 
-    public static void AtualizaExamesPorPedidos(List<Exame> exames, int _cod_pedido)
+    public static void AtualizaExamesPorPedidos(List<PreOperatorio> preoperatorios, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -69,11 +69,11 @@ public class ExameDAO
             try
             {
 
-                foreach (Exame exame in exames)
+                foreach (PreOperatorio preoperatorio in preoperatorios)
                 {
                     cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + exame.cod_exame + "','"
+                                + preoperatorio.cod_pre_operatorio + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
                                 + status
@@ -96,7 +96,7 @@ public class ExameDAO
 
     }
 
-    public static void GravaExamesPorPedidos(List<Exame> exames, int _cod_pedido)
+    public static void GravaExamesPorPedidos(List<PreOperatorio> preoperatorios, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -110,11 +110,11 @@ public class ExameDAO
             try
             {
 
-                foreach (Exame exame in exames)
+                foreach (PreOperatorio preoperatorio in preoperatorios)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exames_unico (cod_exames_unico, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + exame.cod_exame + "','"
+                                + preoperatorio.cod_pre_operatorio + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
                                 + status 
@@ -154,7 +154,7 @@ public class ExameDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT cod_exame, descricao_exame, status_exame " +
-                             " FROM [hspmAtendimento_Call].[dbo].[exame] " +
+                             " FROM [hspmAtendimento].[dbo].[exame] " +
                              " ORDER BY cod_exame";
 
             try
@@ -188,7 +188,7 @@ public class ExameDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento_Call].[dbo].[exame] e join[hspmAtendimento_Call].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
+                             " FROM[hspmAtendimento].[dbo].[exame] e join[hspmAtendimento].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
                              "  where status = 'A' and cod_pedido = "+ idPedido;
             
                            

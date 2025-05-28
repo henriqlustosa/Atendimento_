@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using System.Data.SqlClient;
-using System.Configuration;
+using System.Web.UI.WebControls;
+using System.Xml.Linq;
 
 /// <summary>
-/// Summary description for RessonanciaDAO
+/// Summary description for ExameDAO
 /// </summary>
-public class RessonanciaDAO
+public class TeleConsultaDAO
 {
-	public RessonanciaDAO()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
-    public static void AtualizaRessonanciaPorPedidos(List<Ressonancia> ressonancias, int _cod_pedido)
+    public TeleConsultaDAO()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
+
+    public static void AtualizaExamesPorPedidos(List<TeleConsultaDAO> teleconsultas, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -28,9 +31,9 @@ public class RessonanciaDAO
             try
             {
 
-                cmm.CommandText = "UPDATE pedido_ressonancia" +
+                cmm.CommandText = "UPDATE pedido_teleconsulta" +
                  " SET status = @status " +
-                 " WHERE  cod_pedido = " + _cod_pedido;
+                 " WHERE  cod_pedido = " + _cod_pedido ;
                 cmm.Parameters.Add(new SqlParameter("@status", "I"));
 
                 cmm.ExecuteNonQuery();
@@ -66,11 +69,11 @@ public class RessonanciaDAO
             try
             {
 
-                foreach (Ressonancia ressonancia in ressonancias)
+                foreach (TeleConsulta teleconsulta in teleconsultas)
                 {
-                    cmm.CommandText = "Insert into pedido_ressonancia (cod_ressonancia, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + ressonancia.cod_ressonancia + "','"
+                                + teleconsulta.cod_teleconsulta + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
                                 + status
@@ -93,7 +96,7 @@ public class RessonanciaDAO
 
     }
 
-    public static void GravaRessonanciaPorPedidos(List<Ressonancia> ressonancias, int _cod_pedido)
+    public static void GravaExamesPorPedidos(List<TeleConsulta> teleconsultas, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -107,14 +110,14 @@ public class RessonanciaDAO
             try
             {
 
-                foreach (Ressonancia ressonancia in ressonancias)
+                foreach (TeleConsulta teleconsulta in teleconsultas)
                 {
-                    cmm.CommandText = "Insert into pedido_ressonancia (cod_ressonancia, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + ressonancia.cod_ressonancia + "','"
+                                + teleconsulta.cod_teleconsulta + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
-                                + status
+                                + status 
                                 + "');";
                     cmm.ExecuteNonQuery();
 
@@ -132,7 +135,7 @@ public class RessonanciaDAO
             }
         }
 
-
+       
 
 
 
@@ -144,15 +147,15 @@ public class RessonanciaDAO
 
     }
 
-    public static List<Ressonancia> listaRessonancia()
+    public static List<TeleConsulta> listaExame()
     {
-        var listaRessonancia = new List<Ressonancia>();
+        var listaEspec = new List<TeleConsulta>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT cod_ressonancia, descricao_ressonancia, status_ressonancia " +
-                             " FROM [hspmAtendimento].[dbo].[ressonancia] " +
-                             " ORDER BY cod_ressonancia";
+            cmm.CommandText = "SELECT cod_teleconsulta, descricao_teleconsulta, status_teleconsulta" +
+                             " FROM [hspmAtendimento].[dbo].[teleconsulta] " +
+                             " ORDER BY cod_teleconsulta";
 
             try
             {
@@ -162,11 +165,11 @@ public class RessonanciaDAO
 
                 while (dr1.Read())
                 {
-                    Ressonancia ress = new Ressonancia();
-                    ress.cod_ressonancia = dr1.GetInt32(0);
-                    ress.descricao_ressonancia = dr1.GetString(1);
-                    ress.status_ressonancia = dr1.GetString(2);
-                    listaRessonancia.Add(ress);
+                    TeleConsulta teleconsulta = new TeleConsulta();
+                    teleconsulta.cod_teleconsulta = dr1.GetInt32(0);
+                    teleconsulta.descricao_teleconsulta = dr1.GetString(1);
+                    teleconsulta.status_teleconsulta = dr1.GetString(2);
+                    listaEspec.Add(teleconsulta);
                 }
             }
             catch (Exception ex)
@@ -175,21 +178,21 @@ public class RessonanciaDAO
             }
 
         }
-        return listaRessonancia;
+        return listaEspec;
     }
 
-    public static List<Ressonancia> ObterListaDeRessonanciasEscolhidos(int idPedido)
+    public static List<TeleConsulta> ObterListaDeExamesEscolhidos(int idPedido)
     {
-        var listaRessonancia = new List<Ressonancia>();
+        var listaEspec = new List<TeleConsulta>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT e.cod_ressonancia, descricao_ressonancia " +
-                             " FROM[hspmAtendimento].[dbo].[ressonancia] e join[hspmAtendimento].[dbo].[pedido_ressonancia] pe on e.cod_ressonancia = pe.cod_ressonancia " +
-                             "  where status = 'A' and cod_pedido = " + idPedido;
-
-
-
+            cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
+                             " FROM[hspmAtendimento].[dbo].[teleconsulta] e join[hspmAtendimento].[dbo].[pedido_teleconsulta] pe on e.cod_exame = pe.cod_exame " +
+                             "  where status = 'A' and cod_pedido = "+ idPedido;
+            
+                           
+                            
 
 
             try
@@ -200,11 +203,11 @@ public class RessonanciaDAO
 
                 while (dr1.Read())
                 {
-                    Ressonancia ress = new Ressonancia();
-                    ress.cod_ressonancia = dr1.GetInt32(0);
-                    ress.descricao_ressonancia = dr1.GetString(1);
-
-                    listaRessonancia.Add(ress);
+                    TeleConsulta teleconsulta = new TeleConsulta();
+                    teleconsulta.cod_teleconsulta = dr1.GetInt32(0);
+                    teleconsulta.descricao_teleconsulta = dr1.GetString(1);
+                 
+                    listaEspec.Add(teleconsulta);
                 }
             }
             catch (Exception ex)
@@ -213,7 +216,7 @@ public class RessonanciaDAO
             }
 
         }
-        return listaRessonancia;
+        return listaEspec;
 
     }
 }

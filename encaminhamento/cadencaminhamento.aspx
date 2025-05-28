@@ -2,35 +2,33 @@
     CodeFile="cadencaminhamento.aspx.cs" Inherits="publico_cadencaminhamento" Title="HSPM ATENDIMENTO" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-  
-
 </asp:Content>
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
 
-  <!-- CDN 
+    <!-- CDN 
         <asp:ScriptReference Path="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" />of jQuery -->
 
-<asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
-      <Scripts>
-       <asp:ScriptReference Path="../vendors/jquery/dist/jquery.js" />
-      </Scripts>
-     
-  </asp:ScriptManagerProxy>
+    <asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
+        <Scripts>
+            <asp:ScriptReference Path="../vendors/jquery/dist/jquery.js" />
+        </Scripts>
+
+    </asp:ScriptManagerProxy>
 
     <script src="../js/chosen.jquery.min.js" type="text/javascript"></script>
     <!-- CDN for chosen plugin -->
     <link href="../js/chosen.min.css" rel="stylesheet" type="text/css" />
-  
- 
+
+
     <!-- <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>'
         type="text/javascript"></script>
     iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet" />
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("input").attr("autocomplete", "off");
 
             $('input').iCheck({
@@ -39,19 +37,19 @@
                 increaseArea: '20%' // optional
             });
 
-            $('.numeric').keyup(function() {
+            $('.numeric').keyup(function () {
                 $(this).val(this.value.replace(/\D/g, ''));
             });
         });
 
         // Initiating the chosen plugin
-        $(document).ready(function() {
-        $("#<%=select1.ClientID %>").chosen({ no_results_text: "Nada encontrado!" });
-        $("#<%=select2.ClientID %>").chosen({ no_results_text: "Nada encontrado!" });
+        $(document).ready(function () {
+            $("#<%=select1.ClientID %>").chosen({ no_results_text: "Nada encontrado!" });
+            $("#<%=select2.ClientID %>").chosen({ no_results_text: "Nada encontrado!" });
         });
-  
+
     </script>
-   
+
 
 
     <h3>
@@ -79,7 +77,7 @@
                     <asp:Button ID="SearchButton" Text="Pesquisar" runat="server" Enabled="true" class="btn btn-primary"
                         OnClick="btnPesquisapaciente_Click" />
                 </div>
-           
+
             </div>
         </div>
         <div class="row">
@@ -135,101 +133,130 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                        <asp:TextBox ID="txbOb" runat="server" class="form-control" TextMode="MultiLine" Text="Retorno solicitado pelo médico para: __/__/____&#10;Agendamento Laboratório para__/__/____&#10;Outras:" Rows="6" Columns="10" Width="500px"></asp:TextBox>
+                        <asp:TextBox ID="txbOb" runat="server" class="form-control" TextMode="MultiLine" Text="Retirado por:                   &#10;RG ou CPF:         &#10;Data:        hora:    " Rows="6" Columns="10" Width="500px"></asp:TextBox>
                     </div>
                 </div>
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Informações dos Exames
+                        <h2>Informações dos Pré Operatório
                          <asp:Label ID="Label3" runat="server" Text="" Style="color: Black"></asp:Label></h2>
                         <div class="clearfix">
                         </div>
                     </div>
                     <div class="w-30 p-3">
 
-                        <select  data-placeholder="Selecione uma opção"  ID="select2" multiple style="width:750px" runat="server" ClientIDMode="Static" >
-          
+                        <select data-placeholder="Selecione uma opção" id="select2" multiple style="width: 750px" runat="server" clientidmode="Static">
                         </select>
                     </div>
 
                 </div>
-                 <div class="x_panel">
+                <div class="x_panel">
                     <div class="x_title">
                         <h2>Informações de Ressonância
                          <asp:Label ID="Label4" runat="server" Text="" Style="color: Black"></asp:Label></h2>
-                          
-       
-           
+
+
+
                         <div class="clearfix">
                         </div>
-        
+
                     </div>
-                     <div class="w-30 p-3">
-                  <select  data-placeholder="Selecione uma opção"   ID="select1"    multiple style="width:750px" runat="server"  ClientIDMode="Static" ></select>
-                 </div>
+                    <div class="w-30 p-3">
+                        <select data-placeholder="Selecione uma opção" id="select1" multiple style="width: 750px" runat="server" clientidmode="Static"></select>
+                    </div>
 
-                        
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Informações de Teleconsulta
+               <asp:Label ID="Label5" runat="server" Text="" Style="color: Black"></asp:Label></h2>
 
+
+
+                            <div class="clearfix">
+                            </div>
+
+                        </div>
+                        <div class="w-30 p-3">
+                            <select data-placeholder="Selecione uma opção" id="select3" multiple style="width: 750px" runat="server" clientidmode="Static"></select>
+                        </div>
+
+
+                    </div>
+                            <div class="x_panel">
+            <div class="x_title">
+                <h2>Informações de Kit Colono
+   <asp:Label ID="Label6" runat="server" Text="" Style="color: Black"></asp:Label></h2>
+
+
+
+                <div class="clearfix">
                 </div>
 
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Informações do Solicitante
+            </div>
+            <div class="w-30 p-3">
+                <select data-placeholder="Selecione uma opção" id="select4" multiple style="width: 750px" runat="server" clientidmode="Static"></select>
+            </div>
+
+
+        </div>
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Informações do Solicitante
                 <asp:Label ID="Label2" runat="server" Text="" Style="color: Black"></asp:Label></h2>
-                        <div class="clearfix">
+                            <div class="clearfix">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12 form-group">
-                            <label>
-                                Médico/Profissional</label>
-                            <asp:TextBox ID="txbprofissional" runat="server" class="form-control"></asp:TextBox>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <label>
+                                    Médico/Profissional</label>
+                                <asp:TextBox ID="txbprofissional" runat="server" class="form-control"></asp:TextBox>
+                            </div>
                         </div>
-                    </div>
-                    <%-- <div class="row">
+                        <%-- <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12 form-group">
                 <label>
                     Conselho</label>
                 <input type="text" id="idConselho" class="form-control" placeholder="Conselho" />
             </div>
         </div>--%>
-                </div>
-                <div class="x_content">
-                    <asp:Button ID="btnBravar" runat="server" Text="Gravar" class="btn btn-primary" OnClick="btnGravar_Click" />
-                </div>
+                    </div>
+                    <div class="x_content">
+                        <asp:Button ID="btnBravar" runat="server" Text="Gravar" class="btn btn-primary" OnClick="btnGravar_Click" />
+                    </div>
 
 
 
 
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true"
-                    data-keyboard="false" data-backdrop="static">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Cadastro</h5>
-                            </div>
-                            <div class="modal-body" align="center">
-                                <h2>Pedido Cadastrado.</h2>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="btnCloseModal" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true"
+                        data-keyboard="false" data-backdrop="static">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Cadastro</h5>
+                                </div>
+                                <div class="modal-body" align="center">
+                                    <h2>Pedido Cadastrado.</h2>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnCloseModal" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
- 
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#btnCloseModal").click(function () {
-                            $(location).attr('href', 'cadencaminhamento.aspx');
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#btnCloseModal").click(function () {
+                                $(location).attr('href', 'cadencaminhamento.aspx');
+                            });
                         });
-                    });
 
-                </script>
-         
-                <%--
+                    </script>
+
+                    <%--
     <script type="text/javascript">
         // uso no checkbox iCheck
         /* ifChecked    */
@@ -279,5 +306,4 @@
             }
         });
     </script>--%>
- 
 </asp:Content>

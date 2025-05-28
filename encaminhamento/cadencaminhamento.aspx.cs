@@ -24,6 +24,31 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            // 1. Verifica se o usuário está logado (existe sessão)
+
+            if (Session["login"] == null)
+
+            {
+
+                Response.Redirect("~/login.aspx"); // Redireciona se não estiver logado
+
+                return;
+
+            }
+
+
+
+            // 2. Verifica se o perfil é diferente de "1" (Administrador)
+
+            List<int> perfis = Session["perfis"] as List<int>;
+
+            if (perfis == null || (!perfis.Contains(1) && !perfis.Contains(2)))
+
+            {
+
+                Response.Redirect("~/SemPermissao.aspx");
+
+            }
             ddlEspecialidade.DataSource = EspecialidadeDAO.listaEspecialidade();
             ddlEspecialidade.DataTextField = "descricao_espec";
             ddlEspecialidade.DataValueField = "cod_especialidade";
@@ -90,9 +115,11 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
     protected void btnGravar_Click(object sender, EventArgs e)
     {
         int _cod_pedido = 0;
-        List<Exame> exames = new List<Exame>();
+        List<PreOperatorio> preoperatorios = new List<PreOperatorio>();
         List<Ressonancia> ressonancias = new List<Ressonancia>();
-       
+        List<ExameUnico> examesunicos = new List<ExameUnico>();
+        List<TeleConsulta> teleconsultas = new List<TeleConsulta>();
+
 
         string _exames_solicitados = "";
         string _ressonancia_solicitados = "";
@@ -141,10 +168,10 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
         {
             if (select2.Items[i].Selected)
             {
-                Exame exm = new Exame();
-                exm.descricao_exame = select2.Items[i].Text;
-                exm.cod_exame = int.Parse(select2.Items[i].Value);
-                exames.Add(exm);
+                PreOperatorio preoperatorio = new PreOperatorio();
+                preoperatorio.descricao_pre_operatorio = select2.Items[i].Text;
+                preoperatorio.cod_pre_operatorio = int.Parse(select2.Items[i].Value);
+                preoperatorios.Add(preoperatorio);
             }
         }
         for (int i = 0; i < select1.Items.Count; i++)
@@ -157,7 +184,32 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
                 ressonancias.Add(ress);
             }
         }
-        ExameDAO.GravaExamesPorPedidos(exames,_cod_pedido);
+
+
+        for (int i = 0; i < select3.Items.Count; i++)
+        {
+            if (select3.Items[i].Selected)
+            {
+                TeleConsulta teleconsulta = new TeleConsulta();
+                teleconsulta.descricao_teleconsulta = select3.Items[i].Text;
+                teleconsulta.cod_teleconsulta = int.Parse(select3.Items[i].Value);
+                teleconsultas.Add(teleconsulta);
+            }
+        }
+        for (int i = 0; i < select4.Items.Count; i++)
+        {
+            if (select4.Items[i].Selected)
+            {
+                ExameUnico exameunico = new ExameUnico();
+                exameunico.descricao_exames_unico = select4.Items[i].Text;
+                exameunico.cod_exames_unico = int.Parse(select4.Items[i].Value);
+                examesunicos.Add(exameunico);
+            }
+        }
+
+        ExamesUnicosDAO.GravaExamesPorPedidos(examesunicos, _cod_pedido);
+        TeleConsultaDAO.GravaExamesPorPedidos(teleconsultas, _cod_pedido);
+        PreOperatorioDAO.GravaExamesPorPedidos(preoperatorios, _cod_pedido);
         RessonanciaDAO.GravaRessonanciaPorPedidos(ressonancias, _cod_pedido);
         //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mensagem + "');", true);
 

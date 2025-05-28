@@ -154,7 +154,7 @@ public class ExameDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT cod_exame, descricao_exame, status_exame " +
-                             " FROM [hspmAtendimento_Call].[dbo].[exame] " +
+                             " FROM [hspmAtendimento].[dbo].[exame] " +
                              " ORDER BY cod_exame";
 
             try
@@ -188,7 +188,7 @@ public class ExameDAO
         {
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento_Call].[dbo].[exame] e join[hspmAtendimento_Call].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
+                             " FROM[hspmAtendimento].[dbo].[exame] e join[hspmAtendimento].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
                              "  where status = 'A' and cod_pedido = "+ idPedido;
             
                            
