@@ -14,7 +14,7 @@ public class Exame
         // TODO: Add constructor logic here
         //
     }
-    public int cod_exame { get; set; }
-    public string descricao_exame { get; set; }
+    public int cod_exames_unico { get; set; }
+    public string descricao_exames_unico { get; set; }
     public string status_exame { get; set; }
 }

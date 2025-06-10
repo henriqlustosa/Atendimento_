@@ -290,12 +290,12 @@ public class PedidoDAO
 
     private static string obterListaDeExames(int cod_pedido)
     {
-        var listaEspec = new List<Exame>();
+        var listaEspec = new List<ExameUnico>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento].[dbo].[exame] e join[hspmAtendimento].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
+            cmm.CommandText = "SELECT e.cod_exames_unico, descricao_exames_unico " +
+                             " FROM[hspmAtendimento].[dbo].[exame] e join[hspmAtendimento].[dbo].[pedido_exame] pe on e.cod_exames_unico = pe.cod_exames_unico " +
                              "  where status = 'A' and cod_pedido = " + cod_pedido;
 
 
@@ -310,9 +310,9 @@ public class PedidoDAO
 
                 while (dr1.Read())
                 {
-                    Exame exm = new Exame();
-                    exm.cod_exame = dr1.GetInt32(0);
-                    exm.descricao_exame = dr1.GetString(1);
+                    ExameUnicoexm = new Exame();
+                    exm.cod_exames_unico = dr1.GetInt32(0);
+                    exm.descricao_exames_unico = dr1.GetString(1);
 
                     listaEspec.Add(exm);
                 }
@@ -323,7 +323,7 @@ public class PedidoDAO
             }
         }
 
-        string list = string.Join(", ", listaEspec.Select(c => c.descricao_exame.ToString()).ToArray<string>());
+        string list = string.Join(", ", listaEspec.Select(c => c.descricao_exames_unico.ToString()).ToArray<string>());
 
         return list;
     }

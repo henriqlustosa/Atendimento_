@@ -53,9 +53,9 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             ddlEspecialidade.DataTextField = "descricao_espec";
             ddlEspecialidade.DataValueField = "cod_especialidade";
             ddlEspecialidade.DataBind();
-            select2.DataSource = ExameDAO.listaExame();
-            select2.DataTextField = "descricao_exame";
-            select2.DataValueField = "cod_exame";
+            select2.DataSource = PreOperatorioDAO.listaExame();
+            select2.DataTextField = "descricao_pre_operatorio";
+            select2.DataValueField = "cod_pre_operatorio";
             select2.DataBind();
           
          
@@ -67,6 +67,16 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             select1.DataTextField = "descricao_ressonancia";
             select1.DataValueField = "cod_ressonancia";
             select1.DataBind();
+
+            select3.DataSource = TeleConsultaDAO.listaExame();
+            select3.DataTextField = "descricao_teleconsulta";
+            select3.DataValueField = "cod_teleconsulta";
+            select3.DataBind();
+
+            select4.DataSource = ExamesUnicosDAO.listaExame();
+            select4.DataTextField = "descricao_exames_unico";
+            select4.DataValueField = "cod_exames_unico";
+            select4.DataBind();
         }
     }
 

@@ -97,8 +97,8 @@
                 <div class="w-30 p-3">
                     <div class="col-md-9 col-sm-9 col-xs-12">
                         <asp:CheckBoxList ID="cblExames" runat="server">
-                            <asp:ListItem>Exame de laboratório</asp:ListItem>
-                            <asp:ListItem>Exame de imagem</asp:ListItem>
+                            <asp:ListItem>ExameUnicode laboratório</asp:ListItem>
+                            <asp:ListItem>ExameUnicode imagem</asp:ListItem>
                             <asp:ListItem>Outros exames</asp:ListItem>
                         </asp:CheckBoxList>
                     </div>

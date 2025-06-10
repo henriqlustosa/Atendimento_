@@ -28,9 +28,9 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             ddlEspecialidade.DataTextField = "descricao_espec";
             ddlEspecialidade.DataValueField = "cod_especialidade";
             ddlEspecialidade.DataBind();
-            cblExame.DataSource = ExameDAO.listaExame();
-            cblExame.DataTextField = "descricao_exame";
-            cblExame.DataValueField = "cod_exame";
+            cblExame.DataSource = ExamesUnicosDAO.listaExame();
+            cblExame.DataTextField = "descricao_exames_unico";
+            cblExame.DataValueField = "cod_exames_unico";
             cblExame.DataBind();
         }
     }
@@ -80,7 +80,7 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
     protected void btnGravar_Click(object sender, EventArgs e)
     {
         int _cod_pedido = 0;
-        List<Exame> exames = new List<Exame>();
+        List<ExameUnico> exames = new List<ExameUnico>();
         
        
 
@@ -120,13 +120,13 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
         {
             if (cblExame.Items[i].Selected)
             {
-                Exame exm = new Exame();
-                exm.descricao_exame = cblExame.Items[i].Text;
-                exm.cod_exame = int.Parse(cblExame.Items[i].Value);
+                ExameUnico exm = new ExameUnico();
+                exm.descricao_exames_unico = cblExame.Items[i].Text;
+                exm.cod_exames_unico = int.Parse(cblExame.Items[i].Value);
                 exames.Add(exm);
             }
         }
-        ExameDAO.GravaExamesPorPedidos(exames,_cod_pedido);
+        ExamesUnicosDAO.GravaExamesPorPedidos(exames,_cod_pedido);
         //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + mensagem + "');", true);
 
         System.Text.StringBuilder sb = new System.Text.StringBuilder();

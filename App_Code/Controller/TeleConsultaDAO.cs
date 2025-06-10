@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
 /// <summary>
-/// Summary description for ExameDAO
+/// Summary description for ExamesUnicosDAO
 /// </summary>
 public class TeleConsultaDAO
 {
@@ -19,7 +19,7 @@ public class TeleConsultaDAO
         //
     }
 
-    public static void AtualizaExamesPorPedidos(List<TeleConsultaDAO> teleconsultas, int _cod_pedido)
+    public static void AtualizaExamesPorPedidos(List<TeleConsulta> teleconsultas, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -71,7 +71,7 @@ public class TeleConsultaDAO
 
                 foreach (TeleConsulta teleconsulta in teleconsultas)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_teleconsulta (cod_teleconsulta, cod_pedido,data_cadastro,status)"
                     + " values ('"
                                 + teleconsulta.cod_teleconsulta + "','"
                                 + _cod_pedido + "','"
@@ -112,7 +112,7 @@ public class TeleConsultaDAO
 
                 foreach (TeleConsulta teleconsulta in teleconsultas)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_teleconsulta (cod_teleconsulta, cod_pedido,data_cadastro,status)"
                     + " values ('"
                                 + teleconsulta.cod_teleconsulta + "','"
                                 + _cod_pedido + "','"
@@ -187,8 +187,8 @@ public class TeleConsultaDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento].[dbo].[teleconsulta] e join[hspmAtendimento].[dbo].[pedido_teleconsulta] pe on e.cod_exame = pe.cod_exame " +
+            cmm.CommandText = "SELECT e.cod_exames_unico, descricao_exames_unico " +
+                             " FROM[hspmAtendimento].[dbo].[teleconsulta] e join[hspmAtendimento].[dbo].[pedido_teleconsulta] pe on e.cod_exames_unico = pe.cod_exames_unico " +
                              "  where status = 'A' and cod_pedido = "+ idPedido;
             
                            

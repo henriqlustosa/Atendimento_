@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
 /// <summary>
-/// Summary description for ExameDAO
+/// Summary description for ExamesUnicosDAO
 /// </summary>
 public class ExamesUnicosDAO
 {
@@ -71,7 +71,7 @@ public class ExamesUnicosDAO
 
                 foreach (ExameUnico exame in exames)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exame (cod_exames_unico, cod_pedido,data_cadastro,status)"
                     + " values ('"
                                 + exame.cod_exames_unico + "','"
                                 + _cod_pedido + "','"
@@ -112,7 +112,7 @@ public class ExamesUnicosDAO
 
                 foreach (ExameUnico exame in exames)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exame (cod_exames_unico, cod_pedido,data_cadastro,status)"
                     + " values ('"
                                 + exame.cod_exames_unico + "','"
                                 + _cod_pedido + "','"
@@ -153,9 +153,9 @@ public class ExamesUnicosDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT cod_exame, descricao_exame, status_exame " +
+            cmm.CommandText = "SELECT cod_exames_unico, descricao_exames_unico, status_exame " +
                              " FROM [hspmAtendimento].[dbo].[exames_unico] " +
-                             " ORDER BY cod_exame";
+                             " ORDER BY cod_exames_unico";
 
             try
             {
@@ -187,8 +187,8 @@ public class ExamesUnicosDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento].[dbo].[exame_unico] e join[hspmAtendimento].[dbo].[pedido_exames_unico] pe on e.cod_exames_unico = pe.cod_exame " +
+            cmm.CommandText = "SELECT e.cod_exames_unico, descricao_exames_unico " +
+                             " FROM[hspmAtendimento].[dbo].[exame_unico] e join[hspmAtendimento].[dbo].[pedido_exames_unico] pe on e.cod_exames_unico = pe.cod_exames_unico " +
                              "  where status = 'A' and cod_pedido = "+ idPedido;
             
                            

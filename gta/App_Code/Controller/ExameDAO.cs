@@ -8,18 +8,18 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
 /// <summary>
-/// Summary description for ExameDAO
+/// Summary description for ExamesUnicosDAO
 /// </summary>
-public class ExameDAO
+public class ExamesUnicosDAO
 {
-    public ExameDAO()
+    public ExamesUnicosDAO()
     {
         //
         // TODO: Add constructor logic here
         //
     }
 
-    public static void AtualizaExamesPorPedidos(List<Exame> exames, int _cod_pedido)
+    public static void AtualizaExamesPorPedidos(List<ExameUnico> exames, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -69,11 +69,11 @@ public class ExameDAO
             try
             {
 
-                foreach (Exame exame in exames)
+                foreach (ExameUnicoexame in exames)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exame (cod_exames_unico, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + exame.cod_exame + "','"
+                                + exame.cod_exames_unico + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
                                 + status
@@ -96,7 +96,7 @@ public class ExameDAO
 
     }
 
-    public static void GravaExamesPorPedidos(List<Exame> exames, int _cod_pedido)
+    public static void GravaExamesPorPedidos(List<ExameUnico> exames, int _cod_pedido)
     {
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
@@ -110,11 +110,11 @@ public class ExameDAO
             try
             {
 
-                foreach (Exame exame in exames)
+                foreach (ExameUnicoexame in exames)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exame (cod_exames_unico, cod_pedido,data_cadastro,status)"
                     + " values ('"
-                                + exame.cod_exame + "','"
+                                + exame.cod_exames_unico + "','"
                                 + _cod_pedido + "','"
                                 + _dtcadastro_bd + "','"
                                 + status 
@@ -147,15 +147,15 @@ public class ExameDAO
 
     }
 
-    public static List<Exame> listaExame()
+    public static List<ExameUnico> listaExame()
     {
-        var listaEspec = new List<Exame>();
+        var listaEspec = new List<ExameUnico>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT cod_exame, descricao_exame, status_exame " +
+            cmm.CommandText = "SELECT cod_exames_unico, descricao_exames_unico, status_exame " +
                              " FROM [hspmAtendimento].[dbo].[exame] " +
-                             " ORDER BY cod_exame";
+                             " ORDER BY cod_exames_unico";
 
             try
             {
@@ -165,9 +165,9 @@ public class ExameDAO
 
                 while (dr1.Read())
                 {
-                    Exame exm = new Exame();
-                    exm.cod_exame = dr1.GetInt32(0);
-                    exm.descricao_exame = dr1.GetString(1);
+                    ExameUnicoexm = new Exame();
+                    exm.cod_exames_unico = dr1.GetInt32(0);
+                    exm.descricao_exames_unico = dr1.GetString(1);
                     exm.status_exame = dr1.GetString(2);
                     listaEspec.Add(exm);
                 }
@@ -181,14 +181,14 @@ public class ExameDAO
         return listaEspec;
     }
 
-    public static List<Exame> ObterListaDeExamesEscolhidos(int idPedido)
+    public static List<ExameUnico> ObterListaDeExamesEscolhidos(int idPedido)
     {
-        var listaEspec = new List<Exame>();
+        var listaEspec = new List<ExameUnico>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento].[dbo].[exame] e join[hspmAtendimento].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
+            cmm.CommandText = "SELECT e.cod_exames_unico, descricao_exames_unico " +
+                             " FROM[hspmAtendimento].[dbo].[exame] e join[hspmAtendimento].[dbo].[pedido_exame] pe on e.cod_exames_unico = pe.cod_exames_unico " +
                              "  where status = 'A' and cod_pedido = "+ idPedido;
             
                            
@@ -203,9 +203,9 @@ public class ExameDAO
 
                 while (dr1.Read())
                 {
-                    Exame exm = new Exame();
-                    exm.cod_exame = dr1.GetInt32(0);
-                    exm.descricao_exame = dr1.GetString(1);
+                    ExameUnicoexm = new Exame();
+                    exm.cod_exames_unico = dr1.GetInt32(0);
+                    exm.descricao_exames_unico = dr1.GetString(1);
                  
                     listaEspec.Add(exm);
                 }

@@ -24,9 +24,9 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
         if (!IsPostBack)
         {
            
-            cblExame.DataSource = ExameDAO.listaExame();
-            cblExame.DataTextField = "descricao_exame";
-            cblExame.DataValueField = "cod_exame";
+            cblExame.DataSource = ExamesUnicosDAO.listaExame();
+            cblExame.DataTextField = "descricao_exames_unico";
+            cblExame.DataValueField = "cod_exames_unico";
             cblExame.DataBind();
 
 
@@ -56,15 +56,15 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
             txbOutrasInformacoes.Text = pedido.outras_informacoes;
 
             btnGravar.Enabled = false;
-            List<Exame> exames_escolhidos = new List<Exame>();
-            exames_escolhidos = ExameDAO.ObterListaDeExamesEscolhidos(_idPedido);
+            List<ExameUnico> exames_escolhidos = new List<ExameUnico>();
+            exames_escolhidos = ExamesUnicosDAO.ObterListaDeExamesEscolhidos(_idPedido);
 
 
 
-            foreach (Exame exame in exames_escolhidos)
+            foreach (ExameUnico exame in exames_escolhidos)
             {
 
-                cblExame.Items[exame.cod_exame].Selected = true;
+                cblExame.Items[exame.cod_exames_unico].Selected = true;
                 
             }
 
@@ -140,18 +140,18 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
     protected void btnArquivar_Click(object sender, EventArgs e)
     {
         int _idPedido = Convert.ToInt32(Request.QueryString["idpedido"]);
-        List<Exame> exames = new List<Exame>();
+        List<ExameUnico> exames = new List<ExameUnico>();
         for (int i = 0; i < cblExame.Items.Count; i++)
         {
             if (cblExame.Items[i].Selected)
             {
-                Exame exm = new Exame();
-                exm.descricao_exame = cblExame.Items[i].Text;
-                exm.cod_exame = int.Parse(cblExame.Items[i].Value);
+                ExameUnico exm = new ExameUnico();
+                exm.descricao_exames_unico = cblExame.Items[i].Text;
+                exm.cod_exames_unico = int.Parse(cblExame.Items[i].Value);
                 exames.Add(exm);
             }
         }
-        ExameDAO.AtualizaExamesPorPedidos(exames, _idPedido);
+        ExamesUnicosDAO.AtualizaExamesPorPedidos(exames, _idPedido);
         string msg = PedidoDAO.AtualizaPedido(txbOutrasInformacoes.Text, _idPedido);
 
 
@@ -184,18 +184,18 @@ public partial class encaminhamento_retornomarcado : System.Web.UI.Page
 
         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
         Response.Redirect("~/encaminhamento/pedidospendentesporrh.aspx");*/
-        List<Exame> exames = new List<Exame>();
+        List<ExameUnico> exames = new List<ExameUnico>();
         for (int i = 0; i < cblExame.Items.Count ; i++)
         {
             if (cblExame.Items[i].Selected)
             {
-                Exame exm = new Exame();
-                exm.descricao_exame = cblExame.Items[i].Text;
-                exm.cod_exame = int.Parse(cblExame.Items[i].Value);
+                ExameUnico exm = new ExameUnico();
+                exm.descricao_exames_unico = cblExame.Items[i].Text;
+                exm.cod_exames_unico = int.Parse(cblExame.Items[i].Value);
                 exames.Add(exm);
             }
         }
-        ExameDAO.AtualizaExamesPorPedidos(exames, _idPedido);
+        ExamesUnicosDAO.AtualizaExamesPorPedidos(exames, _idPedido);
         string msg = PedidoDAO.AtualizaPedido(txbOutrasInformacoes.Text , _idPedido);
 
         System.Text.StringBuilder sb = new System.Text.StringBuilder();

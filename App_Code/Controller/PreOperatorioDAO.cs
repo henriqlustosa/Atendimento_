@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
 /// <summary>
-/// Summary description for ExameDAO
+/// Summary description for ExamesUnicosDAO
 /// </summary>
 public class PreOperatorioDAO
 {
@@ -31,7 +31,7 @@ public class PreOperatorioDAO
             try
             {
 
-                cmm.CommandText = "UPDATE pedido_exame" +
+                cmm.CommandText = "UPDATE pedido_pre_operatorio" +
                  " SET status = @status " +
                  " WHERE  cod_pedido = " + _cod_pedido ;
                 cmm.Parameters.Add(new SqlParameter("@status", "I"));
@@ -71,7 +71,7 @@ public class PreOperatorioDAO
 
                 foreach (PreOperatorio preoperatorio in preoperatorios)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exame, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_pre_operatorio ([cod_pre_operatorio], cod_pedido,data_cadastro,status)"
                     + " values ('"
                                 + preoperatorio.cod_pre_operatorio + "','"
                                 + _cod_pedido + "','"
@@ -112,10 +112,11 @@ public class PreOperatorioDAO
 
                 foreach (PreOperatorio preoperatorio in preoperatorios)
                 {
-                    cmm.CommandText = "Insert into pedido_exames_unico (cod_exames_unico, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into [pedido_pre_operatorio]([cod_pedido], [cod_pre_operatorio],[data_cadastro],[status])"
                     + " values ('"
+                    + _cod_pedido + "','"
                                 + preoperatorio.cod_pre_operatorio + "','"
-                                + _cod_pedido + "','"
+                               
                                 + _dtcadastro_bd + "','"
                                 + status 
                                 + "');";
@@ -147,15 +148,15 @@ public class PreOperatorioDAO
 
     }
 
-    public static List<Exame> listaExame()
+    public static List<PreOperatorio> listaExame()
     {
-        var listaEspec = new List<Exame>();
+        var lista = new List<PreOperatorio>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT cod_exame, descricao_exame, status_exame " +
-                             " FROM [hspmAtendimento].[dbo].[exame] " +
-                             " ORDER BY cod_exame";
+            cmm.CommandText = "SELECT cod_pre_operatorio, descricao_pre_operatorio, status_pre_operatorio " +
+                             " FROM [hspmAtendimento].[dbo].[pre_operatorio]  " +
+                             " ORDER BY cod_pre_operatorio";
 
             try
             {
@@ -165,11 +166,11 @@ public class PreOperatorioDAO
 
                 while (dr1.Read())
                 {
-                    Exame exm = new Exame();
-                    exm.cod_exame = dr1.GetInt32(0);
-                    exm.descricao_exame = dr1.GetString(1);
-                    exm.status_exame = dr1.GetString(2);
-                    listaEspec.Add(exm);
+                    PreOperatorio preOperatorio = new PreOperatorio();
+                    preOperatorio.cod_pre_operatorio = dr1.GetInt32(0);
+                    preOperatorio.descricao_pre_operatorio = dr1.GetString(1);
+                    preOperatorio.status_pre_operatorio = dr1.GetString(2);
+                    lista.Add(preOperatorio);
                 }
             }
             catch (Exception ex)
@@ -178,17 +179,17 @@ public class PreOperatorioDAO
             }
 
         }
-        return listaEspec;
+        return lista;
     }
 
-    public static List<Exame> ObterListaDeExamesEscolhidos(int idPedido)
+    public static List<PreOperatorio> ObterListaDeExamesEscolhidos(int idPedido)
     {
-        var listaEspec = new List<Exame>();
+        var lista = new List<PreOperatorio>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT e.cod_exame, descricao_exame " +
-                             " FROM[hspmAtendimento].[dbo].[exame] e join[hspmAtendimento].[dbo].[pedido_exame] pe on e.cod_exame = pe.cod_exame " +
+            cmm.CommandText = "SELECT e.cod_pre_operatorio, descricao_pre_operatorio " +
+                             " FROM [hspmAtendimento].[dbo].[pre_operatorio] e join [hspmAtendimento].[dbo].[pedido_pre_operatorio] pe on e.[cod_pre_operatorio] = pe.[cod_pre_operatorio] " +
                              "  where status = 'A' and cod_pedido = "+ idPedido;
             
                            
@@ -203,11 +204,11 @@ public class PreOperatorioDAO
 
                 while (dr1.Read())
                 {
-                    Exame exm = new Exame();
-                    exm.cod_exame = dr1.GetInt32(0);
-                    exm.descricao_exame = dr1.GetString(1);
+                    PreOperatorio preOperatorio = new PreOperatorio();
+                    preOperatorio.cod_pre_operatorio = dr1.GetInt32(0);
+                    preOperatorio.descricao_pre_operatorio = dr1.GetString(1);
                  
-                    listaEspec.Add(exm);
+                    lista.Add(preOperatorio);
                 }
             }
             catch (Exception ex)
@@ -216,7 +217,7 @@ public class PreOperatorioDAO
             }
 
         }
-        return listaEspec;
+        return lista;
 
     }
 }
