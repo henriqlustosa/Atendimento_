@@ -101,7 +101,7 @@ public class PreOperatorioDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             string status = "A";
-            string _dtcadastro_bd = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            string _dtcadastro = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             SqlCommand cmm = new SqlCommand();
             cmm.Connection = cnn;
             cnn.Open();
@@ -112,12 +112,12 @@ public class PreOperatorioDAO
 
                 foreach (PreOperatorio preoperatorio in preoperatorios)
                 {
-                    cmm.CommandText = "Insert into [pedido_pre_operatorio]([cod_pedido], [cod_pre_operatorio],[data_cadastro],[status])"
+                    cmm.CommandText = "Insert into pedido_pre_operatorio([cod_pedido], [cod_pre_operatorio],[data_cadastro],[status])"
                     + " values ('"
                     + _cod_pedido + "','"
                                 + preoperatorio.cod_pre_operatorio + "','"
                                
-                                + _dtcadastro_bd + "','"
+                                + _dtcadastro + "','"
                                 + status 
                                 + "');";
                     cmm.ExecuteNonQuery();

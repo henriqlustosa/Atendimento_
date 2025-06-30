@@ -7,21 +7,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Atendimento_", ".", "{71237
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_25657"
-		Debug.AspNetCompiler.PhysicalPath = "..\Atendimento_\"
+		Debug.AspNetCompiler.PhysicalPath = "G:\OneDrive - Default Directory\OneDrive - rede.sp\Workspace_Atendimento_SAC_Ultimo\Atendimento_\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_25657\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_25657"
-		Release.AspNetCompiler.PhysicalPath = "..\Atendimento_\"
+		Release.AspNetCompiler.PhysicalPath = "G:\OneDrive - Default Directory\OneDrive - rede.sp\Workspace_Atendimento_SAC_Ultimo\Atendimento_\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_25657\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "25657"
-		SlnRelativePath = "..\Atendimento_\"
 	EndProjectSection
 EndProject
 Global
@@ -36,6 +35,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {32069699-69DE-48CE-90B7-44900545303D}
+		SolutionGuid = {B3EA6F3A-76E4-4666-B6DA-D424C53636EC}
 	EndGlobalSection
 EndGlobal

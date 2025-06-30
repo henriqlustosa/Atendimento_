@@ -60,7 +60,7 @@ public class TeleConsultaDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             string status = "A";
-            string _dtcadastro_bd = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            string _dtcadastro = DateTime.Now.ToString("dd/MMS/yyyy HH:mm:ss");
             SqlCommand cmm = new SqlCommand();
             cmm.Connection = cnn;
             cnn.Open();
@@ -75,7 +75,7 @@ public class TeleConsultaDAO
                     + " values ('"
                                 + teleconsulta.cod_teleconsulta + "','"
                                 + _cod_pedido + "','"
-                                + _dtcadastro_bd + "','"
+                                + _dtcadastro + "','"
                                 + status
                                 + "');";
                     cmm.ExecuteNonQuery();

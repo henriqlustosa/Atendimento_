@@ -76,7 +76,7 @@ public class PedidoDAO
 
                               " FROM [pedido_consulta] " +
                               " WHERE  [status] = 0 " +
-                              " AND [data_cadastro] = '" + _dtcadastro_bd + "'";
+                              " AND [data_cadastro] = '" + _dtcadastro + "'";
                             
 
             cmm.CommandText = sqlConsulta;

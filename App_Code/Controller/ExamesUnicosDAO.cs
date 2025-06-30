@@ -101,7 +101,7 @@ public class ExamesUnicosDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             string status = "A";
-            string _dtcadastro_bd = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            string _dtcadastro = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             SqlCommand cmm = new SqlCommand();
             cmm.Connection = cnn;
             cnn.Open();
@@ -112,11 +112,11 @@ public class ExamesUnicosDAO
 
                 foreach (ExameUnico exame in exames)
                 {
-                    cmm.CommandText = "Insert into pedido_exame (cod_exames_unico, cod_pedido,data_cadastro,status)"
+                    cmm.CommandText = "Insert into pedido_exames_unico (cod_exames_unico, cod_pedido,data_cadastro,status)"
                     + " values ('"
                                 + exame.cod_exames_unico + "','"
                                 + _cod_pedido + "','"
-                                + _dtcadastro_bd + "','"
+                                + _dtcadastro + "','"
                                 + status 
                                 + "');";
                     cmm.ExecuteNonQuery();
@@ -153,7 +153,7 @@ public class ExamesUnicosDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT cod_exames_unico, descricao_exames_unico, status_exame " +
+            cmm.CommandText = "SELECT cod_exames_unico, descricao_exames_unico, status_exames_unico " +
                              " FROM [hspmAtendimento].[dbo].[exames_unico] " +
                              " ORDER BY cod_exames_unico";
 

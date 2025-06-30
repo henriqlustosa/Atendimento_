@@ -53,6 +53,10 @@ public partial class publico_cadencaminhamento : System.Web.UI.Page
             ddlEspecialidade.DataTextField = "descricao_espec";
             ddlEspecialidade.DataValueField = "cod_especialidade";
             ddlEspecialidade.DataBind();
+
+
+
+
             select2.DataSource = PreOperatorioDAO.listaExame();
             select2.DataTextField = "descricao_pre_operatorio";
             select2.DataValueField = "cod_pre_operatorio";

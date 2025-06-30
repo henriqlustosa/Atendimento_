@@ -45,7 +45,11 @@
                 $(this).val(this.value.replace(/\D/g, ''));
             });
 
-            $(".chosen-select").chosen({ no_results_text: "Nada encontrado!" });
+            $(".chosen-select").chosen({
+                no_results_text: "Nada encontrado!",
+                placeholder_text_multiple: "Selecione uma ou mais opções"
+            });
+
 
             $("#btnCloseModal").click(function () {
                 $(location).attr('href', 'cadencaminhamento.aspx');
@@ -95,7 +99,7 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-12">
-                <asp:TextBox ID="txbOb" runat="server" class="form-control" TextMode="MultiLine" Rows="6" Text="Retirado por:                   \nRG ou CPF:         \nData:        hora:    "></asp:TextBox>
+                <asp:TextBox ID="txbOb" runat="server" class="form-control" TextMode="MultiLine" Rows="6" Text="Retirado por:&#10;RG ou CPF:&#10;Data:       &#10;Hora:"></asp:TextBox>
             </div>
         </div>
     </div>
