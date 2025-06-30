@@ -30,11 +30,15 @@ public class ConsultasDAO
 
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
-            SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT i.[descricao_con_cancelada]" +
-                              " FROM [hspmAtendimento].[dbo].[consultas_cancelar] c ,[hspmAtendimento].[dbo].[info_con_cancelada] i " +
-                              " WHERE c.id_cancela = i.id_consultas_cancelar " +
-                              " AND c.id_consulta = " + _id_consulta;
+            string query =
+                "SELECT i.[descricao_con_cancelada] " +
+                "FROM [hspmAtendimento].[dbo].[consultas_cancelar] c, " +
+                "[hspmAtendimento].[dbo].[info_con_cancelada] i " +
+                "WHERE c.id_cancela = i.id_consultas_cancelar " +
+                "AND c.id_consulta = @idConsulta";
+
+            SqlCommand cmm = new SqlCommand(query, cnn);
+            cmm.Parameters.Add("@idConsulta", SqlDbType.Int).Value = _id_consulta;
 
             try
             {
