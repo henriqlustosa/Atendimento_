@@ -66,7 +66,10 @@ public partial class Login : System.Web.UI.Page
 
                     Session["perfis"] = perfisDoUsuario;
 
-                    // 4. Redireciona
+                    // 4. Autentica o usuário na aplicação
+                    FormsAuthentication.SetAuthCookie(login, false);
+
+                    // 5. Redireciona
                     Response.Redirect(Url);
                 }
             }
