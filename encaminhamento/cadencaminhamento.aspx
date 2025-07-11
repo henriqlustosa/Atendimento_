@@ -107,7 +107,7 @@
     <!-- Repetição dos painéis com o mesmo padrão -->
     <div class="x_panel">
         <div class="x_title">
-            <h2>Informações dos Pré Operatório</h2>
+            <h2>Informações do Pré Operatório</h2>
             <div class="clearfix"></div>
         </div>
         <div class="row">
@@ -143,7 +143,7 @@
 
     <div class="x_panel">
         <div class="x_title">
-            <h2>Informações de Kit Colono</h2>
+            <h2>Informações de Exames Únicos</h2>
             <div class="clearfix"></div>
         </div>
         <div class="row">
