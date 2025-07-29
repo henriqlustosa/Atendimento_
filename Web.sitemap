@@ -15,16 +15,16 @@
 
 		<siteMapNode url="" title="Relatórios" description="Páginas relácionadas a informações relatórios">
 			<siteMapNode url="~/Relatorios/RelatorioAtivosRealizados.aspx" title="Ativos Realizados" description="Relatório de total ativos realizados" />
-			<siteMapNode url="~/Grafico/dadosMes.aspx" title="Gráficos de Ativos" description="Gráficos de ativos realizados por mês" />
-			<siteMapNode url="~/Grafico/dadosMesUsuario.aspx" title="Gráficos de Ativos Usuário" description="Gráficos de ativos realizados no mês por usuário" />
-			<siteMapNode url="~/Grafico/Perfil.aspx" title="Ativos Individual" description="Gráficos de ativos realizados no mês por usuário individual" />
+			<siteMapNode url="~/Relatorios/dadosMes.aspx" title="Gráficos de Ativos" description="Gráficos de ativos realizados por mês" />
+			<siteMapNode url="~/Relatorios/dadosMesUsuario.aspx" title="Gráficos de Ativos Usuário" description="Gráficos de ativos realizados no mês por usuário" />
+			
 		</siteMapNode>
 
 		<siteMapNode url="" title="Encaminhamento" description="Páginas de solicitações de exames">
-			<siteMapNode url="~/encaminhamento/cadencaminhamento.aspx" title="Cadastro Solicitação de Exame" description="Cadastro de Pedido de Consulta" />
-			<siteMapNode url="~/encaminhamento/pedidospendentes.aspx" title="Exames Solicitados" description="Pedidos de Consulta Pendentes" />
-			<siteMapNode url="~/encaminhamento/pedidospendentesporrh.aspx" title="Exames Solicitados Por RH" description="Pedidos de Consulta Por RH" />
-			<siteMapNode url="~/encaminhamento/pedidosarquivados.aspx" title="Exames Arquivados" description="Pedidos de Consulta Arquivados" />
+			<siteMapNode url="~/Encaminhamento/cadencaminhamento.aspx" title="Cadastro Solicitação de Exame" description="Cadastro de Pedido de Consulta" />
+			<siteMapNode url="~/Encaminhamento/pedidospendentes.aspx" title="Exames Solicitados" description="Pedidos de Consulta Pendentes" />
+			<siteMapNode url="~/Encaminhamento/pedidospendentesporrh.aspx" title="Exames Solicitados Por RH" description="Pedidos de Consulta Por RH" />
+			<siteMapNode url="~/Encaminhamento/pedidosarquivados.aspx" title="Exames Arquivados" description="Pedidos de Consulta Arquivados" />
 		</siteMapNode>
 
 		<siteMapNode url="" title="Meu Perfil" description="Páginas relacionadas ao perfil de usuário">
@@ -32,10 +32,10 @@
 			<siteMapNode url="~/Profile/Perfil.aspx" title="Minhas Informações" description="Informações do perfil" />
 		</siteMapNode>
 
-		<siteMapNode url="" title="Informações" description="Páginas relácionadas a informações de uso/atendimento">
-			<siteMapNode url="~/manuais/Roteiro.aspx" title="Roteiro" description="Roteiro do fluxo de ligação" />
-			<siteMapNode url="~/manuais/Fluxo.aspx" title="Fluxo do Sistema" description="Fluxo de uso do sistema para ligações" />
-			<siteMapNode url="~/manuais/PassoaPasso.aspx" title="Passo a Passo do Atendimento" description="Passo a Passo do Atendimento para ligações" />
+		<siteMapNode url="" title="Manuais" description="Páginas relácionadas a informações de uso/atendimento">
+			<siteMapNode url="~/Manuais/Roteiro.aspx" title="Roteiro" description="Roteiro do fluxo de ligação" />
+			<siteMapNode url="~/Manuais/Fluxo.aspx" title="Fluxo do Sistema" description="Fluxo de uso do sistema para ligações" />
+			<siteMapNode url="~/Manuais/PassoaPasso.aspx" title="Passo a Passo do Atendimento" description="Passo a Passo do Atendimento para ligações" />
 		</siteMapNode>
 
 	</siteMapNode>

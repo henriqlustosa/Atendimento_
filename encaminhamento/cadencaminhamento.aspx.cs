@@ -18,37 +18,13 @@ using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Threading;
 
-public partial class publico_cadencaminhamento : System.Web.UI.Page
+public partial class publico_cadencaminhamento  :  BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            // 1. Verifica se o usuário está logado (existe sessão)
-
-            if (Session["login"] == null)
-
-            {
-
-                Response.Redirect("~/login.aspx"); // Redireciona se não estiver logado
-
-                return;
-
-            }
-
-
-
-            // 2. Verifica se o perfil é diferente de "1" (Administrador)
-
-            List<int> perfis = Session["perfis"] as List<int>;
-
-            if (perfis == null || (!perfis.Contains(1) && !perfis.Contains(2)))
-
-            {
-
-                Response.Redirect("~/SemPermissao.aspx");
-
-            }
+    
             ddlEspecialidade.DataSource = EspecialidadeDAO.listaEspecialidade();
             ddlEspecialidade.DataTextField = "descricao_espec";
             ddlEspecialidade.DataValueField = "cod_especialidade";

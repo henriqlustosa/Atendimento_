@@ -1,0 +1,284 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #dce0ed;
+    display: flex;
+    flex-direction: column;
+}
+
+form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.login__container {
+    background: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 1000px;
+}
+
+.login__titulo {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1e2d58;
+    margin-bottom: 1rem;
+    order: -1;
+}
+
+.login__imagem {
+    text-align: center;
+}
+
+    .login__imagem img {
+        width: 100%;
+        max-width: 260px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+.login__box {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+}
+
+.login__box-autentica h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1e2d58;
+}
+
+.login__box-autentica label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        outline: 2px solid #253d80;
+        border-color: #253d80;
+    }
+
+.login__box-botao input[type="submit"] {
+    background-color: #253d80;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+    .login__box-botao input[type="submit"]:hover {
+        background-color: #162a5e;
+    }
+
+.login__logo {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+    .login__logo img {
+        max-width: 180px;
+        margin: 0 10px;
+    }
+
+.login__box-informacao {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.login__box-informacao-texto {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: white;
+    background-color: #1e2d58;
+    width: 100%;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+/* === MODAL === */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+    .modal-overlay.active {
+        display: flex !important;
+    }
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    font-family: 'Inter', sans-serif;
+    color: #2c3e50;
+    line-height: 1.6;
+    animation: slideDown 0.3s ease-out;
+    text-align: left;
+}
+
+    .modal-content h2 {
+        margin-top: 0;
+        font-size: 1.6rem;
+        color: #1e2d58;
+        border-bottom: 1px solid #eaeaea;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .modal-content p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .modal-content code {
+        background: #f0f2f5;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.95rem;
+    }
+
+    .modal-content strong {
+        color: #1e2d58;
+    }
+
+    .modal-content .exemplo-box {
+        background-color: #f9fafc;
+        border: 1px solid #dcdfe6;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        margin: 1rem 0;
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+
+    .modal-content button {
+        display: block;
+        margin: 1.5rem auto 0 auto;
+        padding: 10px 24px;
+        background-color: #1e2d58;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s ease-in-out;
+    }
+
+        .modal-content button:hover {
+            background-color: #162a5e;
+        }
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 768px) {
+    .login__container {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .login__box {
+        max-width: 100%;
+    }
+
+    .login__imagem img {
+        max-width: 200px;
+    }
+
+    .login__box-autentica h2 {
+        font-size: 1.25rem;
+    }
+
+    input[type="text"], input[type="password"] {
+        font-size: 1rem;
+    }
+
+    footer {
+        font-size: 0.7rem;
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .login__container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .modal-content {
+        padding: 1rem;
+    }
+
+        .modal-content h2 {
+            font-size: 1.25rem;
+        }
+
+        .modal-content p,
+        .modal-content .exemplo-box {
+            font-size: 0.9rem;
+        }
+}
