@@ -3,20 +3,14 @@
 	<siteMapNode url="~/Default.aspx" title="Principal" description="Página principal do web site">
 
 		<siteMapNode url="" title="Administração" description="Administração do Site">
-			<siteMapNode url="~/Restrito/UsuariosOnLine.aspx" title="Usuários Online" description="Usuários Online" />
+			
 			<siteMapNode url="~/Restrito/CadastroUsuario.aspx" title="Cadastro Usuário" description="Cadastro de novos usuários do sistema" />
-			<siteMapNode url="~/Restrito/Permissao.aspx" title="Permissões" description="Cadastro de permissões para usuários do sistema" />
-			<siteMapNode url="~/Restrito/DesbloqueioUsuario.aspx" title="Desbloquear Usuário" description="Página para desbloquear de Usuário" />
-			<siteMapNode url="~/Restrito/ResetSenha.aspx" title="Resetar Senha" description="Resetar Senha do Usuário" />
-			<siteMapNode url="~/Restrito/Alterarcadastro.aspx" title="Alterar Usuário" description="Página para alterar Login de Usuário" />
-			<siteMapNode url="~/Restrito/DeletarUsuario.aspx" title="Excluir Usuário" description="Página para exclusão de Usuário" />
-			<siteMapNode url="~/Restrito/Novidades.aspx" title="Novidades e atualizações" description="Página com descrição das novidades e atualizações do sistema" />
+			
 		</siteMapNode>
 
 		<siteMapNode url="" title="Relatórios" description="Páginas relácionadas a informações relatórios">
-			<siteMapNode url="~/Relatorios/RelatorioAtivosRealizados.aspx" title="Ativos Realizados" description="Relatório de total ativos realizados" />
-			<siteMapNode url="~/Relatorios/dadosMes.aspx" title="Gráficos de Ativos" description="Gráficos de ativos realizados por mês" />
-			<siteMapNode url="~/Relatorios/dadosMesUsuario.aspx" title="Gráficos de Ativos Usuário" description="Gráficos de ativos realizados no mês por usuário" />
+			<siteMapNode url="~/Relatorios/RelatorioPowerBI.aspx" title="Power BI" description="Relatório no Modelo POWER BI" />
+		
 			
 		</siteMapNode>
 
@@ -27,15 +21,12 @@
 			<siteMapNode url="~/Encaminhamento/pedidosarquivados.aspx" title="Exames Arquivados" description="Pedidos de Consulta Arquivados" />
 		</siteMapNode>
 
-		<siteMapNode url="" title="Meu Perfil" description="Páginas relacionadas ao perfil de usuário">
-			<siteMapNode url="~/Profile/AlterarSenha.aspx" title="Alterar Senha" description="Alteração de senha do usuário" />
+		<siteMapNode url="" title="Meu Perfil" description="Páginas relacionadas ao perfil de usuário">		
 			<siteMapNode url="~/Profile/Perfil.aspx" title="Minhas Informações" description="Informações do perfil" />
 		</siteMapNode>
 
 		<siteMapNode url="" title="Manuais" description="Páginas relácionadas a informações de uso/atendimento">
-			<siteMapNode url="~/Manuais/Roteiro.aspx" title="Roteiro" description="Roteiro do fluxo de ligação" />
-			<siteMapNode url="~/Manuais/Fluxo.aspx" title="Fluxo do Sistema" description="Fluxo de uso do sistema para ligações" />
-			<siteMapNode url="~/Manuais/PassoaPasso.aspx" title="Passo a Passo do Atendimento" description="Passo a Passo do Atendimento para ligações" />
+			
 		</siteMapNode>
 
 	</siteMapNode>

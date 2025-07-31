@@ -3,40 +3,132 @@
   "WorkspaceRootPath": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\app_code\\controleacessodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:app_code\\controleacessodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\masterpage.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:masterpage.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\web.sitemap||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:web.sitemap||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\masterpage.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
       "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:masterpage.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\cadencaminhamento.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\cadencaminhamento.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\app_code\\controleacessodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:app_code\\controleacessodb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\cadencaminhamento.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\cadencaminhamento.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\app_code\\custommenunode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:app_code\\custommenunode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\app_code\\basepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:app_code\\basepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\retornomarcado.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\retornomarcado.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\app_code\\controller\\examesunicosdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:app_code\\controller\\examesunicosdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\app_code\\controller\\teleconsultadao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:app_code\\controller\\teleconsultadao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\retornomarcado.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\retornomarcado.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\cadencaminhamento.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\cadencaminhamento.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\cadencaminhamento.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\cadencaminhamento.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\pedidosarquivados.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\pedidosarquivados.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\pedidospendentes.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\pedidospendentes.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\pedidospendentes.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\pedidospendentes.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\pedidospendentesporrh.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\pedidospendentesporrh.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\restrito\\cadastrousuario.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:restrito\\cadastrousuario.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\arquivomarcado.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\arquivomarcado.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\relatorios\\relatoriopowerbi.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:relatorios\\relatoriopowerbi.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\restrito\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:restrito\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\web.sitemap||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:web.sitemap||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\restrito\\cadastrousuario.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:restrito\\cadastrousuario.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\app_code\\custommenunode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:app_code\\custommenunode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\profile\\perfil.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:profile\\perfil.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\profile\\complementousuario.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:profile\\complementousuario.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\profile\\complementousuario.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:profile\\complementousuario.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\relatorios\\relatoriopowerbi.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:relatorios\\relatoriopowerbi.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\manuais\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:manuais\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\profile\\perfil.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:profile\\perfil.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\relatorios\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:relatorios\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\pedidosarquivados.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\pedidosarquivados.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|g:\\onedrive - default directory\\onedrive - rede.sp\\workspace_atendimento_sac_ultimo\\atendimento_\\encaminhamento\\arquivomarcado.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{712378CD-188A-47FB-8D4D-34D3523AE5A9}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_|solutionrelative:encaminhamento\\arquivomarcado.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,7 +138,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 259,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,85 +146,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Web.sitemap",
-              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Web.sitemap",
-              "RelativeDocumentMoniker": "Web.sitemap",
-              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Web.sitemap",
-              "RelativeToolTip": "Web.sitemap",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002838|",
-              "WhenOpened": "2025-07-29T15:13:23.737Z",
+              "DocumentIndex": 2,
+              "Title": "ControleAcessoDb.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\ControleAcessoDb.cs",
+              "RelativeDocumentMoniker": "App_Code\\ControleAcessoDb.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\ControleAcessoDb.cs",
+              "RelativeToolTip": "App_Code\\ControleAcessoDb.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T20:23:22.48Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "cadencaminhamento.aspx",
-              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx",
-              "RelativeDocumentMoniker": "Encaminhamento\\cadencaminhamento.aspx",
-              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx",
-              "RelativeToolTip": "Encaminhamento\\cadencaminhamento.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-07-29T15:13:23.909Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MasterPage.master.cs",
-              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\MasterPage.master.cs",
-              "RelativeDocumentMoniker": "MasterPage.master.cs",
-              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\MasterPage.master.cs",
-              "RelativeToolTip": "MasterPage.master.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T13:41:16.741Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MasterPage.master",
-              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\MasterPage.master",
-              "RelativeDocumentMoniker": "MasterPage.master",
-              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\MasterPage.master",
-              "RelativeToolTip": "MasterPage.master",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-07-29T13:41:14.173Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "cadencaminhamento.aspx.cs",
-              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx.cs",
-              "RelativeDocumentMoniker": "Encaminhamento\\cadencaminhamento.aspx.cs",
-              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx.cs",
-              "RelativeToolTip": "Encaminhamento\\cadencaminhamento.aspx.cs",
-              "ViewState": "AgIAAIYAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T13:40:52.668Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "BasePage.cs",
-              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\BasePage.cs",
-              "RelativeDocumentMoniker": "App_Code\\BasePage.cs",
-              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\BasePage.cs",
-              "RelativeToolTip": "App_Code\\BasePage.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T13:40:43.033Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "CustomMenuNode.cs",
               "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\CustomMenuNode.cs",
               "RelativeDocumentMoniker": "App_Code\\CustomMenuNode.cs",
@@ -140,33 +167,397 @@
               "RelativeToolTip": "App_Code\\CustomMenuNode.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T13:40:39.901Z",
+              "WhenOpened": "2025-07-30T20:23:21.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "retornomarcado.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\retornomarcado.aspx",
+              "RelativeDocumentMoniker": "Encaminhamento\\retornomarcado.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\retornomarcado.aspx",
+              "RelativeToolTip": "Encaminhamento\\retornomarcado.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T16:17:00.047Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "arquivomarcado.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\arquivomarcado.aspx.cs",
+              "RelativeDocumentMoniker": "Encaminhamento\\arquivomarcado.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\arquivomarcado.aspx.cs",
+              "RelativeToolTip": "Encaminhamento\\arquivomarcado.aspx.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T16:00:32.103Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "pedidospendentesporrh.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidospendentesporrh.aspx.cs",
+              "RelativeDocumentMoniker": "Encaminhamento\\pedidospendentesporrh.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidospendentesporrh.aspx.cs",
+              "RelativeToolTip": "Encaminhamento\\pedidospendentesporrh.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T16:17:22.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "pedidosarquivados.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidosarquivados.aspx.cs",
+              "RelativeDocumentMoniker": "Encaminhamento\\pedidosarquivados.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidosarquivados.aspx.cs",
+              "RelativeToolTip": "Encaminhamento\\pedidosarquivados.aspx.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T16:02:17.576Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ControleAcessoDb.cs",
-              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\ControleAcessoDb.cs",
-              "RelativeDocumentMoniker": "App_Code\\ControleAcessoDb.cs",
-              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\ControleAcessoDb.cs",
-              "RelativeToolTip": "App_Code\\ControleAcessoDb.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Title": "Web.sitemap",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Web.sitemap",
+              "RelativeDocumentMoniker": "Web.sitemap",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Web.sitemap",
+              "RelativeToolTip": "Web.sitemap",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002838|",
+              "WhenOpened": "2025-07-30T16:03:47.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MasterPage.master",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\MasterPage.master",
+              "RelativeDocumentMoniker": "MasterPage.master",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\MasterPage.master",
+              "RelativeToolTip": "MasterPage.master",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T14:59:07.73Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TeleConsultaDAO.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\Controller\\TeleConsultaDAO.cs",
+              "RelativeDocumentMoniker": "App_Code\\Controller\\TeleConsultaDAO.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\Controller\\TeleConsultaDAO.cs",
+              "RelativeToolTip": "App_Code\\Controller\\TeleConsultaDAO.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAwwFIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T13:30:47.831Z",
+              "WhenOpened": "2025-07-30T20:05:35.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "pedidospendentes.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidospendentes.aspx",
+              "RelativeDocumentMoniker": "Encaminhamento\\pedidospendentes.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidospendentes.aspx",
+              "RelativeToolTip": "Encaminhamento\\pedidospendentes.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T16:17:33.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BasePage.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\BasePage.cs",
+              "RelativeDocumentMoniker": "App_Code\\BasePage.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\BasePage.cs",
+              "RelativeToolTip": "App_Code\\BasePage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:10:23.488Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "ExamesUnicosDAO.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\Controller\\ExamesUnicosDAO.cs",
+              "RelativeDocumentMoniker": "App_Code\\Controller\\ExamesUnicosDAO.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\App_Code\\Controller\\ExamesUnicosDAO.cs",
+              "RelativeToolTip": "App_Code\\Controller\\ExamesUnicosDAO.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T20:07:07.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "retornomarcado.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\retornomarcado.aspx.cs",
+              "RelativeDocumentMoniker": "Encaminhamento\\retornomarcado.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\retornomarcado.aspx.cs",
+              "RelativeToolTip": "Encaminhamento\\retornomarcado.aspx.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAuwG4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T16:17:00.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "cadencaminhamento.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx",
+              "RelativeDocumentMoniker": "Encaminhamento\\cadencaminhamento.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx",
+              "RelativeToolTip": "Encaminhamento\\cadencaminhamento.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T15:08:46.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "cadencaminhamento.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx.cs",
+              "RelativeDocumentMoniker": "Encaminhamento\\cadencaminhamento.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\cadencaminhamento.aspx.cs",
+              "RelativeToolTip": "Encaminhamento\\cadencaminhamento.aspx.cs",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAowNYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T15:08:46.829Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "pedidospendentes.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidospendentes.aspx.cs",
+              "RelativeDocumentMoniker": "Encaminhamento\\pedidospendentes.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidospendentes.aspx.cs",
+              "RelativeToolTip": "Encaminhamento\\pedidospendentes.aspx.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBQAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T16:17:33.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CadastroUsuario.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Restrito\\CadastroUsuario.aspx",
+              "RelativeDocumentMoniker": "Restrito\\CadastroUsuario.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Restrito\\CadastroUsuario.aspx",
+              "RelativeToolTip": "Restrito\\CadastroUsuario.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T17:52:34.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "login.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\login.aspx",
+              "RelativeDocumentMoniker": "login.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\login.aspx",
+              "RelativeToolTip": "login.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T18:39:52.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "CadastroUsuario.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Restrito\\CadastroUsuario.aspx.cs",
+              "RelativeDocumentMoniker": "Restrito\\CadastroUsuario.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Restrito\\CadastroUsuario.aspx.cs",
+              "RelativeToolTip": "Restrito\\CadastroUsuario.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T17:53:26.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "RelatorioPowerBI.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Relatorios\\RelatorioPowerBI.aspx",
+              "RelativeDocumentMoniker": "Relatorios\\RelatorioPowerBI.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Relatorios\\RelatorioPowerBI.aspx",
+              "RelativeToolTip": "Relatorios\\RelatorioPowerBI.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T17:39:32.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
               "Title": "web.config",
               "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\web.config",
               "RelativeDocumentMoniker": "web.config",
               "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\web.config",
               "RelativeToolTip": "web.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAABkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-07-29T13:29:49.303Z",
+              "WhenOpened": "2025-07-30T18:16:25.93Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "web.config",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Restrito\\web.config",
+              "RelativeDocumentMoniker": "Restrito\\web.config",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Restrito\\web.config",
+              "RelativeToolTip": "Restrito\\web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-07-30T18:09:44.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "web.config",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\web.config",
+              "RelativeDocumentMoniker": "Encaminhamento\\web.config",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\web.config",
+              "RelativeToolTip": "Encaminhamento\\web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-07-30T17:40:35.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "web.config",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Relatorios\\web.config",
+              "RelativeDocumentMoniker": "Relatorios\\web.config",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Relatorios\\web.config",
+              "RelativeToolTip": "Relatorios\\web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-07-30T17:40:41.965Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Perfil.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\Perfil.aspx",
+              "RelativeDocumentMoniker": "Profile\\Perfil.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\Perfil.aspx",
+              "RelativeToolTip": "Profile\\Perfil.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T17:52:21.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "RelatorioPowerBI.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Relatorios\\RelatorioPowerBI.aspx.cs",
+              "RelativeDocumentMoniker": "Relatorios\\RelatorioPowerBI.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Relatorios\\RelatorioPowerBI.aspx.cs",
+              "RelativeToolTip": "Relatorios\\RelatorioPowerBI.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:05:55.615Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ComplementoUsuario.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\ComplementoUsuario.aspx",
+              "RelativeDocumentMoniker": "Profile\\ComplementoUsuario.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\ComplementoUsuario.aspx",
+              "RelativeToolTip": "Profile\\ComplementoUsuario.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T18:06:37.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Perfil.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\Perfil.aspx.cs",
+              "RelativeDocumentMoniker": "Profile\\Perfil.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\Perfil.aspx.cs",
+              "RelativeToolTip": "Profile\\Perfil.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:07:03.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ComplementoUsuario.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\ComplementoUsuario.aspx.cs",
+              "RelativeDocumentMoniker": "Profile\\ComplementoUsuario.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Profile\\ComplementoUsuario.aspx.cs",
+              "RelativeToolTip": "Profile\\ComplementoUsuario.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-30T18:06:47.908Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "web.config",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Manuais\\web.config",
+              "RelativeDocumentMoniker": "Manuais\\web.config",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Manuais\\web.config",
+              "RelativeToolTip": "Manuais\\web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-07-30T17:58:03.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "pedidosarquivados.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidosarquivados.aspx",
+              "RelativeDocumentMoniker": "Encaminhamento\\pedidosarquivados.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\pedidosarquivados.aspx",
+              "RelativeToolTip": "Encaminhamento\\pedidosarquivados.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T16:02:14.334Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "arquivomarcado.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\arquivomarcado.aspx",
+              "RelativeDocumentMoniker": "Encaminhamento\\arquivomarcado.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\Workspace_Atendimento_SAC_Ultimo\\Atendimento_\\Encaminhamento\\arquivomarcado.aspx",
+              "RelativeToolTip": "Encaminhamento\\arquivomarcado.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-07-30T16:00:25.804Z",
               "EditorCaption": ""
             }
           ]

@@ -148,9 +148,10 @@ public partial class publico_cadencaminhamento  :  BasePage
 
         p.outras_informacoes = txbOb.Text;
         p.solicitante = txbprofissional.Text.ToUpper();
-        p.usuario = System.Web.HttpContext.Current.User.Identity.Name.ToUpper();
+        p.usuario = Session["login"] != null ? Session["login"].ToString() : "desconhecido";
 
-         _cod_pedido = PedidoDAO.GravaPedidoConsulta(p.prontuario,p.nome_paciente, p.data_pedido, p.cod_especialidade, p.exames_solicitados, p.outras_informacoes, p.solicitante, p.usuario);
+
+        _cod_pedido = PedidoDAO.GravaPedidoConsulta(p.prontuario,p.nome_paciente, p.data_pedido, p.cod_especialidade, p.exames_solicitados, p.outras_informacoes, p.solicitante, p.usuario);
 
 
 

@@ -13,7 +13,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Data.SqlClient;
 
-public partial class publico_ComplementoUsuario : System.Web.UI.Page
+public partial class publico_ComplementoUsuario : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {

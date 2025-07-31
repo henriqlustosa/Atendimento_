@@ -6,7 +6,7 @@
     <title>Atendimento SAC</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link href="css/login_responsivo.css" rel="stylesheet" />
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+ 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>

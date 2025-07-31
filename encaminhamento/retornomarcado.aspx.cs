@@ -1,351 +1,112 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json;
-using System.Data.SqlClient;
+using System.Data;
+using System.Web.UI;
 using System.Collections.Generic;
 
-public partial class encaminhamento_retornomarcado : System.Web.UI.Page
+public partial class encaminhamento_retornomarcado : BasePage
 {
-    
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-           
-            select2.DataSource = ExamesUnicosDAO.listaExame();
-            select2.DataTextField = "descricao_exames_unico";
-            select2.DataValueField = "cod_exames_unico";
-            select2.DataBind();
+        //if (!IsPostBack)
+        //{
+        //    // Supondo que o código do pedido vem por querystring
+        //    if (!string.IsNullOrEmpty(Request.QueryString["cod"]))
+        //    {
+        //        int codPedido = int.Parse(Request.QueryString["cod"]);
+        //        CarregarDados(codPedido);
+        //    }
 
-            select1.DataSource = RessonanciaDAO.listaRessonancia();
-            select1.DataTextField = "descricao_ressonancia";
-            select1.DataValueField = "cod_ressonancia";
-            select1.DataBind();
-            
-            
-            Pedido pedido = new Pedido();
-
-            int _idPedido = Convert.ToInt32(Request.QueryString["idpedido"]);
-            // string _status = Request.QueryString["status"].ToString();
-
-            lbCodPedido.Text = _idPedido.ToString();
-
-            pedido = PedidoDAO.getPedidoConsulta(_idPedido);
-            txbNomePaciente.Text = pedido.nome_paciente;
-            txbProntuario.Text = pedido.prontuario.ToString();
-
-            if(pedido.status_pedido.Equals(0)){
-                 lbStatus.Text = "Aguardando Vaga.";
-            }
-            
-
-            txbdtPedido.Text = pedido.data_pedido.ToShortDateString(); ;
-            txbdtCadastrado.Text = pedido.data_cadastro.ToString();
-            txbEspecialidade.Text = pedido.descricao_espec;
-            txbSolicitante.Text = pedido.solicitante;
-            txbExamesSolicitados.Text = pedido.exames_solicitados;
-            txbOutrasInformacoes.Text = pedido.outras_informacoes;
-
-            btnGravar.Enabled = false;
-            List<ExameUnico> exames_escolhidos = new List<ExameUnico>();
-            exames_escolhidos = ExamesUnicosDAO.ObterListaDeExamesEscolhidos(_idPedido);
-
-            List<Ressonancia> ressonancia_escolhidos = new List<Ressonancia>();
-            ressonancia_escolhidos = RessonanciaDAO.ObterListaDeRessonanciasEscolhidos(_idPedido);
-
-            foreach (ExameUnico exame in exames_escolhidos)
-            {
-
-                select2.Items[exame.cod_exames_unico].Selected = true;
-                
-            }
-            foreach (Ressonancia ressonancia in ressonancia_escolhidos)
-            {
-
-                select1.Items[ressonancia.cod_ressonancia].Selected = true;
-
-            }
-
-        }
+        //    CarregarEspecialidades(); // ddlEspecialidade
+        //    CarregarSelects();        // select1 a select4
+        //}
     }
 
-    protected void btngetConsulta_Click(object sender, EventArgs e)
+    private void CarregarDados(int codPedido)
     {
-        ClearInputs();
-        int _nrConsulta = Convert.ToInt32(txbNrConsulta.Text);
-        int _pronntuario = Convert.ToInt32(txbProntuario.Text);
-        
+        // Aqui você acessa o banco para buscar os dados do pedido
+        //var pedido = PedidoDAO.ObterPedidoPorCodigo(codPedido);
 
-        ConsultaSGH consulta = new ConsultaSGH();
+        //if (pedido != null)
+        //{
+        //    txbProntuario.Text = pedido.Prontuario;
+        //    txbNomePaciente.Text = pedido.NomePaciente;
+        //    txbDtPedido.Text = pedido.DataPedido.ToString("dd/MM/yyyy");
+        //    ddlEspecialidade.SelectedValue = pedido.CodEspecialidade.ToString();
+        //    txbOb.Text = pedido.Observacoes;
+        //    txbprofissional.Text = pedido.Solicitante;
 
-        consulta = ConsultaSGHDAO.CarregaConsultaPaciente(_nrConsulta);
-
-
-        if (_pronntuario.Equals(consulta.cd_prontuario) && consulta.nm_especialidade != txbEspecialidade.Text )
-        {
-            lbMensagemConsulta.Text = "Especialidade da consulta é diferente deste Pedido!";
-            txbConMarcada.Text = consulta.cd_consulta.ToString();
-            txbProntMarcada.Text = consulta.cd_prontuario.ToString();
-            txbNPacienteMarcada.Text = consulta.nm_paciente;
-            txbDtConsultaMarcada.Text = consulta.dt_consulta;
-            txbEspecMarcada.Text = consulta.nm_especialidade;
-            txbEquipeMarcada.Text = consulta.nm_equipe;
-            txbProfissionalMarcada.Text = consulta.nm_profissional;
-
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "validaCampo()", true);
-            btnGravar.Enabled = true;
-        }else if (_pronntuario.Equals(consulta.cd_prontuario))
-        {
-            txbConMarcada.Text = consulta.cd_consulta.ToString();
-            txbProntMarcada.Text = consulta.cd_prontuario.ToString();
-            txbNPacienteMarcada.Text = consulta.nm_paciente;
-            txbDtConsultaMarcada.Text = consulta.dt_consulta;
-            txbEspecMarcada.Text = consulta.nm_especialidade;
-            txbEquipeMarcada.Text = consulta.nm_equipe;
-            txbProfissionalMarcada.Text = consulta.nm_profissional;
-
-            btnGravar.Enabled = true;
-        }
-        else if(consulta.cd_prontuario.Equals(0)){
-            lbMensagemConsulta.Text = "Registro de consulta não encontrado!";
-        }else
-        {
-            txbConMarcada.Text = consulta.cd_consulta.ToString();
-            lbMensagemConsulta.Text = "Número do prontuário da consulta é diferente deste Pedido!";
-            txbProntMarcada.Text = consulta.cd_prontuario.ToString();
-            txbNPacienteMarcada.Text = consulta.nm_paciente;
-            txbDtConsultaMarcada.Text = consulta.dt_consulta;
-            txbEspecMarcada.Text = consulta.nm_especialidade;
-            txbEquipeMarcada.Text = consulta.nm_equipe;
-            txbProfissionalMarcada.Text = consulta.nm_profissional;
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "validaCampo()", true);
-        }
+        //    // Carrega selects múltiplos com os valores salvos
+        //    PreencherSelectSelecionados(select1, pedido.CodigosRessonancia);
+        //    PreencherSelectSelecionados(select2, pedido.CodigosPreOperatorio);
+        //    PreencherSelectSelecionados(select3, pedido.CodigosTeleconsulta);
+        //    PreencherSelectSelecionados(select4, pedido.CodigosExamesUnicos);
+        //}
     }
 
-    protected void ClearInputs()
+    private void PreencherSelectSelecionados(ListControl select, List<int> selecionados)
     {
-        lbMensagemConsulta.Text = "";
-        txbConMarcada.Text = "";
-        txbProntMarcada.Text = "";
-        txbNPacienteMarcada.Text = "";
-        txbDtConsultaMarcada.Text = "";
-        txbEspecMarcada.Text = "";
-        txbEquipeMarcada.Text = "";
-        txbProfissionalMarcada.Text = "";
-        btnGravar.Enabled = false;
+    //    foreach (ListItem item in select.Items)
+    //    {
+    //        item.Selected = selecionados.Contains(int.Parse(item.Value));
+    //    }
     }
-    protected void btnArquivar_Click(object sender, EventArgs e)
+
+    private void CarregarEspecialidades()
     {
-        int _idPedido = Convert.ToInt32(Request.QueryString["idpedido"]);
-        List<ExameUnico> exames = new List<ExameUnico>();
-        for (int i = 0; i < select2.Items.Count; i++)
-        {
-            if (select2.Items[i].Selected)
-            {
-                ExameUnico exm = new ExameUnico();
-                exm.descricao_exames_unico = select2.Items[i].Text;
-                exm.cod_exames_unico = int.Parse(select2.Items[i].Value);
-                exames.Add(exm);
-            }
-        }
-        ExamesUnicosDAO.AtualizaExamesPorPedidos(exames, _idPedido);
-        List<Ressonancia> ressonancias = new List<Ressonancia>();
-        for (int i = 0; i < select1.Items.Count; i++)
-        {
-            if (select1.Items[i].Selected)
-            {
-                Ressonancia ress = new Ressonancia();
-                ress.descricao_ressonancia = select1.Items[i].Text;
-                ress.cod_ressonancia = int.Parse(select1.Items[i].Value);
-                ressonancias.Add(ress);
-            }
-        }
-        RessonanciaDAO.AtualizaRessonanciaPorPedidos(ressonancias, _idPedido);
+        //ddlEspecialidade.DataSource = EspecialidadeDAO.ListarTodas();
+        //ddlEspecialidade.DataTextField = "Descricao";
+        //ddlEspecialidade.DataValueField = "Codigo";
+        //ddlEspecialidade.DataBind();
+    }
 
-        string msg = PedidoDAO.AtualizaPedido(txbOutrasInformacoes.Text, _idPedido);
+    private void CarregarSelects()
+    {
+        // Supondo que você tem DAOs que retornam listas para cada categoria
+        //select1.DataSource = RessonanciaDAO.Listar();
+        //select2.DataSource = PreOperatorioDAO.Listar();
+        //select3.DataSource = TeleconsultaDAO.Listar();
+        //select4.DataSource = ExamesUnicosDAO.Listar();
 
-
-
-        PedidoDAO.filePedidodeConsulta(_idPedido);
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        sb.Append("$(document).ready(function(){");
-        sb.Append("$('#modalArquivar').modal();");
-        sb.Append("});");
-        ScriptManager.RegisterStartupScript(Page, this.Page.GetType(), "clientscript", sb.ToString(), true);
-        //  Response.Redirect("~/encaminhamento/pedidospendentes.aspx"); 
+        //foreach (var select in new[] { select1, select2, select3, select4 })
+        //{
+        //    select.DataTextField = "Descricao";
+        //    select.DataValueField = "Codigo";
+        //    select.DataBind();
+        //}
     }
 
     protected void btnGrava_Click(object sender, EventArgs e)
     {
-        int _idPedido = Convert.ToInt32(Request.QueryString["idpedido"]);
+        //int codPedido = int.Parse(Request.QueryString["cod"]);
 
+        //var pedido = new Pedido
+        //{
+        //    Codigo = codPedido,
+        //    DataPedido = DateTime.Parse(txbDtPedido.Text),
+        //    CodEspecialidade = int.Parse(ddlEspecialidade.SelectedValue),
+        //    Observacoes = txbOb.Text,
+        //    Solicitante = txbprofissional.Text,
+        //    CodigosRessonancia = ObterSelecionados(select1),
+        //    CodigosPreOperatorio = ObterSelecionados(select2),
+        //    CodigosTeleconsulta = ObterSelecionados(select3),
+        //    CodigosExamesUnicos = ObterSelecionados(select4)
+        //};
 
-        /*String msg = "";
-        ConsultaSGH consulta = new ConsultaSGH();
+        //PedidoDAO.Atualizar(pedido);
 
-        consulta.cd_consulta = Convert.ToInt32(txbConMarcada.Text);
-        consulta.cod_pedido = Convert.ToInt32(lbCodPedido.Text);
-        consulta.dt_consulta = txbDtConsultaMarcada.Text;
-        consulta.nm_especialidade = txbEspecMarcada.Text;
-        consulta.nm_equipe = txbEquipeMarcada.Text;
-        consulta.nm_profissional = txbProfissionalMarcada.Text;
-
-        msg = gravaConsultaMarcada(consulta.cd_consulta, consulta.cod_pedido, consulta.dt_consulta, consulta.nm_especialidade, consulta.nm_equipe, consulta.nm_profissional, System.Web.HttpContext.Current.User.Identity.Name.ToUpper());
-
-        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-        Response.Redirect("~/encaminhamento/pedidospendentesporrh.aspx");*/
-        List<ExameUnico> exames = new List<ExameUnico>();
-        for (int i = 0; i < select2.Items.Count ; i++)
-        {
-            if (select2.Items[i].Selected)
-            {
-                ExameUnico exm = new ExameUnico();
-                exm.descricao_exames_unico = select2.Items[i].Text;
-                exm.cod_exames_unico = int.Parse(select2.Items[i].Value);
-                exames.Add(exm);
-            }
-        }
-        ExamesUnicosDAO.AtualizaExamesPorPedidos(exames, _idPedido);
-
-
-        List<Ressonancia> ressonancias = new List<Ressonancia>();
-        for (int i = 0; i < select1.Items.Count; i++)
-        {
-            if (select1.Items[i].Selected)
-            {
-                Ressonancia ress = new Ressonancia();
-                ress.descricao_ressonancia = select1.Items[i].Text;
-                ress.cod_ressonancia = int.Parse(select1.Items[i].Value);
-                ressonancias.Add(ress);
-            }
-        }
-        RessonanciaDAO.AtualizaRessonanciaPorPedidos(ressonancias, _idPedido);
-
-        string msg = PedidoDAO.AtualizaPedido(txbOutrasInformacoes.Text , _idPedido);
-
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        sb.Append("$(document).ready(function(){");
-        sb.Append("$('#myModal').modal();");
-        sb.Append("});");
-        ScriptManager.RegisterStartupScript(Page, this.Page.GetType(), "clientscript", sb.ToString(), true);
-      //  Response.Redirect("~/encaminhamento/pedidospendentes.aspx"); 
+        //// Dispara o modal via script
+        //ScriptManager.RegisterStartupScript(this, this.GetType(), "modal", "$('#myModal').modal('show');", true);
     }
 
-   /* public static void gravaLog(string descript_log, string origem, string usuario)
-    {
-
-        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
-        {
-            SqlCommand cmm = new SqlCommand();
-            cmm.Connection = cnn;
-            cnn.Open();
-            SqlTransaction mt = cnn.BeginTransaction();
-            cmm.Transaction = mt;
-
-            try
-            {
-
-                cmm.CommandText = "Insert into log (description_log, origem, usuario, dt_gravacao)" +
-                       "values (@description_log, @origem, @usuario, @dt_gravacao)";
-
-                cmm.Parameters.Add("@description_log", SqlDbType.VarChar).Value = descript_log;
-                cmm.Parameters.Add("@origem", SqlDbType.VarChar).Value = origem;
-                cmm.Parameters.Add("@usuario", SqlDbType.VarChar).Value = usuario;
-                cmm.Parameters.Add("@dt_gravacao", SqlDbType.DateTime).Value = DateTime.Now;
-               
-                
-                cmm.ExecuteNonQuery();
-
-                mt.Commit();
-                mt.Dispose();
-                cnn.Close();
-               
-
-            }
-            catch (Exception ex)
-            {
-                string error = ex.Message;
-                try
-                {
-                    mt.Rollback();
-                }
-                catch (Exception ex1)
-                { }
-            }
-        }
-    }
-
-    
-
-    public string gravaConsultaMarcada(int _cod_consulta, int _cod_pedido, string _dt_consulta, string _especialidade, string _equipe, string _profissional, string usuario)
-    {
-        string msg = "";
-
-        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
-        {
-            SqlCommand cmm = new SqlCommand();
-            cmm.Connection = cnn;
-            cnn.Open();
-            SqlTransaction mt = cnn.BeginTransaction();
-            cmm.Transaction = mt;
-
-            try
-            {
-
-
-
-                cmm.CommandText = "Insert into marcada (cod_consulta, cod_pedido, dt_consulta, especialidade, equipe, profissional)" +
-                       "values (@cod_consulta, @cod_pedido, @dt_consulta, @especialidade, @equipe, @profissional)";
-
-                cmm.Parameters.Add("@cod_consulta", SqlDbType.Int).Value = _cod_consulta;
-                cmm.Parameters.Add("@cod_pedido", SqlDbType.Int).Value = _cod_pedido;
-                cmm.Parameters.Add("@dt_consulta", SqlDbType.DateTime).Value = Convert.ToDateTime(_dt_consulta);
-                cmm.Parameters.Add("@especialidade", SqlDbType.VarChar).Value = _especialidade;
-                cmm.Parameters.Add("@equipe", SqlDbType.VarChar).Value = _equipe;
-                cmm.Parameters.Add("@profissional", SqlDbType.VarChar).Value = _profissional;
-                
-                cmm.ExecuteNonQuery();
-
-               // Atualiza tabela de pedido de consulta
-                cmm.CommandText = "UPDATE pedido_consulta" +
-                        " SET status = 1 " +
-                        " WHERE  cod_pedido = @cod_ped";
-                cmm.Parameters.Add(new SqlParameter("@cod_ped", _cod_pedido));
-                cmm.ExecuteNonQuery();
-                
-                mt.Commit();
-                mt.Dispose();
-                cnn.Close();
-
-                gravaLog("INSERT: CONSULTA " + _cod_consulta + " CÓDIGO PEDIDO " +_cod_pedido, "TABELA MARCADA", usuario);
-                msg = "Cadastro realizado com sucesso!";
-
-            }
-            catch (Exception ex)
-            {
-                string error = ex.Message;
-                msg = error;
-                try
-                {
-                    mt.Rollback();
-                }
-                catch (Exception ex1)
-                { }
-            }
-        }
-
-        return msg;
-    }*/
+    //private List<int> ObterSelecionados(ListControl select)
+   // {
+        //var lista = new List<int>();
+        //foreach (ListItem item in select.Items)
+        //{
+        //    if (item.Selected)
+        //        lista.Add(int.Parse(item.Value));
+        //}
+        //return lista;
+   // }
 }

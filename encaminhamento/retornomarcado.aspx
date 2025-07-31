@@ -2,302 +2,186 @@
     CodeFile="retornomarcado.aspx.cs" Inherits="encaminhamento_retornomarcado" Title="HSPM ATENDIMENTO" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="https://cdn.jsdelivr.net/npm/icheck@1.0.2/skins/flat/green.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
+        .x_panel {
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #fff;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .x_title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .x_title i {
+            color: #007bff;
+        }
+
+        .form-control {
+            border-radius: 6px !important;
+        }
+
+        .chosen-container {
+            width: 100% !important;
+        }
+    </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
- <asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
-      <Scripts>
-       <asp:ScriptReference Path="../vendors/jquery/dist/jquery.js" />
-      </Scripts>
-     
-  </asp:ScriptManagerProxy>
 
-    <script src="../js/chosen.jquery.min.js" type="text/javascript"></script>
-    <!-- CDN for chosen plugin -->
-    <link href="../js/chosen.min.css" rel="stylesheet" type="text/css" />
-  
- 
-    <!-- <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>'
-        type="text/javascript"></script>
-    iCheck -->
-    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet" />
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+    <!-- Título -->
+    <div class="x_panel d-flex align-items-center" style="gap: 12px;">
+        <i class="fa-solid fa-stethoscope fa-xl"></i>
+        <h2 style="margin: 0;">Edição de Solicitação de Exame</h2>
+    </div>
+
+    <!-- Informações do Paciente -->
+    <div class="x_panel">
+        <div class="x_title"><i class="fa fa-user"></i> Informações do Paciente</div>
+        <div class="row">
+            <div class="col-md-9">
+                <label>Prontuário:</label>
+                <asp:TextBox ID="txbProntuario" CssClass="form-control numeric" runat="server" Enabled="false" />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label>Nome</label>
+                <asp:TextBox ID="txbNomePaciente" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações do Pedido -->
+    <div class="x_panel">
+        <div class="x_title"><i class="fa fa-file-text"></i> Informações do Pedido</div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Data do pedido</label>
+                <asp:TextBox ID="txbDtPedido" runat="server" CssClass="form-control"></asp:TextBox>
+            </div>
+            <div class="col-md-6">
+                <label>Especialidade</label>
+                <asp:DropDownList ID="ddlEspecialidade" runat="server" CssClass="form-control"></asp:DropDownList>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <asp:TextBox ID="txbOb" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Pré-Operatório -->
+    <div class="x_panel">
+        <div class="x_title"><i class="fa fa-plus-square"></i> Informações do Pré-Operatório</div>
+        <select id="select2" multiple class="form-control chosen-select" runat="server" clientidmode="Static"></select>
+    </div>
+
+    <!-- Ressonância -->
+    <div class="x_panel">
+        <div class="x_title"><i class="fa fa-vials"></i> Informações de Ressonância</div>
+        <select id="select1" multiple class="form-control chosen-select" runat="server" clientidmode="Static"></select>
+    </div>
+
+    <!-- Teleconsulta -->
+    <div class="x_panel">
+        <div class="x_title"><i class="fa fa-phone"></i> Informações de Teleconsulta</div>
+        <select id="select3" multiple class="form-control chosen-select" runat="server" clientidmode="Static"></select>
+    </div>
+
+    <!-- Exames Únicos -->
+    <div class="x_panel">
+        <div class="x_title"><i class="fa fa-vial"></i> Informações de Exames Únicos</div>
+        <select id="select4" multiple class="form-control chosen-select" runat="server" clientidmode="Static"></select>
+    </div>
+
+    <!-- Profissional -->
+    <div class="x_panel">
+        <div class="x_title"><i class="fa fa-user-md"></i> Solicitante</div>
+        <label>Médico/Profissional</label>
+        <asp:TextBox ID="txbprofissional" runat="server" CssClass="form-control"></asp:TextBox>
+    </div>
+
+    <!-- Botões -->
+    <div class="row text-center mb-5">
+        <asp:Button ID="btnGravar" runat="server" Text="Atualizar" CssClass="btn btn-primary btn-lg px-5" OnClick="btnGrava_Click" />
+    </div>
+
+    <!-- Modal Sucesso -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmação</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <h2>Pedido Atualizado com Sucesso.</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCloseModal" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/icheck@1.0.2/icheck.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
+            flatpickr("#<%= txbDtPedido.ClientID %>", {
+                dateFormat: "d/m/Y",
+                locale: {
+                    firstDayOfWeek: 1,
+                    weekdays: {
+                        shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                        longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
+                    },
+                    months: {
+                        shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                        longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+                    }
+                }
+            });
+
             $("input").attr("autocomplete", "off");
 
-            $('.numeric').keyup(function() {
+            $('input[type="checkbox"], input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass: 'iradio_flat-green'
+            });
+
+            $('.numeric').keyup(function () {
                 $(this).val(this.value.replace(/\D/g, ''));
             });
 
-            function validaEspecialidade() {
-                $(function() {
-                    $('.valida').css("border", "1px solid red");
-                });
-
-            }
-        });
-
-        function validaCampo() {
-            $(function() {
-                $('.valida').css("border", "1px solid red");
+            $(".chosen-select").chosen({
+                no_results_text: "Nada encontrado!",
+                placeholder_text_multiple: "Selecione uma ou mais opções"
             });
-        }
-        // Initiating the chosen plugin
-        $(document).ready(function() {
-            $("#<%=select1.ClientID %>").chosen();
-            $("#<%=select2.ClientID %>").chosen();
+
+            $("#btnCloseModal").click(function () {
+                location.href = 'cadencaminhamento.aspx';
+            });
         });
     </script>
-    <div class="x_panel">
-        <div class="x_title">
-            <h2>Editar Cadastro
-                <asp:Label ID="lbProntuario" runat="server" Text="" Style="color: Black"></asp:Label></h2>
-            <div class="clearfix">
-            </div>
-        </div>
-        <div class="container">
-            <div class="body">
-                <div class="form-group row">
-                    <label for="txbNomePaciente" class="col-sm-2 col-form-label">
-                        Nome Paciente:</label>
-                    <div class="col-sm-5">
-                        <asp:TextBox ID="txbNomePaciente" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                    <label for="txbProntuario" class="col-sm-1 col-form-label">
-                        Prontuário:</label>
-                    <div class="col-sm-2">
-                        <asp:TextBox ID="txbProntuario" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="lbCodPedido" class="col-sm-2 col-form-label">
-                        Código Pedido:</label>
-                    <div class="col-sm-10">
-                        <asp:Label ID="lbCodPedido" runat="server" Text=""></asp:Label>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="lbStatus" class="col-sm-2 col-form-label">
-                        Status:</label>
-                    <div class="col-sm-10">
-                        <asp:Label ID="lbStatus" runat="server" Text=""></asp:Label>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="txbdtPedido" class="col-sm-2 col-form-label">
-                        Data do Pedido:</label>
-                    <div class="col-sm-2">
-                        <asp:TextBox ID="txbdtPedido" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                    <label for="txbdtCadastrado" class="col-form-label">
-                        Data Cadastrada:</label>
-                    <div class="col-sm-2">
-                        <asp:TextBox ID="txbdtCadastrado" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="txbEspecialidade" class="col-sm-2 col-form-label">
-                        Especialidade:</label>
-                    <div class="col-sm-10">
-                        <asp:TextBox ID="txbEspecialidade" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="txbSolicitante" class="col-sm-2 col-form-label">
-                        Solicitante:</label>
-                    <div class="col-sm-10">
-                        <asp:TextBox ID="txbSolicitante" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <asp:Label ID="Label2" for="txbExamesSolicitados" runat="server" Text="Exames Solicitados:"></asp:Label>
-                    <asp:TextBox ID="txbExamesSolicitados" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <asp:Label ID="Label1" for="txbOutrasInformacoes" runat="server" Text="Outras Informações:"></asp:Label>
-                    <asp:TextBox ID="txbOutrasInformacoes" runat="server" Enabled="true" class="form-control"
-                        TextMode="MultiLine" Rows="5" required></asp:TextBox>
-                </div>
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Editar Informações dos Exames
-                         <asp:Label ID="Label4" runat="server" Text="" Style="color: Black"></asp:Label></h2>
-                        <div class="clearfix">
-                        </div>
-                    </div>
-                    <div class="w-30 p-3">
-
-                        <div>
-                            <div class="col-xs-9 col-xs-9 col-xs-12">
-                                <select   ID="select2"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Editar Informações da Ressonancia
-                         <asp:Label ID="Label3" runat="server" Text="" Style="color: Black"></asp:Label></h2>
-                        <div class="clearfix">
-                        </div>
-                    </div>
-                    <div class="w-30 p-3">
-
-                        <div>
-                            <div class="col-xs-9 col-xs-9 col-xs-12">
-                                 <select   ID="select1"    multiple  style="width:750px" runat="server" ClientIDMode="Static" ></select>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--div class="x_panel">
-        <div class="x_title">
-            <h2>Dados da Consulta Marcada
-               
-            <div class="clearfix">
-            </div>
-        </div>
-        <div class="container">
-            <div class="body">
-                <div class="form-group row">
-                    <label for="txbNrConsulta" class="col-sm-1 col-form-label">
-                        Número da Consulta:</label>
-                    <div class="col-sm-2">
-                        <asp:TextBox ID="txbNrConsulta" runat="server" class="form-control numeric"></asp:TextBox>
-                    </div>
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                        <asp:Button ID="btnPesquisa" class="btn btn-primary" runat="server" Text="Pesquisar"
-                            OnClick="btngetConsulta_Click" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 form-group">
-                        <asp:Label ID="lbMensagemConsulta" runat="server" Text="" ForeColor="Maroon"></asp:Label>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-sm-2 form-group">
-                        <asp:Label ID="lbConMarcada" for="txbConMarcada" runat="server" Text="Consulta:"></asp:Label>
-                        <asp:TextBox ID="txbConMarcada" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                    <div class="col-sm-2 form-group">
-                        <asp:Label ID="lbPront" for="txbProntMarcada" runat="server" Text="Prontuário:"></asp:Label>
-                        <asp:TextBox ID="txbProntMarcada" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-
-                    <div class="col-sm-6 form-group">
-                        <asp:Label ID="Label5" for="txbNPacienteMarcada" runat="server" Text="Nome Paciente:"></asp:Label>
-                        <asp:TextBox ID="txbNPacienteMarcada" runat="server" Enabled="false" class="form-control valida"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-2 form-group">
-                        <asp:Label ID="lbDtConsulta" for="txbDtConsultaMarcada" runat="server" Text="Data da Consulta:"></asp:Label>
-                        <asp:TextBox ID="txbDtConsultaMarcada" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                    <div class="col-sm-4 form-group">
-                        <asp:Label ID="lbEspec" for="txbEspecMarcada" runat="server" Text="Especialidade:"></asp:Label>
-                        <asp:TextBox ID="txbEspecMarcada" runat="server" Enabled="false" class="form-control valida"></asp:TextBox>
-                    </div>
-                    <div class="col-sm-4 form-group">
-                        <asp:Label ID="lbEquipeMarcada" for="txbEquipeMarcada" runat="server" Text="Equipe:"></asp:Label>
-                        <asp:TextBox ID="txbEquipeMarcada" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 form-group">
-                        <asp:Label ID="lbProfissional" for="txbProfissionalMarcada" runat="server" Text="Profissional:"></asp:Label>
-                        <asp:TextBox ID="txbProfissionalMarcada" runat="server" Enabled="false" class="form-control"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                        <asp:Button ID="btnGravar" class="btn btn-primary" runat="server" Text="Gravar" OnClick="btnGrava_Click" />
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    <div-->
-    <div class="row">
-         <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-            <asp:Button ID="btnArquivar" class="btn btn-warning" runat="server" Text="Arquivar" OnClick="btnArquivar_Click" />
-        </div>
-        
-                <!-- Modal -->
-                <div class="modal fade" id="modalArquivar" tabindex="-1" role="dialog" aria-hidden="true"
-                    data-keyboard="false" data-backdrop="static">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalArquivoTitulo">Cadastro</h5>
-                            </div>
-                            <div class="modal-body" align="center">
-                                <h2>Pedido Arquivado.</h2>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="btnArquivarModal" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#btnArquivarModal").click(function () {
-                            $(location).attr('href', 'cadencaminhamento.aspx');
-                        });
-                    });
-
-                </script>
-        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-            <asp:Button ID="Button1" class="btn btn-primary" runat="server" Text="Gravar" OnClick="btnGrava_Click" />
-        </div>
-        
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true"
-                    data-keyboard="false" data-backdrop="static">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Cadastro</h5>
-                            </div>
-                            <div class="modal-body" align="center">
-                                <h2>Pedido Atualizado.</h2>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="btnCloseModal" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#btnCloseModal").click(function () {
-                            $(location).attr('href', 'cadencaminhamento.aspx');
-                        });
-                    });
-
-                </script>
-        
-   
-  
-   
-  
-    </div>
 </asp:Content>
