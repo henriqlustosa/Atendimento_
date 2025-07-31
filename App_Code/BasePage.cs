@@ -9,6 +9,7 @@ public class BasePage : System.Web.UI.Page
         base.OnLoad(e);
 
         var perfis = HttpContext.Current.Session["perfis"] as List<int>;
+       
         var url = HttpContext.Current.Request.Url.AbsolutePath;
 
         if (perfis == null || !ControleAcessoDb.UsuarioTemAcesso(url, perfis))

@@ -11,13 +11,20 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-public partial class encaminhamento_pedidosarquivados : System.Web.UI.Page
+public partial class encaminhamento_pedidosarquivados : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        GridView1.DataSource = PedidoDAO.getListaPedidoConsultaArquivados();
-        GridView1.DataBind();
+        if (!IsPostBack)
+        {
+            // Define the header row for the GridView
+            GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
+            // Bind the data to the GridView
+            GridView1.DataSource = PedidoDAO.getListaPedidoConsultaArquivados();
+            GridView1.DataBind();
+        }
     }
+   
 
     protected void grdMain_RowCommand(object sender, GridViewCommandEventArgs e)
     {
@@ -32,7 +39,7 @@ public partial class encaminhamento_pedidosarquivados : System.Web.UI.Page
             //string _status = row.Cells[7].Text;
 
             // Response.Redirect("~/encaminhamento/pedidosarquivados.aspx" + _id_pedido);
-             Response.Redirect("~/encaminhamento/pedidosarquivados.aspx");
+             Response.Redirect("~/Encaminhamento/pedidosarquivados.aspx");
         }
         if (e.CommandName.Equals("viewRecord"))
         {
@@ -44,7 +51,7 @@ public partial class encaminhamento_pedidosarquivados : System.Web.UI.Page
 
             //Response.Redirect("~/encaminhamento/retornomarcado.aspx?idpedido=" + _id_pedido + "");
 
-            Response.Redirect("~/encaminhamento/arquivomarcado.aspx?idpedido=" + _id_pedido + "");
+            Response.Redirect("~/Encaminhamento/arquivomarcado.aspx?idpedido=" + _id_pedido + "");
            
             //string _status = row.Cells[7].Text;
            

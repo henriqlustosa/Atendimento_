@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 
-public partial class encaminhamento_arquivomarcado : System.Web.UI.Page
+public partial class encaminhamento_arquivomarcado : BasePage
 {
     
     protected void Page_Load(object sender, EventArgs e)

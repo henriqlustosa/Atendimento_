@@ -10,8 +10,9 @@
     <!-- Bootstrap + FontAwesome -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    <!-- Estilo Integrado com Página de Cadastro -->
+        <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -124,21 +125,31 @@
             font-size: 20px;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsividade */
         @media (max-width: 768px) {
             #sidebar {
                 position: absolute;
                 height: 100vh;
-                z-index: 1050;
+                left: -250px;
+                transition: left 0.3s ease;
+            }
+
+            #sidebar.mobile-visible {
+                left: 0 !important;
+            }
+
+            #sidebar.collapsed {
+                width: 250px;
             }
 
             #content {
                 margin-left: 0 !important;
             }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -199,8 +210,7 @@
         </div>
     </form>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('.child-menu').hide();
@@ -241,22 +251,35 @@
             });
 
             $('#toggleSidebar').click(function () {
-                $('#sidebar').toggleClass('collapsed');
-                if ($('#sidebar').hasClass('collapsed')) {
-                    $('.child-menu').hide();
-                    $('.menu-toggle').parent().removeClass('active');
-                    $('.menu-toggle').removeClass('open');
+                const isMobile = window.innerWidth <= 768;
+
+                if (isMobile) {
+                    $('#sidebar').toggleClass('mobile-visible');
                 } else {
-                    const lastMenuTitle = localStorage.getItem('menuAtivo');
-                    if (lastMenuTitle) {
-                        $('.menu-toggle').each(function () {
-                            if ($(this).attr('title') === lastMenuTitle) {
-                                $(this).parent().addClass('active');
-                                $(this).addClass('open');
-                                $(this).next('.child-menu').slideDown(200);
-                            }
-                        });
+                    $('#sidebar').toggleClass('collapsed');
+                    if ($('#sidebar').hasClass('collapsed')) {
+                        $('.child-menu').hide();
+                        $('.menu-toggle').parent().removeClass('active');
+                        $('.menu-toggle').removeClass('open');
+                    } else {
+                        const lastMenuTitle = localStorage.getItem('menuAtivo');
+                        if (lastMenuTitle) {
+                            $('.menu-toggle').each(function () {
+                                if ($(this).attr('title') === lastMenuTitle) {
+                                    $(this).parent().addClass('active');
+                                    $(this).addClass('open');
+                                    $(this).next('.child-menu').slideDown(200);
+                                }
+                            });
+                        }
                     }
+                }
+            });
+
+            $(document).click(function (e) {
+                const target = $(e.target);
+                if (!target.closest('#sidebar').length && !target.closest('#toggleSidebar').length && window.innerWidth <= 768) {
+                    $('#sidebar').removeClass('mobile-visible');
                 }
             });
         });

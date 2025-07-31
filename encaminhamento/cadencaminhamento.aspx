@@ -58,51 +58,9 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/icheck@1.0.2/icheck.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            flatpickr("#<%= txbDtPedido.ClientID %>", {
-                dateFormat: "d/m/Y",
-                locale: {
-                    firstDayOfWeek: 1,
-                    weekdays: {
-                        shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-                        longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
-                    },
-                    months: {
-                        shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                        longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                    },
-                }
-            });
-
-            $("input").attr("autocomplete", "off");
-
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_flat-green',
-                radioClass: 'iradio_flat-green',
-                increaseArea: '20%'
-            });
-
-            $('.numeric').keyup(function () {
-                $(this).val(this.value.replace(/\D/g, ''));
-            });
-
-            $(".chosen-select").chosen({
-                no_results_text: "Nada encontrado!",
-                placeholder_text_multiple: "Selecione uma ou mais opções"
-            });
-
-            $("#btnCloseModal").click(function () {
-                $(location).attr('href', 'cadencaminhamento.aspx');
-            });
-        });
-    </script>
+   
 
     <!-- Título com ícone -->
     <div class="x_panel d-flex align-items-center" style="gap: 12px;">
@@ -203,4 +161,56 @@
             </div>
         </div>
     </div>
+      <!-- Scripts -->
+  <!-- Plugins (após jQuery da MasterPage) -->
+<script src="https://cdn.jsdelivr.net/npm/icheck@1.0.2/icheck.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Flatpickr na textbox de data
+        flatpickr("#<%= txbDtPedido.ClientID %>", {
+            dateFormat: "d/m/Y",
+            locale: {
+                firstDayOfWeek: 1,
+                weekdays: {
+                    shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                    longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
+                },
+                months: {
+                    shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+                }
+            }
+        });
+
+        // Desativa autocomplete em inputs
+        $("input").attr("autocomplete", "off");
+
+        // Ativa iCheck nos inputs que forem do tipo checkbox ou radio (caso existam)
+        $('input[type="checkbox"], input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green',
+            increaseArea: '20%' // optional
+        });
+
+        // Somente números
+        $('.numeric').keyup(function () {
+            $(this).val(this.value.replace(/\D/g, ''));
+        });
+
+        // Chosen nos selects múltiplos
+        $(".chosen-select").chosen({
+            no_results_text: "Nada encontrado!",
+            placeholder_text_multiple: "Selecione uma ou mais opções"
+        });
+
+        // Fecha modal e recarrega a página
+        $("#btnCloseModal").click(function () {
+            location.href = 'cadencaminhamento.aspx';
+        });
+    });
+</script>
+
 </asp:Content>

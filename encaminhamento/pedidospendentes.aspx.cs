@@ -11,12 +11,19 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-public partial class encaminhamento_pedidospendentes : System.Web.UI.Page
+public partial class encaminhamento_pedidospendentes : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
-    {
-        GridView1.DataSource = PedidoDAO.getListaPedidoConsultaPendente();
-        GridView1.DataBind();
+    { 
+        if (!IsPostBack)
+        {  
+            // Bind the data to the GridView
+            GridView1.DataSource = PedidoDAO.getListaPedidoConsultaPendente();
+            GridView1.DataBind();
+          
+            
+        }
+   
     }
 
     protected void grdMain_RowCommand(object sender, GridViewCommandEventArgs e)
