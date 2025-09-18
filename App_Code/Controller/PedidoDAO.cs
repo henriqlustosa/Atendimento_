@@ -90,7 +90,7 @@ public class PedidoDAO
                 if  (dr1.Read())
                 {
                     
-                    Pedido p = new Pedido();
+                    Pedido_ p = new Pedido_();
                     p.cod_pedido = dr1.GetInt32(0);
                     _codPedido = p.cod_pedido;
 
@@ -110,9 +110,9 @@ public class PedidoDAO
         return _codPedido;
     }
 
-    public static List<Pedido> getListaPedidoConsultaPendentePorRH(int _prontuario)
+    public static List<Pedido_> getListaPedidoConsultaPendentePorRH(int _prontuario)
     {
-        var listaPedidos = new List<Pedido>();
+        var listaPedidos = new List<Pedido_>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
@@ -144,7 +144,7 @@ public class PedidoDAO
                 while (dr1.Read())
                 {
                     Especialidade espec = new Especialidade();
-                    Pedido p = new Pedido();
+                    Pedido_ p = new Pedido_();
                     p.cod_pedido = dr1.GetInt32(0);
                     p.prontuario = dr1.GetInt32(1);
                     p.nome_paciente = dr1.GetString(2);
@@ -172,9 +172,9 @@ public class PedidoDAO
         }
     }
 
-    public static List<Pedido> getListaPedidoConsultaPendente()
+    public static List<Pedido_> getListaPedidoConsultaPendente()
     {
-        var listaPedidos = new List<Pedido>();
+        var listaPedidos = new List<Pedido_>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
@@ -204,7 +204,7 @@ public class PedidoDAO
                 while (dr1.Read())
                 {
                     Especialidade espec = new Especialidade();
-                    Pedido p = new Pedido();
+                    Pedido_ p = new Pedido_();
                     p.cod_pedido = dr1.GetInt32(0);
                     p.lista_exames = obterListaDeExames(p.cod_pedido);
                     p.lista_ressonancia = obterListaDeRessonancia(p.cod_pedido);
@@ -231,9 +231,9 @@ public class PedidoDAO
             return listaPedidos;
         }
     }
-    public static List<Pedido> getListaPedidoConsultaArquivados()
+    public static List<Pedido_> getListaPedidoConsultaArquivados()
     {
-        var listaPedidos = new List<Pedido>();
+        var listaPedidos = new List<Pedido_>();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
@@ -264,7 +264,7 @@ public class PedidoDAO
                 while (dr1.Read())
                 {
                     Especialidade espec = new Especialidade();
-                    Pedido p = new Pedido();
+                    Pedido_ p = new Pedido_();
                     p.cod_pedido = dr1.GetInt32(0);
                     p.lista_exames = obterListaDeExames(p.cod_pedido);
                     p.lista_ressonancia = obterListaDeRessonancia(p.cod_pedido);
@@ -372,10 +372,10 @@ public class PedidoDAO
         return list;
     }
 
-    public static Pedido getPedidoConsulta(int _idPedido)
+    public static Pedido_     getPedidoConsulta(int _idPedido)
     {
         Especialidade espec = new Especialidade();
-        Pedido pedido = new Pedido();
+        Pedido_ pedido = new Pedido_();
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();

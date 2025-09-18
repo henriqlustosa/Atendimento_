@@ -13,7 +13,7 @@ using System.Xml.Linq;
 /// <summary>
 /// Summary description for Pedido
 /// </summary>
-public class Pedido: Especialidade
+public class Pedido_: Especialidade
 {
     public int cod_pedido { get; set; }
     public int prontuario { get; set; }

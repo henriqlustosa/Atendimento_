@@ -1,69 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Net;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Newtonsoft.Json;
+
+using Hspm.CadEncaminhamento.Domain;
+using Hspm.CadEncaminhamento.Application;
+using Hspm.CadEncaminhamento;
 
 public partial class publico_cadencaminhamento : BasePage
 {
-    // ============================ PAGE LOAD ============================
+    private readonly IPacienteGateway _pacientes;
+    private readonly IEspecialidadeCatalog _especialidades;
+    private readonly IExameCatalog _exames;
+    private readonly IGravarPedidoHandler _gravarPedido;
+
+    public publico_cadencaminhamento()
+    {
+        _pacientes = CompositionRoot.Pacientes;
+        _especialidades = CompositionRoot.Especialidades;
+        _exames = CompositionRoot.Exames;
+        _gravarPedido = CompositionRoot.GravarPedido;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (IsPostBack) return;
 
-        BindDropDown(ddlEspecialidade,
-            EspecialidadeDAO.listaEspecialidade(), "descricao_espec", "cod_especialidade");
+        BindDropDown(ddlEspecialidade, _especialidades.Listar());
+        BindHtmlSelect(select2, _exames.ListarPreOperatorio());
+        BindHtmlSelect(select1, _exames.ListarRessonancia());
+        BindHtmlSelect(select3, _exames.ListarTeleconsulta());
+        BindHtmlSelect(select4, _exames.ListarExamesUnicos());
 
-        BindHtmlSelect(select2, PreOperatorioDAO.listaExame(),
-            "descricao_pre_operatorio", "cod_pre_operatorio");
-
-        BindHtmlSelect(select1, RessonanciaDAO.listaRessonancia(),
-            "descricao_ressonancia", "cod_ressonancia");
-
-        BindHtmlSelect(select3, TeleConsultaDAO.listaExame(),
-            "descricao_teleconsulta", "cod_teleconsulta");
-
-        BindHtmlSelect(select4, ExamesUnicosDAO.listaExame(),
-            "descricao_exames_unico", "cod_exames_unico");
+        if (ddlEspecialidade.Items.Count == 0 || ddlEspecialidade.Items[0].Value != "")
+            ddlEspecialidade.Items.Insert(0, new ListItem("Selecione...", ""));
+        ddlEspecialidade.SelectedIndex = 0;
     }
 
-    // Presume que no ASPX o DropDownList tem AppendDataBoundItems="true"
-    // e (opcionalmente) já contém <asp:ListItem Text="Selecione..." Value="" />
-    private static void BindDropDown(ListControl ddl, object data, string textField, string valueField)
+    private static void BindDropDown(ListControl ddl, IList<ListItemDto> data)
     {
-        // NÃO limpar para preservar o placeholder existente no markup
-        ddl.DataSource = data;
-        ddl.DataTextField = textField;
-        ddl.DataValueField = valueField;
-        ddl.DataBind();
-
-        // Garante que o placeholder exista e fique no topo/selecionado
-        if (ddl.Items.Count == 0 || ddl.Items[0].Value != "")
-            ddl.Items.Insert(0, new ListItem("Selecione...", ""));
-
-        ddl.ClearSelection();
-        ddl.Items[0].Selected = true;
+        ddl.Items.Clear();
+        ddl.Items.Add(new ListItem("Selecione...", ""));
+        int i;
+        for (i = 0; i < data.Count; i++)
+            ddl.Items.Add(new ListItem(data[i].Text, data[i].Value.ToString(CultureInfo.InvariantCulture)));
+        ddl.SelectedIndex = 0;
     }
 
-    private static void BindHtmlSelect(HtmlSelect sel, object data, string textField, string valueField)
+    private static void BindHtmlSelect(HtmlSelect sel, IList<ListItemDto> data)
     {
         sel.Items.Clear();
-        sel.DataSource = data;
-        sel.DataTextField = textField;
-        sel.DataValueField = valueField;
-        sel.DataBind();
+        int i;
+        for (i = 0; i < data.Count; i++)
+            sel.Items.Add(new ListItem(data[i].Text, data[i].Value.ToString(CultureInfo.InvariantCulture)));
         RemoveDuplicateByText(sel.Items);
     }
 
-    // Remove itens duplicados por TEXTO (case-insensitive)
     private static void RemoveDuplicateByText(ListItemCollection items)
     {
-        HashSet<string> seen = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
-        for (int i = items.Count - 1; i >= 0; i--)
+        System.Collections.Generic.HashSet<string> seen =
+            new System.Collections.Generic.HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+
+        int i;
+        for (i = items.Count - 1; i >= 0; i--)
         {
             string t = (items[i].Text ?? "").Trim();
             if (t.Length == 0 || !seen.Add(t))
@@ -71,16 +72,9 @@ public partial class publico_cadencaminhamento : BasePage
         }
     }
 
-    // ======================== BUSCA PACIENTE ===========================
     protected void btnPesquisapaciente_Click(object sender, EventArgs e)
     {
         txbNomePaciente.Text = "";
-
-        if (IsNullOrWhiteSpace(txbProntuario.Text))
-        {
-            AddPageError("Informe o prontuário.");
-            return;
-        }
 
         int prontuario;
         if (!int.TryParse(txbProntuario.Text, out prontuario))
@@ -89,223 +83,158 @@ public partial class publico_cadencaminhamento : BasePage
             return;
         }
 
-        Paciente p = CarregaDadosPaciente(prontuario);
-        if (p == null || IsNullOrWhiteSpace(p.Nm_nome))
+        PacienteDto p = _pacientes.ObterPorProntuario(prontuario);
+        if (p == null || string.IsNullOrEmpty(p.Nome))
         {
             AddPageError("Paciente não encontrado.");
             return;
         }
 
-        txbNomePaciente.Text = (p.Nm_nome ?? "").ToUpperInvariant();
+        txbNomePaciente.Text = p.Nome.ToUpperInvariant();
     }
 
-    public Paciente CarregaDadosPaciente(int prontuario)
-    {
-        try
-        {
-            string uri = "http://10.48.21.64:5000/hspmsgh-api/pacientes/paciente/" + prontuario;
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri);
-            using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
-            {
-                if (resp.StatusCode != HttpStatusCode.OK) return null;
-                using (StreamReader reader = new StreamReader(resp.GetResponseStream()))
-                {
-                    string json = reader.ReadToEnd();
-                    return JsonConvert.DeserializeObject<Paciente>(json);
-                }
-            }
-        }
-        catch { return null; }
-    }
-
-    // =========== CustomValidator: algum exame (qualquer grupo) =========
     protected void cvAlgumExame_ServerValidate(object source, ServerValidateEventArgs args)
     {
-        List<HtmlSelect> grupos = GetExamSelects();
-        args.IsValid = HasAnySelection(grupos);
+        args.IsValid = HasAnySelection(select2, select1, select3, select4);
     }
 
-    private static bool HasAnySelection(IEnumerable<HtmlSelect> selects)
+    protected void btnGravar_Click(object sender, EventArgs e)
     {
-        foreach (HtmlSelect s in selects)
+        int prontuario, codEsp;
+        DateTime dtPedido;
+
+        if (!TryValidateInputs(out prontuario, out dtPedido, out codEsp))
+            return;
+
+        string historicoTodosExames = JoinSelectedTexts(select1, select2, select3, select4);
+
+        GravarPedidoCommand cmd = new GravarPedidoCommand();
+        cmd.Prontuario = prontuario;
+        cmd.NomePaciente = txbNomePaciente.Text.Trim().ToUpperInvariant();
+        cmd.DataPedido = dtPedido;
+        cmd.CodEspecialidade = codEsp;
+        cmd.OutrasInformacoes = txbOb.Text;
+        cmd.Solicitante = (txbprofissional.Text ?? "").Trim().ToUpperInvariant();
+        cmd.Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString();
+        cmd.ExamesPreOpTextoParaHistorico = historicoTodosExames;
+        cmd.Exames = BuildExamesSelecionados();
+
+        try
         {
-            foreach (ListItem it in s.Items)
-                if (it.Selected) return true;
+            int id = _gravarPedido.Handle(cmd);
+
+            ScriptManager.RegisterStartupScript(
+                Page, GetType(), "ok",
+                "$(function(){ $('#myModal').modal(); });",
+                true
+            );
         }
-        return false;
+        catch (ApplicationException ex)
+        {
+            AddPageError(ex.Message.Replace("\n", "<br/>"));
+        }
+        catch
+        {
+            AddPageError("Ocorreu um erro ao gravar o pedido. Tente novamente.");
+        }
     }
 
-    // Descobre todos os <select runat="server" data-exam="true">
-    private List<HtmlSelect> GetExamSelects()
+    private bool TryValidateInputs(out int prontuario, out DateTime dtPedido, out int codEsp)
     {
-        List<HtmlSelect> list = new List<HtmlSelect>();
-        CollectExamSelects(this, list);
+        prontuario = 0;
+        dtPedido = default(DateTime);
+        codEsp = 0;
+
+        txbProntuario.Text = (txbProntuario.Text ?? "").Trim();
+        txbDtPedido.Text = (txbDtPedido.Text ?? "").Trim();
+        txbNomePaciente.Text = (txbNomePaciente.Text ?? "").Trim();
+        txbprofissional.Text = (txbprofissional.Text ?? "").Trim();
+
+        if (!Page.IsValid)
+            AddPageError("Existem campos obrigatórios não preenchidos ou inválidos.");
+
+        System.Collections.Generic.List<string> errors = new System.Collections.Generic.List<string>();
+
+        if (!TryGetIntPositive(txbProntuario.Text, out prontuario))
+            errors.Add("Prontuário inválido.");
+
+        if (!TryParseDatePtBr(txbDtPedido.Text, out dtPedido))
+            errors.Add("Data do pedido inválida.");
+
+        if (!TryGetIntPositive(ddlEspecialidade.SelectedValue, out codEsp))
+            errors.Add("Selecione a especialidade.");
+
+        if (!HasAnySelection(select2, select1, select3, select4))
+            errors.Add("Selecione pelo menos um item em Pré-operatório, Ressonância, Teleconsulta ou Exames Únicos.");
+
+        if (string.IsNullOrEmpty(txbNomePaciente.Text))
+            errors.Add("Pesquise o paciente para preencher o nome.");
+
+        if (!Page.IsValid || errors.Count > 0)
+        {
+            int i;
+            for (i = 0; i < errors.Count; i++) AddPageError(errors[i]);
+            return false;
+        }
+
+        return true;
+    }
+
+    private System.Collections.Generic.IList<ExameSelecionado> BuildExamesSelecionados()
+    {
+        System.Collections.Generic.List<ExameSelecionado> list = new System.Collections.Generic.List<ExameSelecionado>();
+        AddFromSelect(list, select2, "PreOp");
+        AddFromSelect(list, select1, "Ressonancia");
+        AddFromSelect(list, select3, "Teleconsulta");
+        AddFromSelect(list, select4, "Unico");
         return list;
     }
 
-    private static void CollectExamSelects(Control root, List<HtmlSelect> acc)
+    private static void AddFromSelect(System.Collections.Generic.IList<ExameSelecionado> list, HtmlSelect s, string grupo)
     {
-        for (int i = 0; i < root.Controls.Count; i++)
-        {
-            Control c = root.Controls[i];
-            HtmlSelect sel = c as HtmlSelect;
-            if (sel != null)
-            {
-                string flag = sel.Attributes["data-exam"];
-                if (!string.IsNullOrEmpty(flag) && string.Equals(flag, "true", StringComparison.OrdinalIgnoreCase))
-                    acc.Add(sel);
-            }
-            if (c.HasControls())
-                CollectExamSelects(c, acc);
-        }
-    }
-
-    // ============================== SALVAR =============================
-    protected void btnGravar_Click(object sender, EventArgs e)
-    {
-        // espelha validações do front
-        if (!Page.IsValid) return;
-
-        int prontuario;
-        if (!int.TryParse(txbProntuario.Text, out prontuario))
-        {
-            AddPageError("Prontuário inválido.");
-            return;
-        }
-
-        if (IsNullOrWhiteSpace(txbNomePaciente.Text))
-        {
-            AddPageError("Pesquise o paciente para preencher o nome.");
-            return;
-        }
-
-        DateTime dtPedido;
-        if (!TryParseDatePtBr(txbDtPedido.Text, out dtPedido))
-        {
-            AddPageError("Data do pedido inválida.");
-            return;
-        }
-
-        if (IsNullOrWhiteSpace(ddlEspecialidade.SelectedValue))
-        {
-            AddPageError("Selecione a especialidade.");
-            return;
-        }
-
-        if (!HasAnySelection(GetExamSelects()))
-        {
-            AddPageError("Selecione pelo menos um item em Pré-operatório, Ressonância, Teleconsulta ou Exames Únicos.");
-            return;
-        }
-
-        // Pedido (string com os pré-operatórios para histórico)
-        string examesPreOpStr = JoinSelectedTexts(select2);
-
-        Pedido pedido = new Pedido();
-        pedido.prontuario = prontuario;
-        pedido.nome_paciente = (txbNomePaciente.Text ?? "").Trim().ToUpperInvariant();
-        pedido.data_pedido = dtPedido;
-        pedido.cod_especialidade = Convert.ToInt32(ddlEspecialidade.SelectedValue);
-        pedido.exames_solicitados = examesPreOpStr;
-        pedido.outras_informacoes = txbOb.Text;
-        pedido.solicitante = (txbprofissional.Text ?? "").ToUpperInvariant();
-        pedido.usuario = Session["login"] != null ? Session["login"].ToString() : "desconhecido";
-
-        int codPedido = PedidoDAO.GravaPedidoConsulta(
-            pedido.prontuario, pedido.nome_paciente, pedido.data_pedido,
-            pedido.cod_especialidade, pedido.exames_solicitados,
-            pedido.outras_informacoes, pedido.solicitante, pedido.usuario);
-
-        // Coleções selecionadas (sem LINQ)
-        List<PreOperatorio> preOps = ToPreOps(BuildPairs(select2));
-        List<Ressonancia> ressons = ToRessons(BuildPairs(select1));
-        List<TeleConsulta> teles = ToTeles(BuildPairs(select3));
-        List<ExameUnico> unicos = ToUnicos(BuildPairs(select4));
-
-        // Grava relações
-        ExamesUnicosDAO.GravaExamesPorPedidos(unicos, codPedido);
-        TeleConsultaDAO.GravaExamesPorPedidos(teles, codPedido);
-        PreOperatorioDAO.GravaExamesPorPedidos(preOps, codPedido);
-        RessonanciaDAO.GravaRessonanciaPorPedidos(ressons, codPedido);
-
-        // Modal de sucesso
-        ScriptManager.RegisterStartupScript(Page, GetType(), "ok",
-            "$(function(){ $('#myModal').modal(); });", true);
-    }
-
-    // ============================ HELPERS ==============================
-    private static string JoinSelectedTexts(HtmlSelect s)
-    {
-        List<string> parts = new List<string>();
-        foreach (ListItem it in s.Items)
-            if (it.Selected) parts.Add(it.Text);
-        return string.Join(", ", parts.ToArray());
-    }
-
-    // Converte HtmlSelect -> lista (codigo, texto)
-    private static List<KeyValuePair<int, string>> BuildPairs(HtmlSelect s)
-    {
-        List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>>();
         foreach (ListItem it in s.Items)
         {
             if (!it.Selected) continue;
-            int code = SafeInt(it.Value);
-            string text = it.Text;
-            list.Add(new KeyValuePair<int, string>(code, text));
+            int code;
+            int.TryParse(it.Value, out code);
+            list.Add(new ExameSelecionado(code, it.Text, grupo));
         }
-        return list;
     }
 
-    private static List<PreOperatorio> ToPreOps(List<KeyValuePair<int, string>> pairs)
+    private static string JoinSelectedTexts(params HtmlSelect[] selects)
     {
-        List<PreOperatorio> list = new List<PreOperatorio>();
-        for (int i = 0; i < pairs.Count; i++)
+        System.Collections.Generic.List<string> parts = new System.Collections.Generic.List<string>();
+        int i; int j;
+        for (i = 0; i < selects.Length; i++)
         {
-            PreOperatorio po = new PreOperatorio();
-            po.cod_pre_operatorio = pairs[i].Key;
-            po.descricao_pre_operatorio = pairs[i].Value;
-            list.Add(po);
+            HtmlSelect s = selects[i];
+            for (j = 0; j < s.Items.Count; j++)
+            {
+                ListItem it = s.Items[j];
+                if (it.Selected) parts.Add(it.Text);
+            }
         }
-        return list;
+        return string.Join(", ", parts.ToArray());
     }
 
-    private static List<Ressonancia> ToRessons(List<KeyValuePair<int, string>> pairs)
+    private static bool TryGetIntPositive(string input, out int value)
     {
-        List<Ressonancia> list = new List<Ressonancia>();
-        for (int i = 0; i < pairs.Count; i++)
-        {
-            Ressonancia r = new Ressonancia();
-            r.cod_ressonancia = pairs[i].Key;
-            r.descricao_ressonancia = pairs[i].Value;
-            list.Add(r);
-        }
-        return list;
+        if (int.TryParse(input, out value) && value > 0) return true;
+        value = 0; return false;
     }
 
-    private static List<TeleConsulta> ToTeles(List<KeyValuePair<int, string>> pairs)
+    private static bool HasAnySelection(params HtmlSelect[] selects)
     {
-        List<TeleConsulta> list = new List<TeleConsulta>();
-        for (int i = 0; i < pairs.Count; i++)
+        int i; int j;
+        for (i = 0; i < selects.Length; i++)
         {
-            TeleConsulta t = new TeleConsulta();
-            t.cod_teleconsulta = pairs[i].Key;
-            t.descricao_teleconsulta = pairs[i].Value;
-            list.Add(t);
+            HtmlSelect s = selects[i];
+            for (j = 0; j < s.Items.Count; j++)
+            {
+                if (s.Items[j].Selected) return true;
+            }
         }
-        return list;
-    }
-
-    private static List<ExameUnico> ToUnicos(List<KeyValuePair<int, string>> pairs)
-    {
-        List<ExameUnico> list = new List<ExameUnico>();
-        for (int i = 0; i < pairs.Count; i++)
-        {
-            ExameUnico u = new ExameUnico();
-            u.cod_exames_unico = pairs[i].Key;
-            u.descricao_exames_unico = pairs[i].Value;
-            list.Add(u);
-        }
-        return list;
+        return false;
     }
 
     private static bool TryParseDatePtBr(string input, out DateTime result)
@@ -313,21 +242,11 @@ public partial class publico_cadencaminhamento : BasePage
         input = (input ?? "").Trim();
         string[] formats = new string[] { "d/M/yyyy", "dd/MM/yyyy" };
         return DateTime.TryParseExact(
-            input, formats, CultureInfo.GetCultureInfo("pt-BR"),
-            DateTimeStyles.None, out result);
+            input, formats, new CultureInfo("pt-BR"),
+            DateTimeStyles.None, out result
+        );
     }
 
-    private static int SafeInt(string val)
-    {
-        int n; int.TryParse(val, out n); return n;
-    }
-
-    private static bool IsNullOrWhiteSpace(string s)
-    {
-        return string.IsNullOrEmpty(s) || s.Trim().Length == 0;
-    }
-
-    // Adiciona erro ao ValidationSummary (ValidationGroup="Salvar")
     private void AddPageError(string message)
     {
         CustomValidator cv = new CustomValidator();

@@ -35,7 +35,7 @@ public partial class encaminhamento_arquivomarcado : BasePage
             select1.DataBind();
             
             
-            Pedido pedido = new Pedido();
+            Pedido_ pedido = new Pedido_();
 
             int _idPedido = Convert.ToInt32(Request.QueryString["idpedido"]);
             // string _status = Request.QueryString["status"].ToString();

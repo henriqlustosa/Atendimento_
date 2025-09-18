@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" 
     CodeFile="cadencaminhamento.aspx.cs" Inherits="publico_cadencaminhamento" Title="HSPM ATENDIMENTO" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -10,7 +10,11 @@
     body{background:#f8f9fa;font-family:'Segoe UI',sans-serif}
     .page-compact .x_panel{padding:12px 14px;margin-bottom:10px;background:#fff;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
     .page-compact .x_title{font-weight:600;font-size:1rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-    .page-compact .x_title i{color:#007bff}
+    /* ÍCONES AZUIS */
+    .page-compact .x_title i,
+    .page-compact .card-header i,
+    .page-compact .btn-link i{color:#0d6efd;}
+
     .page-compact h2{font-size:1.4rem;margin:0}
     .page-compact .form-control{height:36px;padding:6px 10px;font-size:.92rem;border-radius:6px!important}
     .page-compact textarea.form-control{min-height:82px;resize:vertical}
@@ -22,8 +26,23 @@
     .page-compact .bootstrap-select>.dropdown-toggle{height:36px;padding:6px 10px;font-size:.92rem;border-radius:6px}
     .page-compact .bootstrap-select .dropdown-menu .inner{max-height:200px!important;overflow-y:auto!important}
     .bootstrap-select.no-search .bs-searchbox{display:none!important}
-    .action-bar{position:sticky;bottom:0;z-index:10;background:rgba(248,249,250,.9);backdrop-filter:saturate(150%) blur(6px);border-top:1px solid #e9ecef;padding:.55rem .75rem}
     .alert.alert-danger{margin:8px 0;padding:.5rem .75rem}
+
+    /* BARRA FIXA (STICKY) RODAPÉ */
+    .action-bar{
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
+      background: rgba(248,249,250,.95);
+      backdrop-filter: saturate(150%) blur(6px);
+      border-top: 1px solid #e9ecef;
+      padding: .75rem 0;
+      box-shadow: 0 -2px 6px rgba(0,0,0,.05);
+    }
+    .action-bar-inner{
+      display:flex;
+      justify-content:center;
+    }
   </style>
 </asp:Content>
 
@@ -78,7 +97,7 @@
     <!-- Pedido -->
     <div class="card">
       <div class="card-header" id="hPedido">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cPedido">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cPedido" aria-expanded="false" aria-controls="cPedido">
           <i class="fa fa-file-text"></i> Informações do Pedido <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
@@ -115,7 +134,7 @@
     <!-- Pré-Operatório -->
     <div class="card">
       <div class="card-header" id="hPre">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cPre">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cPre" aria-expanded="false" aria-controls="cPre">
           <i class="fa fa-plus-square"></i> Informações do Pré Operatório <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
@@ -132,7 +151,7 @@
     <!-- Ressonância -->
     <div class="card">
       <div class="card-header" id="hRes">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cRes">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cRes" aria-expanded="false" aria-controls="cRes">
           <i class="fa fa-vials"></i> Informações de Ressonância <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
@@ -149,7 +168,7 @@
     <!-- Teleconsulta -->
     <div class="card">
       <div class="card-header" id="hTele">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cTele">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cTele" aria-expanded="false" aria-controls="cTele">
           <i class="fa fa-phone"></i> Informações de Teleconsulta <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
@@ -166,7 +185,7 @@
     <!-- Exames Únicos -->
     <div class="card">
       <div class="card-header" id="hEx">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cEx">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cEx" aria-expanded="false" aria-controls="cEx">
           <i class="fa fa-vial"></i> Informações de Exames Únicos <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
@@ -190,7 +209,7 @@
     <!-- Solicitante -->
     <div class="card">
       <div class="card-header" id="hSol">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cSol">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cSol" aria-expanded="false" aria-controls="cSol">
           <i class="fa fa-user-md"></i> Informações do Solicitante <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
@@ -204,10 +223,11 @@
 
   </div><!-- /accordion -->
 
+  <!-- BOTÃO GRAVAR FIXO -->
   <div class="action-bar">
-    <div class="container text-right px-0">
-      <asp:Button ID="btnBravar" runat="server" Text="Gravar"
-        CssClass="btn btn-primary btn-sm px-4"
+    <div class="action-bar-inner">
+      <asp:Button ID="btnGravar" runat="server" Text="Gravar"
+        CssClass="btn btn-success btn-lg shadow-sm"
         ValidationGroup="Salvar" CausesValidation="true"
         OnClientClick="return validateBeforeSubmit();"
         OnClick="btnGravar_Click" />
@@ -232,8 +252,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
 <script>
-    // -------- helpers bootstrap-select + validação --------
-    function getSelectedValue($el) { try { if ($el.data('selectpicker')) { var v = $el.selectpicker('val'); if (v != null) return v; } } catch (e) { } return $el.val(); }
+    function getSelectedValue($el) {
+        try { if ($el.data('selectpicker')) { var v = $el.selectpicker('val'); if (v != null) return v; } }
+        catch (e) { }
+        return $el.val();
+    }
     function anyExamSelected() {
         var ok = false;
         $('[data-exam]').each(function () {
@@ -244,7 +267,6 @@
     }
     function validateAlgumExame(sender, args) { args.IsValid = anyExamSelected(); }
 
-    // abre a seção do primeiro erro + foco/scroll
     function validateBeforeSubmit() {
         if (!Page_ClientValidate('Salvar')) {
             var invalid = null;
@@ -269,7 +291,6 @@
         return true;
     }
 
-    // -------- UI boot --------
     $(function () {
         flatpickr("#<%= txbDtPedido.ClientID %>", {
           dateFormat: "d/m/Y",
@@ -283,7 +304,9 @@
       $('.numeric').on('input', function () { this.value = this.value.replace(/\D/g, ''); });
 
       $('input[type="checkbox"], input[type="radio"]').iCheck({
-          checkboxClass: 'icheckbox_flat-green', radioClass: 'iradio_flat-green', increaseArea: '20%'
+          checkboxClass: 'icheckbox_flat-green',
+          radioClass: 'iradio_flat-green',
+          increaseArea: '20%'
       });
 
       $('.selectpicker').each(function () {
@@ -308,13 +331,17 @@
 
       function toggleSearchBox($s) { $s.parent('.bootstrap-select').toggleClass('no-search', $s.find('option').length < 8); }
       function ensureUniqueSelection($s) {
-          var seen = {}; $s.find('option:selected').each(function () {
-              var k = $(this).text().trim().toLowerCase(); if (seen[k]) this.selected = false; else seen[k] = true;
+          var seen = {};
+          $s.find('option:selected').each(function () {
+              var k = $(this).text().trim().toLowerCase();
+              if (seen[k]) this.selected = false; else seen[k] = true;
           });
       }
       function dedupeOptionsByText($s) {
-          var map = {}; $s.find('option').each(function () {
-              var t = $(this).text().trim().toLowerCase(); if (map[t]) $(this).remove(); else map[t] = true;
+          var map = {};
+          $s.find('option').each(function () {
+              var t = $(this).text().trim().toLowerCase();
+              if (map[t]) $(this).remove(); else map[t] = true;
           });
       }
 
