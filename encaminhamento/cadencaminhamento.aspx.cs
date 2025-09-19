@@ -133,9 +133,12 @@ public partial class publico_cadencaminhamento : BasePage
         {
             AddPageError(ex.Message.Replace("\n", "<br/>"));
         }
-        catch
+        catch (Exception ex)
         {
-            AddPageError("Ocorreu um erro ao gravar o pedido. Tente novamente.");
+            // TEMPORÁRIO em dev (remova depois ou faça log):
+            AddPageError("Falha inesperada: " + ex.Message);
+            // ou rethrow para ver a página de erro detalhada:
+            // throw;
         }
     }
 
