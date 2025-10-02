@@ -26,6 +26,18 @@ namespace Hspm.CadEncaminhamento
 
         private static readonly IGravarPedidoHandler _handler =
             new GravarPedidoHandler(_repo, _validator);
+        // ...
+        private static readonly IPedidoQuery _pedidoQuery =
+            new PedidoQuery(_repo);
+
+        private static readonly IValidator<AtualizarPedidoCommand> _updValidator = null;
+
+        private static readonly IAtualizarPedidoHandler _atualizarPedido =
+            new AtualizarPedidoHandler(_repo, _updValidator);
+
+        public static IPedidoQuery PedidoQuery { get { return _pedidoQuery; } }
+        public static IAtualizarPedidoHandler AtualizarPedido { get { return _atualizarPedido; } }
+
 
         public static IPacienteGateway Pacientes { get { return _pacientes; } }
         public static IEspecialidadeCatalog Especialidades { get { return _especialidades; } }

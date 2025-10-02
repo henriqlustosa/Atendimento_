@@ -114,45 +114,96 @@ public partial class encaminhamento_pedidospendentesporrh : BasePage
    
 
     // ---------------- Modal: Confirmar Arquivo ----------------
-    protected void btnConfirmarArquivo_Click(object sender, EventArgs e)
-    {
-        if (hfPedidoId == null || string.IsNullOrEmpty(hfPedidoId.Value)) return;
-
-        int id;
-        if (!int.TryParse(hfPedidoId.Value, out id)) return;
-
-        string retiradoPor = SafeTrim(txtRetiradoPor.Text);
-        string rgCpf = SafeTrim(txtRgCpf.Text);
-        string data = SafeTrim(txtData.Text); // yyyy-MM-dd (ou conforme vem do input)
-        string hora = SafeTrim(txtHora.Text); // HH:mm
-
-        string info = string.Format("Retirado por: {0} RG ou CPF: {1} Data:{2} Hora:{3}",
-            retiradoPor, rgCpf, data, hora);
-
-        try
+   protected void btnConfirmarArquivo_Click(object sender, EventArgs e)
+{
+        if (hfPedidoId == null || hfPedidoId.Value == null || hfPedidoId.Value.Trim().Length == 0)
         {
-            // Se existir o método, atualiza observações
-            try { PedidoDAO.AtualizarOutrasInformacoes(id, info); } catch { /* opcional: log */ }
-
-            // Arquiva
-            PedidoDAO.filePedidodeConsulta(id);
-
-            // Recarrega mantendo o filtro
-            int pront;
-            if (int.TryParse(SafeTrim(txbProntuario.Text), out pront))
-                BindGrid(pront);
-
-            // Fecha modal no client
-            ScriptManager.RegisterStartupScript(this, GetType(), "closeModal",
-                "$('#modalArquivo').modal('hide');", true);
-
-            ShowToast("Pedido arquivado com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            ShowToast("Erro ao arquivar: " + ex.Message);
-        }
+            ShowToast("Nenhum pedido selecionado.");
+        return;
     }
+
+    int id;
+    if (!int.TryParse(hfPedidoId.Value, out id))
+    {
+        ShowToast("ID inválido.");
+        return;
+    }
+
+    string retiradoPor = SafeTrim(txtRetiradoPor.Text);
+    string rgCpf       = SafeTrim(txtRgCpf.Text);
+    string data        = SafeTrim(txtData.Text);
+    string hora        = SafeTrim(txtHora.Text);
+
+    string info = string.Format(
+        "Retirado por: {0} RG ou CPF: {1} Data:{2} Hora:{3}",
+        retiradoPor, rgCpf, data, hora);
+
+    try
+    {
+        try { PedidoDAO.AtualizarOutrasInformacoes(id, info); } catch { /* log opcional */ }
+
+        string usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString();
+        PedidoDAO.filePedidodeConsulta(id, usuario); // ajuste se seu DAO não aceitar 'usuario'
+
+        // Recarrega a grid mantendo o filtro
+        int pront;
+        if (int.TryParse(SafeTrim(txbProntuario.Text), out pront))
+            BindGrid(pront);
+
+        // LIMPA os campos do modal (server)
+        txtRetiradoPor.Text = "";
+        txtRgCpf.Text       = "";
+        txtData.Text        = "";
+        txtHora.Text        = "";
+        hfPedidoId.Value    = "";
+
+        // Fecha o modal no cliente (BS5 + fallbacks) e limpa no DOM
+        string closeAndClear = string.Format(@"
+            (function () {{
+              var el  = document.getElementById('modalArquivo');
+              var ids = {{
+                retirado:'{0}',
+                rg:'{1}',
+                data:'{2}',
+                hora:'{3}',
+                hid:'{4}'
+              }};
+              ['retirado','rg','data','hora','hid'].forEach(function(k){{
+                var c = document.getElementById(ids[k]); if (c) c.value = '';
+              }});
+
+              if (window.bootstrap && typeof bootstrap.Modal === 'function') {{
+                var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+                m.hide();
+              }} else if (window.jQuery && jQuery.fn && jQuery.fn.modal) {{
+                jQuery('#modalArquivo').modal('hide');
+              }} else if (el) {{
+                el.classList.remove('show'); el.style.display='none';
+                document.body.classList.remove('modal-open');
+                var backs = document.querySelectorAll('.modal-backdrop');
+                for (var i = 0; i < backs.length; i++) {{
+                  if (backs[i].remove) backs[i].remove();
+                  else backs[i].parentNode.removeChild(backs[i]);
+                }}
+              }}
+            }})();",
+            txtRetiradoPor.ClientID,
+            txtRgCpf.ClientID,
+            txtData.ClientID,
+            txtHora.ClientID,
+            hfPedidoId.ClientID
+        );
+
+        ScriptManager.RegisterStartupScript(this, GetType(), "closeAndClearModal", closeAndClear, true);
+
+        ShowToast("Pedido arquivado com sucesso.");
+    }
+    catch (Exception ex)
+    {
+        ShowToast("Erro ao arquivar: " + ex.Message);
+    }
+}
+
 
     protected void btnPesquisar_Click(object sender, EventArgs e)
     {

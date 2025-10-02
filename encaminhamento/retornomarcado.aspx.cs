@@ -1,112 +1,267 @@
 ﻿using System;
-using System.Web.UI.WebControls;
-using System.Data;
-using System.Web.UI;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
+using Hspm.CadEncaminhamento;
+using Hspm.CadEncaminhamento.Domain;
+using Hspm.CadEncaminhamento.Application;
 
 public partial class encaminhamento_retornomarcado : BasePage
 {
+    private readonly IEspecialidadeCatalog _especialidades;
+    private readonly IExameCatalog _exames;
+
+    private readonly IPedidoQuery _pedidoQuery;                 // leitura p/ edição
+    private readonly IAtualizarPedidoHandler _atualizarPedido;  // salvamento da edição
+
+    public encaminhamento_retornomarcado()
+    {
+        _especialidades = CompositionRoot.Especialidades;
+        _exames = CompositionRoot.Exames;
+        _pedidoQuery = CompositionRoot.PedidoQuery;
+        _atualizarPedido = CompositionRoot.AtualizarPedido;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        //if (!IsPostBack)
-        //{
-        //    // Supondo que o código do pedido vem por querystring
-        //    if (!string.IsNullOrEmpty(Request.QueryString["cod"]))
-        //    {
-        //        int codPedido = int.Parse(Request.QueryString["cod"]);
-        //        CarregarDados(codPedido);
-        //    }
+        if (IsPostBack) return;
 
-        //    CarregarEspecialidades(); // ddlEspecialidade
-        //    CarregarSelects();        // select1 a select4
-        //}
+        // 1) Fontes (mesmo padrão do cadastro)
+        BindDropDown(ddlEspecialidade, _especialidades.Listar());
+        BindHtmlSelect(select2, _exames.ListarPreOperatorio());
+        BindHtmlSelect(select1, _exames.ListarRessonancia());
+        BindHtmlSelect(select3, _exames.ListarTeleconsulta());
+        BindHtmlSelect(select4, _exames.ListarExamesUnicos());
+
+        if (ddlEspecialidade.Items.Count == 0 || ddlEspecialidade.Items[0].Value != "")
+            ddlEspecialidade.Items.Insert(0, new ListItem("Selecione...", ""));
+        ddlEspecialidade.SelectedIndex = 0;
+
+        // 2) idpedido
+        int idPedido;
+        if (!int.TryParse(Request.QueryString["idpedido"], out idPedido) || idPedido <= 0)
+        {
+            AddPageError("Parâmetro 'idpedido' ausente ou inválido.");
+            return;
+        }
+        hfPedidoId.Value = idPedido.ToString(CultureInfo.InvariantCulture);
+
+        // 3) Carrega dados
+        CarregarPedido(idPedido);
     }
 
-    private void CarregarDados(int codPedido)
+    // -------------------- Carregar dados --------------------
+    private void CarregarPedido(int idPedido)
     {
-        // Aqui você acessa o banco para buscar os dados do pedido
-        //var pedido = PedidoDAO.ObterPedidoPorCodigo(codPedido);
+        PedidoDetailsDto p = _pedidoQuery.ObterPorId(idPedido);
+        if (p == null)
+        {
+            AddPageError("Pedido não encontrado.");
+            return;
+        }
 
-        //if (pedido != null)
-        //{
-        //    txbProntuario.Text = pedido.Prontuario;
-        //    txbNomePaciente.Text = pedido.NomePaciente;
-        //    txbDtPedido.Text = pedido.DataPedido.ToString("dd/MM/yyyy");
-        //    ddlEspecialidade.SelectedValue = pedido.CodEspecialidade.ToString();
-        //    txbOb.Text = pedido.Observacoes;
-        //    txbprofissional.Text = pedido.Solicitante;
+        txbProntuario.Text = p.Prontuario.ToString(CultureInfo.InvariantCulture);
+        txbNomePaciente.Text = (p.NomePaciente ?? "").Trim().ToUpperInvariant();
+        txbDtPedido.Text = p.DataPedido.ToString("dd/MM/yyyy");
+        txbOb.Text = p.Observacoes ?? "";
+        txbprofissional.Text = (p.Solicitante ?? "").Trim();
 
-        //    // Carrega selects múltiplos com os valores salvos
-        //    PreencherSelectSelecionados(select1, pedido.CodigosRessonancia);
-        //    PreencherSelectSelecionados(select2, pedido.CodigosPreOperatorio);
-        //    PreencherSelectSelecionados(select3, pedido.CodigosTeleconsulta);
-        //    PreencherSelectSelecionados(select4, pedido.CodigosExamesUnicos);
-        //}
+        ListItem it = ddlEspecialidade.Items.FindByValue(p.CodEspecialidade.ToString(CultureInfo.InvariantCulture));
+        if (it != null) { ddlEspecialidade.ClearSelection(); it.Selected = true; }
+
+        ApplySelected(select1, p.Ressonancia);
+        ApplySelected(select2, p.PreOperatorio);
+        ApplySelected(select3, p.Teleconsulta);
+        ApplySelected(select4, p.ExamesUnicos);
     }
 
-    private void PreencherSelectSelecionados(ListControl select, List<int> selecionados)
+    private static void ApplySelected(HtmlSelect sel, IList<int> codes)
     {
-    //    foreach (ListItem item in select.Items)
-    //    {
-    //        item.Selected = selecionados.Contains(int.Parse(item.Value));
-    //    }
+        if (sel == null || codes == null || codes.Count == 0) return;
+        var set = new HashSet<string>(StringComparer.InvariantCulture);
+        for (int i = 0; i < codes.Count; i++)
+            set.Add(codes[i].ToString(CultureInfo.InvariantCulture));
+        for (int i = 0; i < sel.Items.Count; i++)
+            sel.Items[i].Selected = set.Contains(sel.Items[i].Value);
     }
 
-    private void CarregarEspecialidades()
+    // -------------------- Salvar (atualizar) --------------------
+    protected void btnGravar_Click(object sender, EventArgs e)
     {
-        //ddlEspecialidade.DataSource = EspecialidadeDAO.ListarTodas();
-        //ddlEspecialidade.DataTextField = "Descricao";
-        //ddlEspecialidade.DataValueField = "Codigo";
-        //ddlEspecialidade.DataBind();
+        int idPedido;
+        if (!int.TryParse(hfPedidoId.Value, out idPedido) || idPedido <= 0)
+        {
+            AddPageError("ID do pedido inválido.");
+            return;
+        }
+
+        int prontuario, codEsp; DateTime dtPedido;
+        if (!TryValidateInputsForEdit(out prontuario, out dtPedido, out codEsp))
+            return;
+
+        string historicoTodosExames = JoinSelectedTexts(select1, select2, select3, select4);
+
+        AtualizarPedidoCommand cmd = new AtualizarPedidoCommand();
+        cmd.Id = idPedido;
+        cmd.Prontuario = prontuario;
+        cmd.NomePaciente = (txbNomePaciente.Text ?? "").Trim().ToUpperInvariant();
+        cmd.DataPedido = dtPedido;
+        cmd.CodEspecialidade = codEsp;
+        cmd.Observacoes = txbOb.Text;
+        cmd.Solicitante = (txbprofissional.Text ?? "").Trim().ToUpperInvariant();
+        cmd.Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString();
+
+        cmd.CodigosPreOperatorio = GetSelectedCodes(select2);
+        cmd.CodigosRessonancia = GetSelectedCodes(select1);
+        cmd.CodigosTeleconsulta = GetSelectedCodes(select3);
+        cmd.CodigosExamesUnicos = GetSelectedCodes(select4);
+
+        cmd.ExamesPreOpTextoParaHistorico = historicoTodosExames;
+
+        try
+        {
+            _atualizarPedido.Handle(cmd);
+            ShowSuccessModal(); // abre #myModal
+        }
+        catch (ApplicationException ex)
+        {
+            AddPageError(ex.Message.Replace("\n", "<br/>"));
+        }
+        catch (Exception ex)
+        {
+            AddPageError("Falha ao atualizar: " + ex.Message);
+        }
     }
 
-    private void CarregarSelects()
+    private bool TryValidateInputsForEdit(out int prontuario, out DateTime dtPedido, out int codEsp)
     {
-        // Supondo que você tem DAOs que retornam listas para cada categoria
-        //select1.DataSource = RessonanciaDAO.Listar();
-        //select2.DataSource = PreOperatorioDAO.Listar();
-        //select3.DataSource = TeleconsultaDAO.Listar();
-        //select4.DataSource = ExamesUnicosDAO.Listar();
+        prontuario = 0; dtPedido = default(DateTime); codEsp = 0;
 
-        //foreach (var select in new[] { select1, select2, select3, select4 })
-        //{
-        //    select.DataTextField = "Descricao";
-        //    select.DataValueField = "Codigo";
-        //    select.DataBind();
-        //}
+        txbProntuario.Text = (txbProntuario.Text ?? "").Trim();
+        txbDtPedido.Text = (txbDtPedido.Text ?? "").Trim();
+        txbNomePaciente.Text = (txbNomePaciente.Text ?? "").Trim();
+        txbprofissional.Text = (txbprofissional.Text ?? "").Trim();
+
+        var errors = new List<string>();
+
+        if (!TryGetIntPositive(txbProntuario.Text, out prontuario))
+            errors.Add("Prontuário inválido.");
+
+        if (!TryParseDatePtBr(txbDtPedido.Text, out dtPedido))
+            errors.Add("Data do pedido inválida.");
+
+        if (!TryGetIntPositive(ddlEspecialidade.SelectedValue, out codEsp))
+            errors.Add("Selecione a especialidade.");
+
+        if (!HasAnySelection(select2, select1, select3, select4))
+            errors.Add("Selecione ao menos um item em Pré-operatório, Ressonância, Teleconsulta ou Exames Únicos.");
+
+        if (string.IsNullOrEmpty(txbNomePaciente.Text))
+            errors.Add("Informe o nome do paciente.");
+
+        if (!Page.IsValid || errors.Count > 0)
+        {
+            for (int i = 0; i < errors.Count; i++) AddPageError(errors[i]);
+            return false;
+        }
+        return true;
     }
 
-    protected void btnGrava_Click(object sender, EventArgs e)
+    private static IList<int> GetSelectedCodes(HtmlSelect sel)
     {
-        //int codPedido = int.Parse(Request.QueryString["cod"]);
-
-        //var pedido = new Pedido
-        //{
-        //    Codigo = codPedido,
-        //    DataPedido = DateTime.Parse(txbDtPedido.Text),
-        //    CodEspecialidade = int.Parse(ddlEspecialidade.SelectedValue),
-        //    Observacoes = txbOb.Text,
-        //    Solicitante = txbprofissional.Text,
-        //    CodigosRessonancia = ObterSelecionados(select1),
-        //    CodigosPreOperatorio = ObterSelecionados(select2),
-        //    CodigosTeleconsulta = ObterSelecionados(select3),
-        //    CodigosExamesUnicos = ObterSelecionados(select4)
-        //};
-
-        //PedidoDAO.Atualizar(pedido);
-
-        //// Dispara o modal via script
-        //ScriptManager.RegisterStartupScript(this, this.GetType(), "modal", "$('#myModal').modal('show');", true);
+        var list = new List<int>();
+        if (sel == null) return list;
+        for (int i = 0; i < sel.Items.Count; i++)
+        {
+            ListItem it = sel.Items[i];
+            if (!it.Selected) continue;
+            int v; if (int.TryParse(it.Value, out v)) list.Add(v);
+        }
+        return list;
     }
 
-    //private List<int> ObterSelecionados(ListControl select)
-   // {
-        //var lista = new List<int>();
-        //foreach (ListItem item in select.Items)
-        //{
-        //    if (item.Selected)
-        //        lista.Add(int.Parse(item.Value));
-        //}
-        //return lista;
-   // }
+    private static string JoinSelectedTexts(params HtmlSelect[] selects)
+    {
+        var parts = new List<string>();
+        for (int s = 0; s < selects.Length; s++)
+        {
+            HtmlSelect sel = selects[s];
+            for (int i = 0; i < sel.Items.Count; i++)
+                if (sel.Items[i].Selected) parts.Add(sel.Items[i].Text);
+        }
+        return string.Join(", ", parts.ToArray());
+    }
+
+    // -------------------- Helpers (mesmo padrão do cadastro) --------------------
+    private static void BindDropDown(ListControl ddl, IList<ListItemDto> data)
+    {
+        ddl.Items.Clear();
+        ddl.Items.Add(new ListItem("Selecione...", ""));
+        for (int i = 0; i < data.Count; i++)
+            ddl.Items.Add(new ListItem(data[i].Text, data[i].Value.ToString(CultureInfo.InvariantCulture)));
+        ddl.SelectedIndex = 0;
+    }
+
+    private static void BindHtmlSelect(HtmlSelect sel, IList<ListItemDto> data)
+    {
+        sel.Items.Clear();
+        for (int i = 0; i < data.Count; i++)
+            sel.Items.Add(new ListItem(data[i].Text, data[i].Value.ToString(CultureInfo.InvariantCulture)));
+        RemoveDuplicateByText(sel.Items);
+    }
+
+    private static void RemoveDuplicateByText(ListItemCollection items)
+    {
+        var seen = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+        for (int i = items.Count - 1; i >= 0; i--)
+        {
+            string t = (items[i].Text ?? "").Trim();
+            if (t.Length == 0 || !seen.Add(t))
+                items.RemoveAt(i);
+        }
+    }
+
+    private static bool TryGetIntPositive(string input, out int value)
+    {
+        if (int.TryParse(input, out value) && value > 0) return true;
+        value = 0; return false;
+    }
+
+    private static bool HasAnySelection(params HtmlSelect[] selects)
+    {
+        for (int i = 0; i < selects.Length; i++)
+        {
+            HtmlSelect s = selects[i];
+            for (int j = 0; j < s.Items.Count; j++)
+                if (s.Items[j].Selected) return true;
+        }
+        return false;
+    }
+
+    private static bool TryParseDatePtBr(string input, out DateTime result)
+    {
+        input = (input ?? "").Trim();
+        string[] formats = new string[] { "d/M/yyyy", "dd/MM/yyyy" };
+        return DateTime.TryParseExact(input, formats, new CultureInfo("pt-BR"),
+                                      DateTimeStyles.None, out result);
+    }
+
+    private void AddPageError(string message)
+    {
+        var cv = new CustomValidator();
+        cv.IsValid = false;
+        cv.ErrorMessage = message;
+        cv.ValidationGroup = "Salvar";
+        cv.Display = ValidatorDisplay.None;
+        Page.Validators.Add(cv);
+    }
+
+    private void ShowSuccessModal()
+    {
+        ScriptManager.RegisterStartupScript(this, GetType(), "showOkModal",
+            "var m = bootstrap.Modal.getOrCreateInstance(document.getElementById('myModal')); m.show();", true);
+    }
 }

@@ -16,12 +16,16 @@
     .btn{ height:36px; line-height:1; }
     table.dataTable thead th{ background:#334155; color:#fff; font-weight:600; border-color:#334155; }
     table.dataTable tbody td{ vertical-align:top; }
-    .actions-col{ white-space:nowrap; width:120px; text-align:center; }
+    .actions-col{ white-space:nowrap; width:140px; text-align:center; }
     .btn-icon{ width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center; }
     .btn-icon i{ font-size:14px; }
     .dataTables_length label{ font-weight:500; }
     .dataTables_filter input{ width:220px; }
     @media (max-width:576px){ .dataTables_filter input{ width:160px; } }
+
+    /* (Opcional) garante o modal acima de cabeçalhos fixos */
+    .modal-backdrop{ z-index:1050 !important; }
+    .modal{ z-index:1055 !important; }
   </style>
 </asp:Content>
 
@@ -76,13 +80,13 @@
 
             <asp:TemplateField HeaderText=" " ItemStyle-CssClass="actions-col" HeaderStyle-CssClass="sorting_disabled">
               <ItemTemplate>
-                <asp:LinkButton ID="gvlnkFile"
-                  CssClass="btn btn-success btn-icon" runat="server"
-                  OnClientClick='return openArquivoModal("<%# Eval("cod_pedido") %>");'
-                  ToolTip="Arquivar" CausesValidation="false">
+                <!-- Arquivar: <a> com data-id (evita postback e garante JS) -->
+                <a href="#" class="btn btn-success btn-icon js-arquivar"
+                   data-id='<%# Eval("cod_pedido") %>' title="Arquivar">
                   <i class="fa fa-file"></i>
-                </asp:LinkButton>
+                </a>
 
+                <!-- Editar/Excluir mantidos como LinkButton -->
                 <asp:LinkButton ID="gvlnkEdit" CommandName="editRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
                   CssClass="btn btn-info btn-icon" runat="server" ToolTip="Editar" CausesValidation="false">
                   <i class="fa fa-pen"></i>
@@ -101,41 +105,39 @@
         <!-- Hidden para levar o ID ao servidor -->
         <asp:HiddenField ID="hfPedidoId" runat="server" />
 
-        <!-- MODAL Arquivamento -->
-        <div class="modal fade" id="modalArquivo" tabindex="-1" role="dialog" aria-labelledby="lblModalArquivo" aria-hidden="true">
-          <div class="modal-dialog modal-md" role="document">
+        <!-- MODAL Arquivamento (Bootstrap 5) -->
+        <div class="modal fade" id="modalArquivo" tabindex="-1" aria-labelledby="lblModalArquivo" aria-hidden="true">
+          <div class="modal-dialog modal-md">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="lblModalArquivo">Arquivar Pedido</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
               </div>
 
               <div class="modal-body">
-                <div class="form-group">
-                  <label>Retirado por:</label>
+                <div class="mb-3">
+                  <label class="form-label">Retirado por:</label>
                   <asp:TextBox ID="txtRetiradoPor" runat="server" CssClass="form-control" />
                   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtRetiradoPor"
                       Display="Dynamic" ForeColor="red" ErrorMessage="Obrigatório" />
                 </div>
 
-                <div class="form-group">
-                  <label>RG ou CPF:</label>
+                <div class="mb-3">
+                  <label class="form-label">RG ou CPF:</label>
                   <asp:TextBox ID="txtRgCpf" runat="server" CssClass="form-control" />
                   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtRgCpf"
                       Display="Dynamic" ForeColor="red" ErrorMessage="Obrigatório" />
                 </div>
 
-                <div class="form-row">
-                  <div class="form-group col-sm-6">
-                    <label>Data:</label>
+                <div class="row">
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label">Data:</label>
                     <asp:TextBox ID="txtData" runat="server" CssClass="form-control" />
                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtData"
                         Display="Dynamic" ForeColor="red" ErrorMessage="Obrigatório" />
                   </div>
-                  <div class="form-group col-sm-6">
-                    <label>Hora:</label>
+                  <div class="col-sm-6 mb-3">
+                    <label class="form-label">Hora:</label>
                     <asp:TextBox ID="txtHora" runat="server" CssClass="form-control" />
                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtHora"
                         Display="Dynamic" ForeColor="red" ErrorMessage="Obrigatório" />
@@ -144,7 +146,7 @@
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
                 <asp:Button ID="btnConfirmarArquivo" runat="server" CssClass="btn btn-success"
                     Text="Salvar e Arquivar" OnClick="btnConfirmarArquivo_Click" />
               </div>
@@ -155,7 +157,7 @@
     </div>
   </div>
 
-  <!-- jQuery fallback -->
+  <!-- jQuery fallback (DataTables depende de jQuery) -->
   <script>
       if (typeof window.jQuery === 'undefined') {
           document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"><\/script>');
@@ -166,99 +168,134 @@
   <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 
   <script type="text/javascript">
-      // Permitir somente números no RH
       (function () {
-          var tb = document.getElementById('<%= txbProntuario.ClientID %>');
-          if (tb) {
-              tb.addEventListener('keypress', function (e) {
-                  var ch = e.which || e.keyCode;
-                  if (ch === 8 || ch === 9 || ch === 13) return; // backspace, tab, enter
-                  if (ch < 48 || ch > 57) e.preventDefault();
-              });
-          }
+          "use strict";
+
+          // --------- Somente números no RH ----------
+          (function onlyNumbersOnRH() {
+              var tb = document.getElementById('<%= txbProntuario.ClientID %>');
+        if (!tb) return;
+        tb.addEventListener('keypress', function (e) {
+          var ch = e.which || e.keyCode;
+          if (ch === 8 || ch === 9 || ch === 13) return;
+          if (ch < 48 || ch > 57) e.preventDefault();
+        });
       })();
 
-      // Abre modal e injeta o ID do pedido
-      function openArquivoModal(id) {
-          $('#<%= hfPedidoId.ClientID %>').val(id);
-      var hoje = new Date();
-      var d = hoje.toISOString().slice(0, 10);  // yyyy-mm-dd
-      var h = hoje.toTimeString().slice(0, 5);  // HH:mm
-      if (!$('#<%= txtData.ClientID %>').val()) $('#<%= txtData.ClientID %>').val(d);
-      if (!$('#<%= txtHora.ClientID %>').val()) $('#<%= txtHora.ClientID %>').val(h);
-      $('#modalArquivo').modal('show');
-      return false; // evita postback
-    }
-
-    (function () {
+      // --------- DataTables ----------
       function ensureThead($tbl) {
         if ($tbl.find('thead').length === 0) {
           var $first = $tbl.find('tr:first');
           if ($first.length) $tbl.prepend($('<thead/>').append($first));
         }
       }
-
       function initDT() {
         var $tbl = $('#<%= GridView1.ClientID %>');
-              if (!$tbl.length || !window.jQuery || !$.fn || !$.fn.DataTable) return;
+        if (!$tbl.length || !$.fn || !$.fn.DataTable) return;
+        if ($tbl.find('tbody tr').length === 0) return;
+        ensureThead($tbl);
+        if ($.fn.DataTable.isDataTable($tbl[0])) $tbl.DataTable().clear().destroy();
 
-              // só inicializa se houver linhas
-              if ($tbl.find('tbody tr').length === 0) return;
-
-              ensureThead($tbl);
-
-              if ($.fn.DataTable.isDataTable($tbl[0])) {
-                  $tbl.DataTable().clear().destroy();
+        $tbl.DataTable({
+          paging: true, pageLength: 10, ordering: true, stateSave: true, responsive: true, autoWidth: false,
+          dom: '<"top d-flex justify-content-between align-items-center"lfr>t<"bottom d-flex justify-content-between align-items-center"ip>',
+          columnDefs: [
+            { targets: -1, orderable: false, searchable: false },
+            {
+              targets: [3],
+              render: function (data) {
+                if (!data) return "";
+                var s = String(data);
+                if (s.indexOf(' ') > -1) return s.split(' ')[0];
+                if (s.indexOf('T') > -1) return s.split('T')[0].split('-').reverse().join('/');
+                return s;
               }
+            }
+          ],
+          language: {
+            processing: "Processando...",
+            search: "Buscar:",
+            lengthMenu: "Mostrar _MENU_ registros por página",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ no total)",
+            loadingRecords: "Carregando...",
+            zeroRecords: "Nenhum registro encontrado",
+            emptyTable: "Nenhum dado disponível",
+            paginate: { first: "Primeiro", previous: "Anterior", next: "Próximo", last: "Último" }
+          }
+        });
+      }
 
-              $tbl.DataTable({
-                  paging: true,
-                  pageLength: 10,
-                  lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
-                  ordering: true,
-                  stateSave: true,
-                  responsive: true,
-                  autoWidth: false,
-                  dom: '<"top d-flex justify-content-between align-items-center"lfr>t<"bottom d-flex justify-content-between align-items-center"ip>',
-                  columnDefs: [
-                      { targets: -1, orderable: false, searchable: false },
-                      {
-                          targets: [3, 4],
-                          render: function (data) {
-                              if (!data) return "";
-                              var s = String(data);
-                              if (s.indexOf(' ') > -1) return s.split(' ')[0];
-                              if (s.indexOf('T') > -1) return s.split('T')[0].split('-').reverse().join('/');
-                              return s;
-                          }
+      // --------- Abre modal (BS5) ----------
+          function registerOpenArquivoModal() {
+              window.openArquivoModal = function (id) {
+                  try {
+                      const hf = document.getElementById('<%= hfPedidoId.ClientID %>');
+        const ret = document.getElementById('<%= txtRetiradoPor.ClientID %>');
+        const rg = document.getElementById('<%= txtRgCpf.ClientID %>');
+      const dt    = document.getElementById('<%= txtData.ClientID %>');
+                      const hr = document.getElementById('<%= txtHora.ClientID %>');
+                      const el = document.getElementById('modalArquivo');
+
+                      if (!el) { console.error('Modal não encontrado'); return false; }
+
+                      if (hf) hf.value = id;
+                      if (ret) ret.value = "";      // <-- limpa
+                      if (rg) rg.value = "";      // <-- limpa
+
+                      const now = new Date();
+                      if (dt) dt.value = now.toISOString().slice(0, 10);   // yyyy-mm-dd
+                      if (hr) hr.value = now.toTimeString().slice(0, 5);   // HH:mm
+
+                      if (window.bootstrap && typeof bootstrap.Modal === 'function') {
+                          const m = bootstrap.Modal.getOrCreateInstance(el, { backdrop: true, keyboard: true });
+                          m.show();
+                      } else {
+                          el.classList.add('show'); el.style.display = 'block'; document.body.classList.add('modal-open');
                       }
-                  ],
-                  language: {
-                      processing: "Processando...",
-                      search: "Buscar:",
-                      lengthMenu: "Mostrar _MENU_ registros por página",
-                      info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                      infoEmpty: "Mostrando 0 a 0 de 0 registros",
-                      infoFiltered: "(filtrado de _MAX_ no total)",
-                      loadingRecords: "Carregando...",
-                      zeroRecords: "Nenhum registro encontrado",
-                      emptyTable: "Nenhum dado disponível",
-                      paginate: { first: "Primeiro", previous: "Anterior", next: "Próximo", last: "Último" }
+
+                      setTimeout(() => { if (ret) ret.focus(); }, 120);
+                  } catch (err) {
+                      console.error(err); alert('Erro ao abrir o modal: ' + (err?.message || err));
                   }
+                  return false;
+              };
+          }
+
+
+          // --------- Delegação de clique para Arquivar ----------
+          function registerArquivoClickHandler() {
+              $(document).off('click.arquivar', '.js-arquivar').on('click.arquivar', '.js-arquivar', function (e) {
+                  e.preventDefault();
+                  const id = $(this).data('id');
+                  return window.openArquivoModal(id);
               });
           }
 
-          // 1) ao carregar
-          $(document).ready(initDT);
-
-          // 2) após postback parcial (UpdatePanel)
-          if (window.Sys && Sys.Application) {
-              Sys.Application.add_load(function () { setTimeout(initDT, 0); });
+          // --------- Confirmações ----------
+          function registerConfirmations() {
+              window.file = function () { return confirm("Você realmente quer arquivar o registro?"); };
+              window.confirmation = function () { return confirm("Você realmente quer deletar o registro?"); };
           }
 
-          // Confirmações
-          window.file = function () { return confirm("Você realmente quer arquivar o registro?"); };
-          window.confirmation = function () { return confirm("Você realmente quer deletar o registro?"); };
+          // --------- Hooks ----------
+          $(function () {
+              registerOpenArquivoModal();
+              registerArquivoClickHandler();
+              registerConfirmations();
+              initDT();
+          });
+
+          // Re-registra após postback parcial (UpdatePanel)
+          if (window.Sys && Sys.Application) {
+              Sys.Application.add_load(function () {
+                  registerOpenArquivoModal();
+                  registerArquivoClickHandler();
+                  registerConfirmations();
+                  setTimeout(initDT, 0);
+              });
+          }
       })();
   </script>
 </asp:Content>

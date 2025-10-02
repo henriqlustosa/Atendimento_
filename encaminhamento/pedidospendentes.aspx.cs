@@ -56,13 +56,13 @@ public partial class encaminhamento_pedidospendentes : BasePage
         }
         if (e.CommandName.Equals("fileRecord"))
         {
-            String usuario = System.Web.HttpContext.Current.User.Identity.Name.ToUpper();
+            string usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString();
             index = Convert.ToInt32(e.CommandArgument);
 
             int _id_pedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString()); //id da consulta
             GridViewRow row = GridView1.Rows[index];
 
-            PedidoDAO.filePedidodeConsulta(_id_pedido);
+            PedidoDAO.filePedidodeConsulta(_id_pedido, usuario);
             Response.Redirect("~/encaminhamento/pedidospendentes.aspx");
 
             //string _status = row.Cells[7].Text;

@@ -603,7 +603,7 @@ public class PedidoDAO
             cmm.Connection = cnn;
             cnn.Open();
             string sql = @"UPDATE Pedido_Consulta
-                           SET outras_informacoes = @info
+                           SET retirado_informacoes = @info
                            WHERE cod_pedido = @id";
 
             using (SqlCommand cmd = new SqlCommand(sql, cnn))
@@ -615,12 +615,12 @@ public class PedidoDAO
             }
         }
     }
-    public static void filePedidodeConsulta(int _idPedido)
+    public static void filePedidodeConsulta(int _idPedido, string usuario_baixa)
     {
         string _dtbaixa = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
 
         string msg = "";
-        string usuario_baixa = System.Web.HttpContext.Current.User.Identity.Name.ToUpper();
+      
         int _status = 2;
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {

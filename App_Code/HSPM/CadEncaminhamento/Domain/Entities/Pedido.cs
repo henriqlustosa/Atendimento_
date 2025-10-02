@@ -27,5 +27,24 @@ namespace Hspm.CadEncaminhamento.Domain
             Solicitante = (solicitante ?? string.Empty).Trim();
             Usuario = usuario ?? string.Empty;
         }
+
+        public Pedido()
+        {
+        }
+        public void DefinirId(int value) { this.Id = value; }
+
+        public void AlterarCabecalho(int prontuario, string nome, DateTime data, int codEsp,
+                             string examesTexto, string obs, string solicitante, string usuario)
+        {
+            // validações de domínio aqui, se houver
+            this.Prontuario = prontuario;
+            this.NomePaciente = nome;
+            this.DataPedido = data;
+            this.CodEspecialidade = codEsp;
+            this.ExamesSolicitadosTexto = examesTexto;
+            this.OutrasInformacoes = obs;
+            this.Solicitante = solicitante;
+            this.Usuario = usuario;
+        }
     }
 }

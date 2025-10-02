@@ -6,46 +6,21 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .x_panel {
-            border-radius: 10px;
-            padding: 20px;
-            background-color: #fff;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .x_title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .x_title i {
-            color: #007bff;
-        }
-
-        .form-control {
-            border-radius: 6px !important;
-        }
-
-        .chosen-container {
-            width: 100% !important;
-        }
+        body { background-color:#f8f9fa; font-family:'Segoe UI',sans-serif; }
+        .x_panel { border-radius:10px; padding:20px; background:#fff; margin-bottom:20px; box-shadow:0 2px 4px rgba(0,0,0,.05); }
+        .x_title { font-weight:600; font-size:1.1rem; display:flex; align-items:center; gap:8px; margin-bottom:15px; }
+        .x_title i { color:#007bff; }
+        .form-control { border-radius:6px !important; }
+        .chosen-container { width:100% !important; }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
-    <!-- Título -->
+
+    <!-- mantém o id do pedido na página -->
+    <asp:HiddenField ID="hfPedidoId" runat="server" />
+
     <div class="x_panel d-flex align-items-center" style="gap: 12px;">
         <i class="fa-solid fa-stethoscope fa-xl"></i>
         <h2 style="margin: 0;">Edição de Solicitação de Exame</h2>
@@ -119,26 +94,17 @@
         <asp:TextBox ID="txbprofissional" runat="server" CssClass="form-control"></asp:TextBox>
     </div>
 
-    <!-- Botões -->
     <div class="row text-center mb-5">
-        <asp:Button ID="btnGravar" runat="server" Text="Atualizar" CssClass="btn btn-primary btn-lg px-5" OnClick="btnGrava_Click" />
+        <asp:Button ID="btnGravar" runat="server" Text="Atualizar" CssClass="btn btn-primary btn-lg px-5" OnClick="btnGravar_Click" />
     </div>
 
     <!-- Modal Sucesso -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmação</h5>
-                </div>
-                <div class="modal-body text-center">
-                    <h2>Pedido Atualizado com Sucesso.</h2>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btnCloseModal" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
+        <div class="modal-dialog modal-lg"><div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Confirmação</h5></div>
+            <div class="modal-body text-center"><h2>Pedido Atualizado com Sucesso.</h2></div>
+            <div class="modal-footer"><button type="button" id="btnCloseModal" class="btn btn-secondary" data-dismiss="modal">Fechar</button></div>
+        </div></div>
     </div>
 
     <!-- Scripts -->
@@ -147,19 +113,13 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(function () {
             flatpickr("#<%= txbDtPedido.ClientID %>", {
                 dateFormat: "d/m/Y",
                 locale: {
                     firstDayOfWeek: 1,
-                    weekdays: {
-                        shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-                        longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
-                    },
-                    months: {
-                        shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                        longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-                    }
+                    weekdays: { shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'], longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'] },
+                    months: { shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] }
                 }
             });
 
@@ -170,18 +130,15 @@
                 radioClass: 'iradio_flat-green'
             });
 
-            $('.numeric').keyup(function () {
-                $(this).val(this.value.replace(/\D/g, ''));
-            });
+            $('.numeric').keyup(function () { $(this).val(this.value.replace(/\D/g, '')); });
 
             $(".chosen-select").chosen({
                 no_results_text: "Nada encontrado!",
-                placeholder_text_multiple: "Selecione uma ou mais opções"
+                placeholder_text_multiple: "Selecione uma ou mais opções",
+                width: "100%"
             });
 
-            $("#btnCloseModal").click(function () {
-                location.href = 'cadencaminhamento.aspx';
-            });
+            $("#btnCloseModal").click(function () { location.href = 'pedidospendentesporrh.aspx'; });
         });
     </script>
 </asp:Content>
