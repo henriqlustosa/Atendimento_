@@ -4,7 +4,7 @@
 
 		<siteMapNode url="" title="Administração" description="Administração do Site">
 			
-			<siteMapNode url="~/Restrito/CadastroUsuario.aspx" title="Cadastro Usuário" description="Cadastro de novos usuários do sistema" />
+			<siteMapNode url="~/Restrito/CadastroDeUsuario.aspx" title="Cadastro Usuário" description="Cadastro de novos usuários do sistema" />
 			
 		</siteMapNode>
 

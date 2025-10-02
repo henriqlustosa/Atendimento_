@@ -2,19 +2,19 @@
     CodeFile="cadencaminhamento.aspx.cs" Inherits="publico_cadencaminhamento" Title="HSPM ATENDIMENTO" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+  <!-- CSS de plugins (Bootstrap e FontAwesome já estão na Master) -->
   <link href="https://cdn.jsdelivr.net/npm/icheck@1.0.2/skins/flat/green.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" />
+
   <style>
     body{background:#f8f9fa;font-family:'Segoe UI',sans-serif}
     .page-compact .x_panel{padding:12px 14px;margin-bottom:10px;background:#fff;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
     .page-compact .x_title{font-weight:600;font-size:1rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-    /* ÍCONES AZUIS */
     .page-compact .x_title i,
     .page-compact .card-header i,
     .page-compact .btn-link i{color:#0d6efd;}
-
     .page-compact h2{font-size:1.4rem;margin:0}
     .page-compact .form-control{height:36px;padding:6px 10px;font-size:.92rem;border-radius:6px!important}
     .page-compact textarea.form-control{min-height:82px;resize:vertical}
@@ -27,22 +27,9 @@
     .page-compact .bootstrap-select .dropdown-menu .inner{max-height:200px!important;overflow-y:auto!important}
     .bootstrap-select.no-search .bs-searchbox{display:none!important}
     .alert.alert-danger{margin:8px 0;padding:.5rem .75rem}
-
-    /* BARRA FIXA (STICKY) RODAPÉ */
-    .action-bar{
-      position: sticky;
-      bottom: 0;
-      z-index: 10;
-      background: rgba(248,249,250,.95);
-      backdrop-filter: saturate(150%) blur(6px);
-      border-top: 1px solid #e9ecef;
-      padding: .75rem 0;
-      box-shadow: 0 -2px 6px rgba(0,0,0,.05);
-    }
-    .action-bar-inner{
-      display:flex;
-      justify-content:center;
-    }
+    .action-bar{position:sticky;bottom:0;z-index:10;background:rgba(248,249,250,.95);backdrop-filter:saturate(150%) blur(6px);
+                border-top:1px solid #e9ecef;padding:.75rem 0;box-shadow:0 -2px 6px rgba(0,0,0,.05)}
+    .action-bar-inner{display:flex;justify-content:center;}
   </style>
 </asp:Content>
 
@@ -97,11 +84,13 @@
     <!-- Pedido -->
     <div class="card">
       <div class="card-header" id="hPedido">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cPedido" aria-expanded="false" aria-controls="cPedido">
+        <button class="btn btn-link collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#cPedido"
+                aria-expanded="false" aria-controls="cPedido">
           <i class="fa fa-file-text"></i> Informações do Pedido <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
-      <div id="cPedido" class="collapse" data-parent="#accAtendimento">
+      <div id="cPedido" class="collapse" data-bs-parent="#accAtendimento">
         <div class="card-body">
           <div class="row">
             <div class="col-md-6">
@@ -134,11 +123,13 @@
     <!-- Pré-Operatório -->
     <div class="card">
       <div class="card-header" id="hPre">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cPre" aria-expanded="false" aria-controls="cPre">
+        <button class="btn btn-link collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#cPre"
+                aria-expanded="false" aria-controls="cPre">
           <i class="fa fa-plus-square"></i> Informações do Pré Operatório <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
-      <div id="cPre" class="collapse" data-parent="#accAtendimento">
+      <div id="cPre" class="collapse" data-bs-parent="#accAtendimento">
         <div class="card-body">
           <select id="select2" multiple runat="server" clientidmode="Static"
                   class="selectpicker form-control exam-select" data-exam="true"
@@ -151,11 +142,13 @@
     <!-- Ressonância -->
     <div class="card">
       <div class="card-header" id="hRes">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cRes" aria-expanded="false" aria-controls="cRes">
+        <button class="btn btn-link collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#cRes"
+                aria-expanded="false" aria-controls="cRes">
           <i class="fa fa-vials"></i> Informações de Ressonância <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
-      <div id="cRes" class="collapse" data-parent="#accAtendimento">
+      <div id="cRes" class="collapse" data-bs-parent="#accAtendimento">
         <div class="card-body">
           <select id="select1" multiple runat="server" clientidmode="Static"
                   class="selectpicker form-control exam-select" data-exam="true"
@@ -168,11 +161,13 @@
     <!-- Teleconsulta -->
     <div class="card">
       <div class="card-header" id="hTele">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cTele" aria-expanded="false" aria-controls="cTele">
+        <button class="btn btn-link collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#cTele"
+                aria-expanded="false" aria-controls="cTele">
           <i class="fa fa-phone"></i> Informações de Teleconsulta <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
-      <div id="cTele" class="collapse" data-parent="#accAtendimento">
+      <div id="cTele" class="collapse" data-bs-parent="#accAtendimento">
         <div class="card-body">
           <select id="select3" multiple runat="server" clientidmode="Static"
                   class="selectpicker form-control exam-select" data-exam="true"
@@ -185,11 +180,13 @@
     <!-- Exames Únicos -->
     <div class="card">
       <div class="card-header" id="hEx">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cEx" aria-expanded="false" aria-controls="cEx">
+        <button class="btn btn-link collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#cEx"
+                aria-expanded="false" aria-controls="cEx">
           <i class="fa fa-vial"></i> Informações de Exames Únicos <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
-      <div id="cEx" class="collapse" data-parent="#accAtendimento">
+      <div id="cEx" class="collapse" data-bs-parent="#accAtendimento">
         <div class="card-body">
           <select id="select4" multiple runat="server" clientidmode="Static"
                   class="selectpicker form-control exam-select" data-exam="true"
@@ -209,11 +206,13 @@
     <!-- Solicitante -->
     <div class="card">
       <div class="card-header" id="hSol">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#cSol" aria-expanded="false" aria-controls="cSol">
+        <button class="btn btn-link collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#cSol"
+                aria-expanded="false" aria-controls="cSol">
           <i class="fa fa-user-md"></i> Informações do Solicitante <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
-      <div id="cSol" class="collapse" data-parent="#accAtendimento">
+      <div id="cSol" class="collapse" data-bs-parent="#accAtendimento">
         <div class="card-body">
           <label>Médico/Profissional</label>
           <asp:TextBox ID="txbprofissional" runat="server" CssClass="form-control" placeholder="Digite o nome do profissional"></asp:TextBox>
@@ -234,19 +233,19 @@
     </div>
   </div>
 
-  <!-- Modal sucesso -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
+  <!-- Modal sucesso (BS5) -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header"><h5 class="modal-title">Cadastro</h5></div>
         <div class="modal-body text-center"><h2>Pedido Cadastrado.</h2></div>
-        <div class="modal-footer"><button type="button" id="btnCloseModal" class="btn btn-default" data-dismiss="modal">Fechar</button></div>
+        <div class="modal-footer"><button type="button" id="btnCloseModal" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Scripts -->
+<!-- Scripts de plugins (jQuery/Bootstrap já vêm da Master) -->
 <script src="https://cdn.jsdelivr.net/npm/icheck@1.0.2/icheck.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
@@ -280,7 +279,9 @@
             }
             if (invalid) {
                 var $col = $(invalid).closest('.collapse');
-                if ($col.length && !$col.hasClass('show')) $col.collapse('show');
+                if ($col.length && !$col.hasClass('show')) {
+                    bootstrap.Collapse.getOrCreateInstance($col[0], { toggle: false }).show();
+                }
                 setTimeout(function () {
                     try { invalid.focus(); } catch (e) { }
                     $('html,body').animate({ scrollTop: $(invalid).offset().top - 120 }, 180);
@@ -292,6 +293,7 @@
     }
 
     $(function () {
+        // datepicker
         flatpickr("#<%= txbDtPedido.ClientID %>", {
           dateFormat: "d/m/Y",
           locale: {
@@ -301,14 +303,17 @@
           }
       });
 
+      // apenas números
       $('.numeric').on('input', function () { this.value = this.value.replace(/\D/g, ''); });
 
+      // iCheck
       $('input[type="checkbox"], input[type="radio"]').iCheck({
           checkboxClass: 'icheckbox_flat-green',
           radioClass: 'iradio_flat-green',
           increaseArea: '20%'
       });
 
+      // bootstrap-select
       $('.selectpicker').each(function () {
           var $s = $(this);
           if (!$s.data('selectpicker')) $s.selectpicker({ dropupAuto: false, liveSearch: true });
@@ -316,8 +321,11 @@
           $s.selectpicker('render');
       });
 
+      // acordeão exclusivo (fecha outros quando um abre)
       $('#accAtendimento').on('show.bs.collapse', function (e) {
-          $('#accAtendimento .collapse.show').not(e.target).collapse('hide');
+          $('#accAtendimento .collapse.show').not(e.target).each(function () {
+              bootstrap.Collapse.getOrCreateInstance(this, { toggle: false }).hide();
+          });
       }).on('shown.bs.collapse', function (e) {
           $(e.target).find('select.selectpicker').each(function () {
               var $s = $(this); toggleSearchBox($s); ensureUniqueSelection($s); $s.selectpicker('render');
@@ -325,6 +333,7 @@
           $('html,body').animate({ scrollTop: $(e.target).closest('.card').offset().top - 16 }, 180);
       });
 
+      // garantir seleção única no selectpicker
       $(document).on('changed.bs.select', 'select.selectpicker', function () {
           var $s = $(this); ensureUniqueSelection($s); $s.selectpicker('render');
       });

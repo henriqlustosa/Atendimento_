@@ -2,287 +2,192 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HSPM Atendimento</title>
-    <asp:ContentPlaceHolder ID="head" runat="server" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HSPM Atendimento</title>
 
-    <!-- Bootstrap + FontAwesome -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            background-color: #f8f9fa;
-        }
+  <!-- Bootstrap 5 (CSS) -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous" />
 
-        .wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer" />
 
-        #sidebar {
-            width: 250px;
-            background-color: #2A3F54;
-            color: white;
-            transition: all 0.3s;
-            overflow-x: hidden;
-            position: relative;
-            z-index: 1001;
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
+  <!-- JS base (precisa vir ANTES dos plugins das páginas) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
 
-        #sidebar.collapsed {
-            width: 70px;
-        }
+  <!-- Plugins por página entram aqui -->
+  <asp:ContentPlaceHolder ID="head" runat="server" />
 
-        #sidebar .menu-text {
-            display: inline;
-            transition: opacity 0.3s;
-        }
-
-        #sidebar.collapsed .menu-text,
-        #sidebar.collapsed .fa-chevron-down {
-            display: none !important;
-        }
-
-        #sidebar a {
-            color: white;
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            text-decoration: none;
-            transition: background 0.3s;
-            font-size: 15px;
-        }
-
-        #sidebar a:hover,
-        #sidebar .active > a {
-            background-color: #1ABB9C;
-            border-radius: 6px;
-        }
-
-        .child-menu {
-            background-color: #3B4B5B;
-        }
-
-        .child-menu a {
-            padding-left: 40px;
-        }
-
-        #sidebar.collapsed .child-menu {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 70px;
-            background-color: #2A3F54;
-            min-width: 220px;
-            padding: 8px 0;
-            z-index: 9999;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-            animation: fadeIn 0.2s ease-in-out;
-            border-radius: 4px;
-        }
-
-        #sidebar.collapsed li:hover > .child-menu {
-            display: block;
-        }
-
-        .menu-toggle .fa-chevron-down {
-            transition: transform 0.3s ease;
-        }
-
-        .menu-toggle.open .fa-chevron-down {
-            transform: rotate(180deg);
-        }
-
-        #content {
-            flex-grow: 1;
-            transition: margin-left 0.3s;
-            overflow-x: hidden;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-header h5 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .toggle-btn {
-            background: none;
-            border: none;
-            color: #333;
-            font-size: 20px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            #sidebar {
-                position: absolute;
-                height: 100vh;
-                left: -250px;
-                transition: left 0.3s ease;
-            }
-
-            #sidebar.mobile-visible {
-                left: 0 !important;
-            }
-
-            #sidebar.collapsed {
-                width: 250px;
-            }
-
-            #content {
-                margin-left: 0 !important;
-            }
-        }
-    </style>
+  <style>
+    body{ font-family:'Segoe UI',sans-serif; margin:0; background:#f8f9fa; }
+    .wrapper{ display:flex; min-height:100vh; }
+    #sidebar{ width:250px; background:#2A3F54; color:#fff; transition:.3s; overflow-x:hidden;
+              position:relative; z-index:1001; border-top-right-radius:12px; border-bottom-right-radius:12px; }
+    #sidebar.collapsed{ width:70px; }
+    #sidebar .menu-text{ display:inline; transition:opacity .3s; }
+    #sidebar.collapsed .menu-text, #sidebar.collapsed .fa-chevron-down{ display:none!important; }
+    #sidebar a{ color:#fff; display:flex; align-items:center; padding:12px 20px; text-decoration:none; transition:background .3s; font-size:15px; }
+    #sidebar a:hover, #sidebar .active > a{ background:#1ABB9C; border-radius:6px; }
+    .child-menu{ background:#3B4B5B; }
+    .child-menu a{ padding-left:40px; }
+    #sidebar.collapsed .child-menu{ display:none; position:absolute; top:0; left:70px; background:#2A3F54; min-width:220px; padding:8px 0;
+                                    z-index:9999; box-shadow:2px 2px 5px rgba(0,0,0,.4); animation:fadeIn .2s ease-in-out; border-radius:4px; }
+    #sidebar.collapsed li:hover > .child-menu{ display:block; }
+    .menu-toggle .fa-chevron-down{ transition:transform .3s ease; }
+    .menu-toggle.open .fa-chevron-down{ transform:rotate(180deg); }
+    #content{ flex-grow:1; transition:margin-left .3s; overflow-x:hidden; }
+    .sidebar-header{ padding:20px; text-align:center; border-bottom:1px solid rgba(255,255,255,.1); }
+    .sidebar-header h5{ margin:0; font-size:18px; }
+    .toggle-btn{ background:none; border:none; color:#333; font-size:20px; }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);} }
+    @media (max-width:768px){
+      #sidebar{ position:absolute; height:100vh; left:-250px; transition:left .3s ease; }
+      #sidebar.mobile-visible{ left:0!important; }
+      #sidebar.collapsed{ width:250px; }
+      #content{ margin-left:0!important; }
+    }
+  </style>
 </head>
+
 <body>
-    <form id="form1" runat="server">
-        <div class="wrapper">
-            <!-- Sidebar -->
-            <div id="sidebar" class="collapsed">
-                <div class="sidebar-header">
-                    <h5><i class="fa fa-hospital"></i> <span class="menu-text">HSPM</span></h5>
-                    <small class="menu-text">Bem-vindo, <asp:LoginName ID="LoginName1" runat="server" /></small>
-                </div>
-                <nav>
-                    <ul class="list-unstyled mb-0">
-                        <asp:Repeater ID="menu" runat="server">
-                            <ItemTemplate>
-                                <li>
-                                    <a href="javascript:void(0);" class="menu-toggle" title='<%# Eval("Title") %>'>
-                                        <i class='<%#
-                                            Container.ItemIndex == 0 ? "fa fa-house" :
-                                            Container.ItemIndex == 1 ? "fa fa-file-medical" :
-                                            Container.ItemIndex == 2 ? "fa fa-users-gear" :
-                                            Container.ItemIndex == 3 ? "fa fa-chart-line" :
-                                            Container.ItemIndex == 4 ? "fa fa-user" :
-                                            "fa fa-folder"
-                                        %>'></i>
-                                        <span class="menu-text ml-2"><%# Eval("Title") %></span>
-                                        <i class="fa fa-chevron-down ml-auto"></i>
-                                    </a>
-
-                                    <asp:Repeater ID="submenu" runat="server" DataSource='<%# Eval("Children") %>'>
-                                        <HeaderTemplate><ul class="list-unstyled child-menu"></HeaderTemplate>
-                                        <ItemTemplate>
-                                            <li><a href='<%# Eval("Url") %>'><%# Eval("Title") %></a></li>
-                                        </ItemTemplate>
-                                        <FooterTemplate></ul></FooterTemplate>
-                                    </asp:Repeater>
-                                </li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ul>
-                </nav>
-            </div>
-
-            <!-- Conteúdo -->
-            <div id="content">
-                <div class="py-3 border-bottom d-flex justify-content-between align-items-center px-3">
-                    <button id="toggleSidebar" type="button" class="toggle-btn" title="Mostrar/Esconder Menu">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <h3 class="mb-0 flex-grow-1 text-center">HSPM Atendimento</h3>
-                    <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="Default.aspx" CssClass="btn btn-outline-secondary btn-sm" />
-                </div>
-                <div class="p-3">
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server" />
-                </div>
-            </div>
+  <form id="form1" runat="server">
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div id="sidebar" class="collapsed">
+        <div class="sidebar-header">
+          <h5><i class="fa fa-hospital"></i> <span class="menu-text">HSPM</span></h5>
+          <small class="menu-text">Bem-vindo, <asp:LoginName ID="LoginName1" runat="server" /></small>
         </div>
-    </form>
+        <nav>
+          <ul class="list-unstyled mb-0">
+            <asp:Repeater ID="menu" runat="server">
+              <ItemTemplate>
+                <li>
+                  <a href="javascript:void(0);" class="menu-toggle" title='<%# Eval("Title") %>'>
+                    <i class='<%#
+                      Container.ItemIndex == 0 ? "fa fa-house" :
+                      Container.ItemIndex == 1 ? "fa fa-file-medical" :
+                      Container.ItemIndex == 2 ? "fa fa-users-gear" :
+                      Container.ItemIndex == 3 ? "fa fa-chart-line" :
+                      Container.ItemIndex == 4 ? "fa fa-user" :
+                      "fa fa-folder" %>'></i>
+                    <span class="menu-text ms-2"><%# Eval("Title") %></span>
+                    <i class="fa fa-chevron-down ms-auto"></i>
+                  </a>
+
+                  <asp:Repeater ID="submenu" runat="server" DataSource='<%# Eval("Children") %>'>
+                    <HeaderTemplate><ul class="list-unstyled child-menu"></HeaderTemplate>
+                    <ItemTemplate>
+                      <li><a href='<%# Eval("Url") %>'><%# Eval("Title") %></a></li>
+                    </ItemTemplate>
+                    <FooterTemplate></ul></FooterTemplate>
+                  </asp:Repeater>
+                </li>
+              </ItemTemplate>
+            </asp:Repeater>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Conteúdo -->
+      <div id="content">
+        <div class="py-3 border-bottom d-flex justify-content-between align-items-center px-3">
+          <button id="toggleSidebar" type="button" class="toggle-btn" title="Mostrar/Esconder Menu">
+            <i class="fa fa-bars"></i>
+          </button>
+          <h3 class="mb-0 flex-grow-1 text-center">HSPM Atendimento</h3>
+          <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="Default.aspx"
+                           CssClass="btn btn-outline-secondary btn-sm" />
+        </div>
+        <div class="p-3">
+          <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server" />
+        </div>
+      </div>
+    </div>
+  </form>
 
 
-    <script>
-        $(document).ready(function () {
-            $('.child-menu').hide();
-            $('.menu-toggle').parent().removeClass('active');
 
-            const lastMenuTitle = localStorage.getItem('menuAtivo');
-            if (!$('#sidebar').hasClass('collapsed') && lastMenuTitle) {
-                $('.menu-toggle').each(function () {
-                    if ($(this).attr('title') === lastMenuTitle) {
-                        $(this).parent().addClass('active');
-                        $(this).addClass('open');
-                        $(this).next('.child-menu').show();
-                    }
-                });
-            }
+  <script>
+      $(function () {
+          $('.child-menu').hide();
+          $('.menu-toggle').parent().removeClass('active');
 
-            $('.menu-toggle').click(function (e) {
-                e.preventDefault();
-                if ($('#sidebar').hasClass('collapsed')) return;
+          const lastMenuTitle = localStorage.getItem('menuAtivo');
+          if (!$('#sidebar').hasClass('collapsed') && lastMenuTitle) {
+              $('.menu-toggle').each(function () {
+                  if ($(this).attr('title') === lastMenuTitle) {
+                      $(this).parent().addClass('active');
+                      $(this).addClass('open');
+                      $(this).next('.child-menu').show();
+                  }
+              });
+          }
 
-                var $submenu = $(this).next('.child-menu');
-                var $parentItem = $(this).parent();
+          $('.menu-toggle').on('click', function (e) {
+              e.preventDefault();
+              if ($('#sidebar').hasClass('collapsed')) return;
 
-                $('.menu-toggle').removeClass('open');
+              var $submenu = $(this).next('.child-menu');
+              var $parentItem = $(this).parent();
 
-                if ($parentItem.hasClass('active')) {
-                    $submenu.stop(true, true).slideUp(200);
-                    $parentItem.removeClass('active');
-                    localStorage.removeItem('menuAtivo');
-                } else {
-                    $('.child-menu').slideUp(200);
-                    $('.menu-toggle').parent().removeClass('active');
-                    $submenu.stop(true, true).slideDown(200);
-                    $parentItem.addClass('active');
-                    $(this).addClass('open');
-                    localStorage.setItem('menuAtivo', $(this).attr('title'));
-                }
-            });
+              $('.menu-toggle').removeClass('open');
 
-            $('#toggleSidebar').click(function () {
-                const isMobile = window.innerWidth <= 768;
+              if ($parentItem.hasClass('active')) {
+                  $submenu.stop(true, true).slideUp(200);
+                  $parentItem.removeClass('active');
+                  localStorage.removeItem('menuAtivo');
+              } else {
+                  $('.child-menu').slideUp(200);
+                  $('.menu-toggle').parent().removeClass('active');
+                  $submenu.stop(true, true).slideDown(200);
+                  $parentItem.addClass('active');
+                  $(this).addClass('open');
+                  localStorage.setItem('menuAtivo', $(this).attr('title'));
+              }
+          });
 
-                if (isMobile) {
-                    $('#sidebar').toggleClass('mobile-visible');
-                } else {
-                    $('#sidebar').toggleClass('collapsed');
-                    if ($('#sidebar').hasClass('collapsed')) {
-                        $('.child-menu').hide();
-                        $('.menu-toggle').parent().removeClass('active');
-                        $('.menu-toggle').removeClass('open');
-                    } else {
-                        const lastMenuTitle = localStorage.getItem('menuAtivo');
-                        if (lastMenuTitle) {
-                            $('.menu-toggle').each(function () {
-                                if ($(this).attr('title') === lastMenuTitle) {
-                                    $(this).parent().addClass('active');
-                                    $(this).addClass('open');
-                                    $(this).next('.child-menu').slideDown(200);
-                                }
-                            });
-                        }
-                    }
-                }
-            });
+          $('#toggleSidebar').on('click', function () {
+              const isMobile = window.innerWidth <= 768;
 
-            $(document).click(function (e) {
-                const target = $(e.target);
-                if (!target.closest('#sidebar').length && !target.closest('#toggleSidebar').length && window.innerWidth <= 768) {
-                    $('#sidebar').removeClass('mobile-visible');
-                }
-            });
-        });
-    </script>
+              if (isMobile) {
+                  $('#sidebar').toggleClass('mobile-visible');
+              } else {
+                  $('#sidebar').toggleClass('collapsed');
+                  if ($('#sidebar').hasClass('collapsed')) {
+                      $('.child-menu').hide();
+                      $('.menu-toggle').parent().removeClass('active');
+                      $('.menu-toggle').removeClass('open');
+                  } else {
+                      const last = localStorage.getItem('menuAtivo');
+                      if (last) {
+                          $('.menu-toggle').each(function () {
+                              if ($(this).attr('title') === last) {
+                                  $(this).parent().addClass('active');
+                                  $(this).addClass('open');
+                                  $(this).next('.child-menu').slideDown(200);
+                              }
+                          });
+                      }
+                  }
+              }
+          });
+
+          $(document).on('click', function (e) {
+              const $t = $(e.target);
+              if (!$t.closest('#sidebar').length && !$t.closest('#toggleSidebar').length && window.innerWidth <= 768) {
+                  $('#sidebar').removeClass('mobile-visible');
+              }
+          });
+      });
+  </script>
 </body>
 </html>

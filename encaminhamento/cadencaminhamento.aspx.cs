@@ -39,12 +39,13 @@ public partial class publico_cadencaminhamento : BasePage
         ddlEspecialidade.SelectedIndex = 0;
     }
 
+    // -------------------- Bind Helpers --------------------
+
     private static void BindDropDown(ListControl ddl, IList<ListItemDto> data)
     {
         ddl.Items.Clear();
         ddl.Items.Add(new ListItem("Selecione...", ""));
-        int i;
-        for (i = 0; i < data.Count; i++)
+        for (int i = 0; i < data.Count; i++)
             ddl.Items.Add(new ListItem(data[i].Text, data[i].Value.ToString(CultureInfo.InvariantCulture)));
         ddl.SelectedIndex = 0;
     }
@@ -52,25 +53,23 @@ public partial class publico_cadencaminhamento : BasePage
     private static void BindHtmlSelect(HtmlSelect sel, IList<ListItemDto> data)
     {
         sel.Items.Clear();
-        int i;
-        for (i = 0; i < data.Count; i++)
+        for (int i = 0; i < data.Count; i++)
             sel.Items.Add(new ListItem(data[i].Text, data[i].Value.ToString(CultureInfo.InvariantCulture)));
         RemoveDuplicateByText(sel.Items);
     }
 
     private static void RemoveDuplicateByText(ListItemCollection items)
     {
-        System.Collections.Generic.HashSet<string> seen =
-            new System.Collections.Generic.HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
-
-        int i;
-        for (i = items.Count - 1; i >= 0; i--)
+        var seen = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+        for (int i = items.Count - 1; i >= 0; i--)
         {
             string t = (items[i].Text ?? "").Trim();
             if (t.Length == 0 || !seen.Add(t))
                 items.RemoveAt(i);
         }
     }
+
+    // -------------------- Ações --------------------
 
     protected void btnPesquisapaciente_Click(object sender, EventArgs e)
     {
@@ -100,34 +99,43 @@ public partial class publico_cadencaminhamento : BasePage
 
     protected void btnGravar_Click(object sender, EventArgs e)
     {
-        int prontuario, codEsp;
+        int prontuario;
         DateTime dtPedido;
+        int codEsp;
 
         if (!TryValidateInputs(out prontuario, out dtPedido, out codEsp))
             return;
 
         string historicoTodosExames = JoinSelectedTexts(select1, select2, select3, select4);
 
-        GravarPedidoCommand cmd = new GravarPedidoCommand();
-        cmd.Prontuario = prontuario;
-        cmd.NomePaciente = txbNomePaciente.Text.Trim().ToUpperInvariant();
-        cmd.DataPedido = dtPedido;
-        cmd.CodEspecialidade = codEsp;
-        cmd.OutrasInformacoes = txbOb.Text;
-        cmd.Solicitante = (txbprofissional.Text ?? "").Trim().ToUpperInvariant();
-        cmd.Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString();
-        cmd.ExamesPreOpTextoParaHistorico = historicoTodosExames;
-        cmd.Exames = BuildExamesSelecionados();
+        var cmd = new GravarPedidoCommand
+        {
+            Prontuario = prontuario,
+            NomePaciente = txbNomePaciente.Text.Trim().ToUpperInvariant(),
+            DataPedido = dtPedido,
+            CodEspecialidade = codEsp,
+            OutrasInformacoes = txbOb.Text,
+            Solicitante = (txbprofissional.Text ?? "").Trim().ToUpperInvariant(),
+            Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString(),
+            ExamesPreOpTextoParaHistorico = historicoTodosExames,
+            Exames = BuildExamesSelecionados()
+        };
 
         try
         {
             int id = _gravarPedido.Handle(cmd);
 
-            ScriptManager.RegisterStartupScript(
-                Page, GetType(), "ok",
-                "$(function(){ $('#myModal').modal(); });",
-                true
-            );
+            // 1) Limpa todos os campos (server-side)
+            ClearAllFields();
+
+            // 2) Reseta UI no cliente (bootstrap-select + flatpickr)
+            RegisterClientResetScripts();
+
+            // 3) Fecha todos os acordeões
+            CloseAllAccordions();
+
+            // 4) Mostra modal de sucesso (Bootstrap 5)
+            ShowSuccessModal();
         }
         catch (ApplicationException ex)
         {
@@ -135,12 +143,11 @@ public partial class publico_cadencaminhamento : BasePage
         }
         catch (Exception ex)
         {
-            // TEMPORÁRIO em dev (remova depois ou faça log):
             AddPageError("Falha inesperada: " + ex.Message);
-            // ou rethrow para ver a página de erro detalhada:
-            // throw;
         }
     }
+
+    // -------------------- Validações/Build --------------------
 
     private bool TryValidateInputs(out int prontuario, out DateTime dtPedido, out int codEsp)
     {
@@ -156,7 +163,7 @@ public partial class publico_cadencaminhamento : BasePage
         if (!Page.IsValid)
             AddPageError("Existem campos obrigatórios não preenchidos ou inválidos.");
 
-        System.Collections.Generic.List<string> errors = new System.Collections.Generic.List<string>();
+        var errors = new List<string>();
 
         if (!TryGetIntPositive(txbProntuario.Text, out prontuario))
             errors.Add("Prontuário inválido.");
@@ -175,17 +182,16 @@ public partial class publico_cadencaminhamento : BasePage
 
         if (!Page.IsValid || errors.Count > 0)
         {
-            int i;
-            for (i = 0; i < errors.Count; i++) AddPageError(errors[i]);
+            for (int i = 0; i < errors.Count; i++) AddPageError(errors[i]);
             return false;
         }
 
         return true;
     }
 
-    private System.Collections.Generic.IList<ExameSelecionado> BuildExamesSelecionados()
+    private IList<ExameSelecionado> BuildExamesSelecionados()
     {
-        System.Collections.Generic.List<ExameSelecionado> list = new System.Collections.Generic.List<ExameSelecionado>();
+        var list = new List<ExameSelecionado>();
         AddFromSelect(list, select2, "PreOp");
         AddFromSelect(list, select1, "Ressonancia");
         AddFromSelect(list, select3, "Teleconsulta");
@@ -193,27 +199,25 @@ public partial class publico_cadencaminhamento : BasePage
         return list;
     }
 
-    private static void AddFromSelect(System.Collections.Generic.IList<ExameSelecionado> list, HtmlSelect s, string grupo)
+    private static void AddFromSelect(IList<ExameSelecionado> list, HtmlSelect s, string grupo)
     {
         foreach (ListItem it in s.Items)
         {
             if (!it.Selected) continue;
-            int code;
-            int.TryParse(it.Value, out code);
+            int code; int.TryParse(it.Value, out code);
             list.Add(new ExameSelecionado(code, it.Text, grupo));
         }
     }
 
     private static string JoinSelectedTexts(params HtmlSelect[] selects)
     {
-        System.Collections.Generic.List<string> parts = new System.Collections.Generic.List<string>();
-        int i; int j;
-        for (i = 0; i < selects.Length; i++)
+        var parts = new List<string>();
+        for (int i = 0; i < selects.Length; i++)
         {
-            HtmlSelect s = selects[i];
-            for (j = 0; j < s.Items.Count; j++)
+            var s = selects[i];
+            for (int j = 0; j < s.Items.Count; j++)
             {
-                ListItem it = s.Items[j];
+                var it = s.Items[j];
                 if (it.Selected) parts.Add(it.Text);
             }
         }
@@ -228,14 +232,11 @@ public partial class publico_cadencaminhamento : BasePage
 
     private static bool HasAnySelection(params HtmlSelect[] selects)
     {
-        int i; int j;
-        for (i = 0; i < selects.Length; i++)
+        for (int i = 0; i < selects.Length; i++)
         {
-            HtmlSelect s = selects[i];
-            for (j = 0; j < s.Items.Count; j++)
-            {
+            var s = selects[i];
+            for (int j = 0; j < s.Items.Count; j++)
                 if (s.Items[j].Selected) return true;
-            }
         }
         return false;
     }
@@ -243,7 +244,7 @@ public partial class publico_cadencaminhamento : BasePage
     private static bool TryParseDatePtBr(string input, out DateTime result)
     {
         input = (input ?? "").Trim();
-        string[] formats = new string[] { "d/M/yyyy", "dd/MM/yyyy" };
+        string[] formats = new[] { "d/M/yyyy", "dd/MM/yyyy" };
         return DateTime.TryParseExact(
             input, formats, new CultureInfo("pt-BR"),
             DateTimeStyles.None, out result
@@ -252,11 +253,82 @@ public partial class publico_cadencaminhamento : BasePage
 
     private void AddPageError(string message)
     {
-        CustomValidator cv = new CustomValidator();
-        cv.IsValid = false;
-        cv.ErrorMessage = message;
-        cv.ValidationGroup = "Salvar";
-        cv.Display = ValidatorDisplay.None;
+        var cv = new CustomValidator
+        {
+            IsValid = false,
+            ErrorMessage = message,
+            ValidationGroup = "Salvar",
+            Display = ValidatorDisplay.None
+        };
         Page.Validators.Add(cv);
+    }
+
+    // -------------------- Pós-salvamento: limpar/atualizar UI --------------------
+
+    private void ClearAllFields()
+    {
+        // TextBoxes
+        txbProntuario.Text = string.Empty;
+        txbNomePaciente.Text = string.Empty;
+        txbDtPedido.Text = string.Empty;
+        txbOb.Text = string.Empty;
+        txbprofissional.Text = string.Empty;
+
+        // DropDownList de especialidade (volta para "Selecione...")
+        ddlEspecialidade.ClearSelection();
+        var first = ddlEspecialidade.Items.FindByValue("") ??
+                    (ddlEspecialidade.Items.Count > 0 ? ddlEspecialidade.Items[0] : null);
+        if (first != null) first.Selected = true;
+
+        // HtmlSelect (remove seleções)
+        ClearHtmlSelect(select1);
+        ClearHtmlSelect(select2);
+        ClearHtmlSelect(select3);
+        ClearHtmlSelect(select4);
+    }
+
+    private static void ClearHtmlSelect(HtmlSelect sel)
+    {
+        if (sel == null) return;
+        foreach (ListItem li in sel.Items) li.Selected = false;
+    }
+
+    private void RegisterClientResetScripts()
+    {
+        // DeselectAll + render (bootstrap-select) e limpar flatpickr
+        var js = @"
+(function(){
+  if (window.jQuery){
+    try {
+      $('.selectpicker').each(function(){
+        $(this).selectpicker('deselectAll');
+        $(this).selectpicker('render');
+      });
+    } catch(e){}
+  }
+  var fpEl = document.getElementById('" + txbDtPedido.ClientID + @"');
+  if (fpEl && fpEl._flatpickr){ fpEl._flatpickr.clear(); }
+})();";
+        ScriptManager.RegisterStartupScript(this, GetType(), "resetUiAfterSave", js, true);
+    }
+
+    private void CloseAllAccordions()
+    {
+        var js = @"
+(function(){
+  var acc = document.getElementById('accAtendimento');
+  if(!acc) return;
+  acc.querySelectorAll('.collapse.show').forEach(function(el){
+    try { bootstrap.Collapse.getOrCreateInstance(el, { toggle:false }).hide(); } catch(e){}
+  });
+  try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) { window.scrollTo(0,0); }
+})();";
+        ScriptManager.RegisterStartupScript(this, GetType(), "collapseAllAfterSave", js, true);
+    }
+
+    private void ShowSuccessModal()
+    {
+        var js = "var m = bootstrap.Modal.getOrCreateInstance(document.getElementById('myModal')); m.show();";
+        ScriptManager.RegisterStartupScript(this, GetType(), "showOkModal", js, true);
     }
 }

@@ -1,91 +1,188 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
 
 public partial class encaminhamento_pedidospendentesporrh : BasePage
 {
+    // ---------------- Helpers ----------------
+    private static string SafeTrim(string s) { return s == null ? "" : s.Trim(); }
+
+    private static string ToJsString(string s)
+    {
+        if (s == null) s = "";
+        return "'" + s.Replace(@"\", @"\\").Replace("'", @"\'")
+                      .Replace("\r", "").Replace("\n", "\\n") + "'";
+    }
+
+    private void ShowToast(string msg)
+    {
+        ScriptManager.RegisterStartupScript(this, GetType(), "msg",
+            "alert(" + ToJsString(msg) + ");", true);
+    }
+
+    private void ConfigureGridHeader()
+    {
+        if (GridView1.HeaderRow != null)
+        {
+            GridView1.UseAccessibleHeader = true;
+            GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
+        }
+        if (GridView1.FooterRow != null)
+        {
+            GridView1.FooterRow.TableSection = TableRowSection.TableFooter;
+        }
+    }
+
+    private void BindGrid(int prontuario)
+    {
+        try
+        {
+            GridView1.DataSource = PedidoDAO.getListaPedidoConsultaPendentePorRH(prontuario);
+            GridView1.DataBind();
+            ConfigureGridHeader();
+
+            if (GridView1.Rows.Count == 0)
+                ShowToast("Nenhum registro encontrado para o prontuário informado.");
+        }
+        catch (Exception ex)
+        {
+            ShowToast("Erro ao carregar lista: " + ex.Message);
+            GridView1.DataSource = null;
+            GridView1.DataBind();
+        }
+    }
+
+    // ---------------- Eventos de Página ----------------
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (IsPostBack) return;
+        // Se precisar, inicialize algo aqui.
     }
 
+    protected void GridView1_PreRender(object sender, EventArgs e)
+    {
+        // Garante <thead>/<tfoot> em todo ciclo
+        ConfigureGridHeader();
+    }
 
+    // ---------------- Ações da Grid ----------------
     protected void grdMain_RowCommand(object sender, GridViewCommandEventArgs e)
     {
+        if (e == null || e.CommandArgument == null) return;
+
         int index;
+        if (!int.TryParse(e.CommandArgument.ToString(), out index)) return;
+        if (index < 0 || index >= GridView1.Rows.Count) return;
 
-        if (e.CommandName.Equals("editRecord"))
+        int idPedido;
+        if (!int.TryParse(GridView1.DataKeys[index].Value.ToString(), out idPedido)) return;
+
+        if (e.CommandName == "editRecord")
         {
-            index = Convert.ToInt32(e.CommandArgument);
-
-            int _id_pedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString()); //id da consulta
-            GridViewRow row = GridView1.Rows[index];
-            //string _status = row.Cells[7].Text;
-
-            Response.Redirect("~/encaminhamento/retornomarcado.aspx?idpedido=" + _id_pedido + "");
+            Response.Redirect("~/encaminhamento/retornomarcado.aspx?idpedido=" + idPedido);
+            return;
         }
-        if (e.CommandName.Equals("deleteRecord"))
+
+        if (e.CommandName == "deleteRecord")
         {
-            index = Convert.ToInt32(e.CommandArgument);
+            try
+            {
+                PedidoDAO.deletePedidodeConsulta(idPedido);
 
-            int _id_pedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString()); //id da consulta
-            GridViewRow row = GridView1.Rows[index];
+                int pront;
+                if (int.TryParse(SafeTrim(txbProntuario.Text), out pront))
+                    BindGrid(pront);
 
-            PedidoDAO.deletePedidodeConsulta(_id_pedido);
-            Response.Redirect("~/encaminhamento/pedidospendentes.aspx");
-
-            //string _status = row.Cells[7].Text;
-
-
+                ShowToast("Registro excluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                ShowToast("Erro ao excluir: " + ex.Message);
+            }
+            return;
         }
-        if (e.CommandName.Equals("fileRecord"))
+
+        if (e.CommandName == "fileRecord")
         {
-            index = Convert.ToInt32(e.CommandArgument);
-
-            int _id_pedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString()); //id da consulta
-            GridViewRow row = GridView1.Rows[index];
-
-            PedidoDAO.filePedidodeConsulta(_id_pedido);
-            Response.Redirect("~/encaminhamento/pedidospendentes.aspx");
-
-            //string _status = row.Cells[7].Text;
-
-
+            // O arquivamento é feito via modal/btnConfirmarArquivo_Click.
+            // Se quiser arquivar direto sem modal, implemente aqui.
+            return;
         }
     }
 
-    protected void btnPesquisar_OnClick(object sender, EventArgs e)
+
+   
+
+    // ---------------- Modal: Confirmar Arquivo ----------------
+    protected void btnConfirmarArquivo_Click(object sender, EventArgs e)
     {
+        if (hfPedidoId == null || string.IsNullOrEmpty(hfPedidoId.Value)) return;
 
-        // colocar no grid OnPreRender="GridView1_PreRender"
+        int id;
+        if (!int.TryParse(hfPedidoId.Value, out id)) return;
 
-        int _pront = Convert.ToInt32(txbProntuario.Text);
-        // You only need the following 2 lines of code if you are not 
-        // using an ObjectDataSource of SqlDataSource
-        GridView1.DataSource = PedidoDAO.getListaPedidoConsultaPendentePorRH(_pront);
-        GridView1.DataBind();
+        string retiradoPor = SafeTrim(txtRetiradoPor.Text);
+        string rgCpf = SafeTrim(txtRgCpf.Text);
+        string data = SafeTrim(txtData.Text); // yyyy-MM-dd (ou conforme vem do input)
+        string hora = SafeTrim(txtHora.Text); // HH:mm
 
-        if (GridView1.Rows.Count > 0)
+        string info = string.Format("Retirado por: {0} RG ou CPF: {1} Data:{2} Hora:{3}",
+            retiradoPor, rgCpf, data, hora);
+
+        try
         {
-            //This replaces <td> with <th> and adds the scope attribute
-            GridView1.UseAccessibleHeader = true;
+            // Se existir o método, atualiza observações
+            try { PedidoDAO.AtualizarOutrasInformacoes(id, info); } catch { /* opcional: log */ }
 
-            //This will add the <thead> and <tbody> elements
-            GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
+            // Arquiva
+            PedidoDAO.filePedidodeConsulta(id);
 
-            //This adds the <tfoot> element. 
-            //Remove if you don't have a footer row
-            GridView1.FooterRow.TableSection = TableRowSection.TableFooter;
+            // Recarrega mantendo o filtro
+            int pront;
+            if (int.TryParse(SafeTrim(txbProntuario.Text), out pront))
+                BindGrid(pront);
 
+            // Fecha modal no client
+            ScriptManager.RegisterStartupScript(this, GetType(), "closeModal",
+                "$('#modalArquivo').modal('hide');", true);
+
+            ShowToast("Pedido arquivado com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            ShowToast("Erro ao arquivar: " + ex.Message);
         }
     }
+
+    protected void btnPesquisar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string s = SafeTrim(txbProntuario.Text);
+            if (s.Length == 0)
+            {
+                ShowToast("Informe o prontuário.");
+                GridView1.DataSource = null;
+                GridView1.DataBind();
+                return;
+            }
+
+            int pront;
+            if (!int.TryParse(s, out pront))
+            {
+                ShowToast("Prontuário inválido. Digite apenas números.");
+                GridView1.DataSource = null;
+                GridView1.DataBind();
+                return;
+            }
+
+            BindGrid(pront);
+        }
+        catch (Exception ex)
+        {
+            ShowToast("Falha ao pesquisar: " + ex.Message);
+        }
+    }
+
+   
 }

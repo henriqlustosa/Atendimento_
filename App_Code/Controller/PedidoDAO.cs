@@ -131,7 +131,7 @@ public class PedidoDAO
                               " FROM [pedido_consulta] " +
                               " WHERE  [status] = 0" +
                               " AND [prontuario] = "+ _prontuario +
-                              " ORDER BY data_pedido DESC";
+                              " ORDER BY cod_pedido DESC";
 
             cmm.CommandText = sqlConsulta;
 
@@ -191,7 +191,7 @@ public class PedidoDAO
                               ",[solicitante]" +
                               ",[usuario]" +
                               " FROM [pedido_consulta] " +
-                              " where status =0 ORDER BY cod_pedido DESC";
+                              " where status = 0 ORDER BY cod_pedido DESC";
 
             cmm.CommandText = sqlConsulta;
 
@@ -593,6 +593,27 @@ public class PedidoDAO
         }
 
     
+    }
+ 
+    public static void AtualizarOutrasInformacoes(int idPedido, string outrasInformacoes)
+    {
+        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
+        {
+            SqlCommand cmm = new SqlCommand();
+            cmm.Connection = cnn;
+            cnn.Open();
+            string sql = @"UPDATE Pedido_Consulta
+                           SET outras_informacoes = @info
+                           WHERE cod_pedido = @id";
+
+            using (SqlCommand cmd = new SqlCommand(sql, cnn))
+            {
+                cmd.Parameters.AddWithValue("@info", outrasInformacoes);
+                cmd.Parameters.AddWithValue("@id", idPedido);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
     public static void filePedidodeConsulta(int _idPedido)
     {
