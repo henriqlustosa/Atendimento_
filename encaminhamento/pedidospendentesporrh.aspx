@@ -22,8 +22,6 @@
     .dataTables_length label{ font-weight:500; }
     .dataTables_filter input{ width:220px; }
     @media (max-width:576px){ .dataTables_filter input{ width:160px; } }
-
-    /* (Opcional) garante o modal acima de cabeçalhos fixos */
     .modal-backdrop{ z-index:1050 !important; }
     .modal{ z-index:1055 !important; }
   </style>
@@ -35,72 +33,109 @@
   </h3>
 
   <div class="card">
-    <div class="card-body">
-      <div class="toolbar">
-        <div class="form-inline">
-          <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
+   <div class="card-body">
+  <div class="toolbar">
+    <div class="form-inline">
+      <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
 
-          <asp:TextBox ID="txbProntuario" runat="server"
-                       CssClass="form-control"
-                       placeholder="Digite o RH"
-                       MaxLength="9"
-                       aria-label="Prontuário (RH)"></asp:TextBox>
+      <asp:TextBox ID="txbProntuario" runat="server"
+                   CssClass="form-control"
+                   placeholder="Digite o RH"
+                   MaxLength="9"
+                   aria-label="Prontuário (RH)"></asp:TextBox>
 
-          <asp:RequiredFieldValidator ID="rfvProntuario" runat="server"
-              ControlToValidate="txbProntuario" ForeColor="red" Display="Dynamic"
-              ErrorMessage="Obrigatório" ValidationGroup="pesquisa" />
+      <asp:RequiredFieldValidator ID="rfvProntuario" runat="server"
+          ControlToValidate="txbProntuario" ForeColor="red" Display="Dynamic"
+          ErrorMessage="Obrigatório" ValidationGroup="pesquisa" />
 
-          <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary"
-              Text="Pesquisar" ValidationGroup="pesquisa" OnClick="btnPesquisar_Click" />
-        </div>
-      </div>
+      <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary ml-2"
+          Text="Pesquisar" ValidationGroup="pesquisa" OnClick="btnPesquisar_Click" />
+
+      <!-- Radios lado a lado do botão -->
+      <asp:RadioButtonList ID="rblTipo" runat="server" RepeatDirection="Horizontal"
+          CssClass="form-check form-check-inline ml-3"
+          AutoPostBack="true" OnSelectedIndexChanged="rblTipo_SelectedIndexChanged">
+        <Items>
+          <asp:ListItem Text="Solicitações Pendentes"  Value="P" Selected="True" />
+          <asp:ListItem Text="Solicitações Arquivadas" Value="A" />
+        </Items>
+      </asp:RadioButtonList>
+    </div>
+  </div>
+</div>
+
 
       <div class="table-responsive" style="margin-top:14px;">
-        <asp:GridView ID="GridView1" runat="server"
-          AutoGenerateColumns="False"
-          DataKeyNames="cod_pedido"
-          OnRowCommand="grdMain_RowCommand"
-          OnPreRender="GridView1_PreRender"
-          CssClass="table table-striped table-bordered"
-          GridLines="Horizontal" BorderColor="#e0ddd1" Width="100%"
-          ShowHeaderWhenEmpty="true">
-          <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
-          <HeaderStyle CssClass="dt-header" />
-          <Columns>
-            <asp:BoundField DataField="cod_pedido" HeaderText="Código do Pedido" SortExpression="cod_pedido" />
-            <asp:BoundField DataField="prontuario" HeaderText="Prontuário" SortExpression="prontuario" />
-            <asp:BoundField DataField="nome_paciente" HeaderText="Paciente" SortExpression="nome_paciente" />
-            <asp:BoundField DataField="data_pedido" HeaderText="Data do Pedido" SortExpression="data_pedido" />
-            <asp:BoundField DataField="data_cadastro" HeaderText="Data de Cadastro" SortExpression="data_cadastro" />
-            <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
-            <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
-            <asp:BoundField DataField="outras_informacoes" HeaderText="Outras Informações" SortExpression="outras_informacoes" />
-            <asp:BoundField DataField="solicitante" HeaderText="Solicitante" SortExpression="solicitante" />
-            <asp:BoundField DataField="usuario" HeaderText="Usuário" SortExpression="usuario" />
 
-            <asp:TemplateField HeaderText=" " ItemStyle-CssClass="actions-col" HeaderStyle-CssClass="sorting_disabled">
-              <ItemTemplate>
-                <!-- Arquivar: <a> com data-id (evita postback e garante JS) -->
-                <a href="#" class="btn btn-success btn-icon js-arquivar"
-                   data-id='<%# Eval("cod_pedido") %>' title="Arquivar">
-                  <i class="fa fa-file"></i>
-                </a>
+        <!-- NOVO: Painel Pendentes (contém o Grid atual) -->
+        <asp:Panel ID="pnlPendentes" runat="server" Visible="true">
+          <asp:GridView ID="GridView1" runat="server"
+            AutoGenerateColumns="False"
+            DataKeyNames="cod_pedido"
+            OnRowCommand="grdMain_RowCommand"
+            OnPreRender="GridView1_PreRender"
+            CssClass="table table-striped table-bordered"
+            GridLines="Horizontal" BorderColor="#e0ddd1" Width="100%"
+            ShowHeaderWhenEmpty="true">
+            <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
+            <HeaderStyle CssClass="dt-header" />
+            <Columns>
+              <asp:BoundField DataField="cod_pedido" HeaderText="Código do Pedido" SortExpression="cod_pedido" />
+              <asp:BoundField DataField="prontuario" HeaderText="Prontuário" SortExpression="prontuario" />
+              <asp:BoundField DataField="nome_paciente" HeaderText="Paciente" SortExpression="nome_paciente" />
+              <asp:BoundField DataField="data_pedido" HeaderText="Data do Pedido" SortExpression="data_pedido" />
+              <asp:BoundField DataField="data_cadastro" HeaderText="Data de Cadastro" SortExpression="data_cadastro" />
+              <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
+              <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
+              <asp:BoundField DataField="outras_informacoes" HeaderText="Outras Informações" SortExpression="outras_informacoes" />
+              <asp:BoundField DataField="usuario" HeaderText="Cadastrado por" SortExpression="usuario" />
+              <asp:TemplateField HeaderText=" " ItemStyle-CssClass="actions-col" HeaderStyle-CssClass="sorting_disabled">
+                <ItemTemplate>
+                  <a href="#" class="btn btn-success btn-icon js-arquivar"
+                     data-id='<%# Eval("cod_pedido") %>' title="Arquivar">
+                    <i class="fa fa-file"></i>
+                  </a>
+                  <asp:LinkButton ID="gvlnkEdit" CommandName="editRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
+                    CssClass="btn btn-info btn-icon" runat="server" ToolTip="Editar" CausesValidation="false">
+                    <i class="fa fa-pen"></i>
+                  </asp:LinkButton>
+                  <asp:LinkButton ID="gvlnkDelete" CommandName="deleteRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
+                    CssClass="btn btn-danger btn-icon" runat="server" OnClientClick="return confirmation();"
+                    ToolTip="Excluir" CausesValidation="false">
+                    <i class="fa fa-trash"></i>
+                  </asp:LinkButton>
+                </ItemTemplate>
+              </asp:TemplateField>
+            </Columns>
+          </asp:GridView>
+        </asp:Panel>
 
-                <!-- Editar/Excluir mantidos como LinkButton -->
-                <asp:LinkButton ID="gvlnkEdit" CommandName="editRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
-                  CssClass="btn btn-info btn-icon" runat="server" ToolTip="Editar" CausesValidation="false">
-                  <i class="fa fa-pen"></i>
-                </asp:LinkButton>
-
-                <asp:LinkButton ID="gvlnkDelete" CommandName="deleteRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
-                  CssClass="btn btn-danger btn-icon" runat="server" OnClientClick="return confirmation();"
-                  ToolTip="Excluir" CausesValidation="false">
-                  <i class="fa fa-trash"></i>
-                </asp:LinkButton>
-              </ItemTemplate>
-            </asp:TemplateField>
-          </Columns>
-        </asp:GridView>
+        <!-- NOVO: Painel Arquivadas (novo Grid) -->
+        <asp:Panel ID="pnlArquivadas" runat="server" Visible="false">
+          <asp:GridView ID="GridViewArquivados" runat="server"
+            AutoGenerateColumns="False"
+            DataKeyNames="cod_pedido"
+            OnPreRender="GridViewArquivados_PreRender"
+            CssClass="table table-striped table-bordered"
+            GridLines="Horizontal" BorderColor="#e0ddd1" Width="100%"
+            ShowHeaderWhenEmpty="true">
+            <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
+            <HeaderStyle CssClass="dt-header" />
+            <Columns>
+              <asp:BoundField DataField="cod_pedido" HeaderText="Código do Pedido" SortExpression="cod_pedido" />
+              <asp:BoundField DataField="prontuario" HeaderText="Prontuário" SortExpression="prontuario" />
+              <asp:BoundField DataField="nome_paciente" HeaderText="Paciente" SortExpression="nome_paciente" />
+              <asp:BoundField DataField="data_pedido" HeaderText="Data do Pedido" SortExpression="data_pedido" />
+              <asp:BoundField DataField="data_cadastro" HeaderText="Data de Cadastro" SortExpression="data_cadastro" />
+              <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
+              <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
+                 <asp:BoundField DataField="retirado_informacoes" HeaderText="Retirado Por" SortExpression="retirado_informacoes" />
+   
+              <asp:BoundField DataField="usuario" HeaderText="Arquivado por" SortExpression="usuario" />
+             
+            </Columns>
+          </asp:GridView>
+        </asp:Panel>
 
         <!-- Hidden para levar o ID ao servidor -->
         <asp:HiddenField ID="hfPedidoId" runat="server" />
@@ -155,7 +190,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 
   <!-- jQuery fallback (DataTables depende de jQuery) -->
   <script>
@@ -174,79 +209,86 @@
           // --------- Somente números no RH ----------
           (function onlyNumbersOnRH() {
               var tb = document.getElementById('<%= txbProntuario.ClientID %>');
-        if (!tb) return;
-        tb.addEventListener('keypress', function (e) {
-          var ch = e.which || e.keyCode;
-          if (ch === 8 || ch === 9 || ch === 13) return;
-          if (ch < 48 || ch > 57) e.preventDefault();
-        });
-      })();
+              if (!tb) return;
+              tb.addEventListener('keypress', function (e) {
+                  var ch = e.which || e.keyCode;
+                  if (ch === 8 || ch === 9 || ch === 13) return;
+                  if (ch < 48 || ch > 57) e.preventDefault();
+              });
+          })();
 
-      // --------- DataTables ----------
-      function ensureThead($tbl) {
-        if ($tbl.find('thead').length === 0) {
-          var $first = $tbl.find('tr:first');
-          if ($first.length) $tbl.prepend($('<thead/>').append($first));
-        }
-      }
-      function initDT() {
-        var $tbl = $('#<%= GridView1.ClientID %>');
-        if (!$tbl.length || !$.fn || !$.fn.DataTable) return;
-        if ($tbl.find('tbody tr').length === 0) return;
-        ensureThead($tbl);
-        if ($.fn.DataTable.isDataTable($tbl[0])) $tbl.DataTable().clear().destroy();
-
-        $tbl.DataTable({
-          paging: true, pageLength: 10, ordering: true, stateSave: true, responsive: true, autoWidth: false,
-          dom: '<"top d-flex justify-content-between align-items-center"lfr>t<"bottom d-flex justify-content-between align-items-center"ip>',
-          columnDefs: [
-            { targets: -1, orderable: false, searchable: false },
-            {
-              targets: [3],
-              render: function (data) {
-                if (!data) return "";
-                var s = String(data);
-                if (s.indexOf(' ') > -1) return s.split(' ')[0];
-                if (s.indexOf('T') > -1) return s.split('T')[0].split('-').reverse().join('/');
-                return s;
+          // --------- DataTables (para o grid visível) ----------
+          function ensureThead($tbl) {
+              if ($tbl.find('thead').length === 0) {
+                  var $first = $tbl.find('tr:first');
+                  if ($first.length) $tbl.prepend($('<thead/>').append($first));
               }
-            }
-          ],
-          language: {
-            processing: "Processando...",
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros por página",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            infoEmpty: "Mostrando 0 a 0 de 0 registros",
-            infoFiltered: "(filtrado de _MAX_ no total)",
-            loadingRecords: "Carregando...",
-            zeroRecords: "Nenhum registro encontrado",
-            emptyTable: "Nenhum dado disponível",
-            paginate: { first: "Primeiro", previous: "Anterior", next: "Próximo", last: "Último" }
           }
-        });
-      }
 
-      // --------- Abre modal (BS5) ----------
+          function initDTFor(selector) {
+              var $tbl = $(selector + ':visible');
+              if (!$tbl.length || !$.fn || !$.fn.DataTable) return;
+              if ($tbl.find('tbody tr').length === 0) return;
+              ensureThead($tbl);
+              if ($.fn.DataTable.isDataTable($tbl[0])) $tbl.DataTable().clear().destroy();
+
+              $tbl.DataTable({
+                  paging: true, pageLength: 10, ordering: true, stateSave: true, responsive: true, autoWidth: false,
+                  dom: '<"top d-flex justify-content-between align-items-center"lfr>t<"bottom d-flex justify-content-between align-items-center"ip>',
+                  columnDefs: [
+                      { targets: -1, orderable: false, searchable: false },
+                      {
+                          targets: [3],
+                          render: function (data) {
+                              if (!data) return "";
+                              var s = String(data);
+                              if (s.indexOf(' ') > -1) return s.split(' ')[0];
+                              if (s.indexOf('T') > -1) return s.split('T')[0].split('-').reverse().join('/');
+                              return s;
+                          }
+                      }
+                  ],
+                  language: {
+                      processing: "Processando...",
+                      search: "Buscar:",
+                      lengthMenu: "Mostrar _MENU_ registros por página",
+                      info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                      infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                      infoFiltered: "(filtrado de _MAX_ no total)",
+                      loadingRecords: "Carregando...",
+                      zeroRecords: "Nenhum registro encontrado",
+                      emptyTable: "Nenhum dado disponível",
+                      paginate: { first: "Primeiro", previous: "Anterior", next: "Próximo", last: "Último" }
+                  }
+              });
+          }
+
+          function initDT() {
+              // tenta inicializar o que estiver visível
+              initDTFor('#<%= GridView1.ClientID %>');
+              initDTFor('#<%= GridViewArquivados.ClientID %>');
+          }
+
+          // --------- Modal Arquivar (como já estava) ----------
           function registerOpenArquivoModal() {
               window.openArquivoModal = function (id) {
                   try {
                       const hf = document.getElementById('<%= hfPedidoId.ClientID %>');
-        const ret = document.getElementById('<%= txtRetiradoPor.ClientID %>');
-        const rg = document.getElementById('<%= txtRgCpf.ClientID %>');
-      const dt    = document.getElementById('<%= txtData.ClientID %>');
-                      const hr = document.getElementById('<%= txtHora.ClientID %>');
+                      const ret = document.getElementById('<%= txtRetiradoPor.ClientID %>');
+                      const rg  = document.getElementById('<%= txtRgCpf.ClientID %>');
+                      const dt  = document.getElementById('<%= txtData.ClientID %>');
+                      const hr  = document.getElementById('<%= txtHora.ClientID %>');
                       const el = document.getElementById('modalArquivo');
 
                       if (!el) { console.error('Modal não encontrado'); return false; }
 
                       if (hf) hf.value = id;
-                      if (ret) ret.value = "";      // <-- limpa
-                      if (rg) rg.value = "";      // <-- limpa
+                      if (ret) ret.value = "";
+                      if (rg) rg.value = "";
 
                       const now = new Date();
-                      if (dt) dt.value = now.toISOString().slice(0, 10);   // yyyy-mm-dd
-                      if (hr) hr.value = now.toTimeString().slice(0, 5);   // HH:mm
+                      if (dt) dt.value = now.toISOString().slice(0, 10);
+                      if (hr) hr.value = now.toTimeString().slice(0, 5);
 
                       if (window.bootstrap && typeof bootstrap.Modal === 'function') {
                           const m = bootstrap.Modal.getOrCreateInstance(el, { backdrop: true, keyboard: true });
@@ -262,7 +304,6 @@
                   return false;
               };
           }
-
 
           // --------- Delegação de clique para Arquivar ----------
           function registerArquivoClickHandler() {

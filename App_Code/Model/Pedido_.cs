@@ -28,4 +28,5 @@ public class Pedido_: Especialidade
     public string usuario_baixa { get; set; }
     public string lista_exames { get; set; }
     public string lista_ressonancia { get; set; }
+    public string retirado_informacoes { get; set; }
 }

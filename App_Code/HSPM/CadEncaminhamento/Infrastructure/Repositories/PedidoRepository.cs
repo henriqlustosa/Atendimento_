@@ -250,8 +250,8 @@ SELECT SCOPE_IDENTITY();";
        exames_solicitados= @exames_texto,
        outras_informacoes= @obs,
        solicitante       = @solicitante,
-       usuario           = @usuario
-       -- , data_alteracao   = GETDATE()   -- descomente se existir
+       usuario_atualizacao = @usuario,
+      data_atualizacao   = GETDATE()   
  WHERE cod_pedido = @id";
                 cmd.Parameters.AddWithValue("@pr", p.Prontuario);
                 cmd.Parameters.AddWithValue("@nome", (object)p.NomePaciente ?? DBNull.Value);

@@ -1,103 +1,180 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="pedidosarquivados.aspx.cs" Inherits="encaminhamento_pedidosarquivados" Title="HSPM ATENDIMENTO" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="pedidosarquivados.aspx.cs" Inherits="encaminhamento_pedidosarquivados"
+    Title="HSPM ATENDIMENTO" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
- <link href="../build/css/jquery.dataTable.css" rel="stylesheet" type="text/css" />
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+  <!-- DataTables CSS (CDN) -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css" />
 
-    <h3>
-                <asp:Label ID="lbTitulo" runat="server" Text="Solicitações de Exames Arquivados"></asp:Label></h3>
-            
-           
-           <asp:GridView ID="GridView1" runat="server"  AutoGenerateColumns="False"
-                 DataKeyNames="cod_pedido" OnRowCommand="grdMain_RowCommand"
-                CellPadding="4" ForeColor="#333333" GridLines="Horizontal" BorderColor="#e0ddd1" Width="100%" >
-                <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
-                <Columns>
-                    <asp:BoundField DataField="cod_pedido" HeaderText="Código do Pedido" SortExpression="cod_pedido"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                    <asp:BoundField DataField="prontuario" HeaderText="Prontuário" SortExpression="prontuario"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />    
-                    <asp:BoundField DataField="nome_paciente" HeaderText="Paciente" SortExpression="nome_paciente" ItemStyle-CssClass="hidden-md"
-                        HeaderStyle-CssClass="hidden-md" />
-                    <asp:BoundField DataField="data_pedido" HeaderText="Data Pedido" SortExpression="data_pedido"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                    <asp:BoundField DataField="data_cadastro" HeaderText="Data Cadastro" SortExpression="data_cadastro"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                    <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                    <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                    <asp:BoundField DataField="outras_informacoes" HeaderText="Outras Informações" SortExpression="outras_informacoes"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                    <asp:BoundField DataField="solicitante" HeaderText="Solicitante" SortExpression="solicitante"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                     <asp:BoundField DataField="lista_exames" HeaderText="Exames" SortExpression="exames"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                        <asp:BoundField DataField="lista_ressonancia" HeaderText="Ressonancia" SortExpression="ressonancia"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-
-                        <asp:BoundField DataField="usuario_baixa" HeaderText="Usuario_Baixa" SortExpression="usuario_baixa"
-                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
-                    
-
-                     <asp:TemplateField HeaderStyle-CssClass="sorting_disabled">
-                        
-                          <ItemTemplate>
-                     
-                            <div class="form-inline">
-                                <asp:LinkButton ID="gvlnkPrint" CommandName="printRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
-                                    CssClass="btn btn-success" runat="server">
-                                    <i class="fa fa-print" title="Imprimir"></i> 
-                                </asp:LinkButton>
-                            </div>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderStyle-CssClass="sorting_disabled">
-                        <ItemTemplate>
-                            <div class="form-inline">
-                                <asp:LinkButton ID="gvlnkView" CommandName="viewRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
-                                    CssClass="btn btn-info" runat="server">
-                                    <i class="fa fa-pencil-square-o" title="Visualizar"></i> 
-                                </asp:LinkButton>
-                            </div>
-                             </ItemTemplate>
-                         
-                    </asp:TemplateField>
-                    
-                   
-                </Columns>
-                
-                <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <SelectedRowStyle  BackColor="#ffffff" Font-Bold="True" ForeColor="#333333" />
-                <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <EditRowStyle BackColor="#999999" />
-            </asp:GridView>
-    
- 
-   
-  <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
-  
-  <script src='<%= ResolveUrl("~/build/js/jquery.dataTables.js") %>' type="text/javascript"></script>
-  
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-               
-                $('#<%= GridView1.ClientID %>').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
-                    language: {
-                        search: "<i class='fa fa-search' aria-hidden='true'></i>",
-                        processing: "Processando...",
-                        lengthMenu: "Mostrando _MENU_ registros por páginas",
-                        info: "Mostrando página _PAGE_ de _PAGES_",
-                        infoEmpty: "Nenhum registro encontrado",
-                        infoFiltered: "(filtrado de _MAX_ registros no total)"
-                    }
-                });
-
-            });
-            
-        </script>
+  <style>
+    .page-title { font-weight:600; margin:10px 0 18px; }
+    .card{ background:#fff; border:1px solid #e5e7eb; border-radius:10px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+    .card-body{ padding:18px; }
+    .toolbar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .toolbar .form-inline{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .form-control{ height:36px; }
+    .btn{ height:36px; line-height:1; }
+    table.dataTable thead th{ background:#334155; color:#fff; font-weight:600; border-color:#334155; }
+    table.dataTable tbody td{ vertical-align:top; }
+    .actions-col{ white-space:nowrap; text-align:center; width:140px; }
+    .btn-icon{ width:32px; height:32px; padding:0; display:inline-flex; align-items:center; justify-content:center; }
+    .btn-icon i{ font-size:14px; }
+    .dataTables_length label{ font-weight:500; }
+    .dataTables_filter input{ width:220px; }
+    @media (max-width:576px){ .dataTables_filter input{ width:160px; } }
+  </style>
 </asp:Content>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
+
+  <h3 class="page-title">
+    <asp:Label ID="lbTitulo" runat="server" Text="Solicitações de Exames Arquivadas"></asp:Label>
+  </h3>
+
+  <div class="card">
+    <div class="card-body">
+
+      <!-- Toolbar (filtro por RH) -->
+      <div class="toolbar">
+        <div class="form-inline">
+          <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
+
+          <asp:TextBox ID="txbProntuario" runat="server"
+                       CssClass="form-control"
+                       placeholder="Digite o RH"
+                       MaxLength="9"
+                       aria-label="Prontuário (RH)"></asp:TextBox>
+
+          <asp:RequiredFieldValidator ID="rfvProntuario" runat="server"
+              ControlToValidate="txbProntuario" ForeColor="red" Display="Dynamic"
+              ErrorMessage="Obrigatório" ValidationGroup="pesquisa" />
+
+          <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary"
+              Text="Pesquisar" ValidationGroup="pesquisa" OnClick="btnPesquisar_Click" />
+        </div>
+      </div>
+
+      <div class="table-responsive" style="margin-top:14px;">
+        <asp:GridView ID="GridView1" runat="server"
+          AutoGenerateColumns="False"
+          DataKeyNames="cod_pedido"
+          OnRowCommand="grdMain_RowCommand"
+          OnPreRender="GridView1_PreRender"
+          CssClass="table table-striped table-bordered"
+          GridLines="Horizontal" BorderColor="#e0ddd1" Width="100%"
+          ShowHeaderWhenEmpty="true">
+
+          <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
+          <HeaderStyle CssClass="dt-header" />
+
+          <Columns>
+            <asp:BoundField DataField="cod_pedido" HeaderText="Código do Pedido" SortExpression="cod_pedido" />
+            <asp:BoundField DataField="prontuario" HeaderText="Prontuário" SortExpression="prontuario" />
+            <asp:BoundField DataField="nome_paciente" HeaderText="Paciente" SortExpression="nome_paciente" />
+            <asp:BoundField DataField="data_pedido" HeaderText="Data do Pedido" SortExpression="data_pedido" />
+            <asp:BoundField DataField="data_cadastro" HeaderText="Data de Cadastro" SortExpression="data_cadastro" />
+            <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
+            <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
+            <asp:BoundField DataField="outras_informacoes" HeaderText="Outras Informações" SortExpression="outras_informacoes" />
+            <asp:BoundField DataField="usuario_baixa" HeaderText="Arquivado por" SortExpression="usuario_baixa" />
+
+            <asp:TemplateField HeaderText=" " ItemStyle-CssClass="actions-col" HeaderStyle-CssClass="sorting_disabled">
+              <ItemTemplate>
+                <asp:LinkButton ID="gvlnkPrint" CommandName="printRecord"
+                    CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
+                    CssClass="btn btn-success btn-icon" runat="server" ToolTip="Imprimir">
+                  <i class="fa fa-print"></i>
+                </asp:LinkButton>
+
+                <asp:LinkButton ID="gvlnkView" CommandName="viewRecord"
+                    CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
+                    CssClass="btn btn-info btn-icon" runat="server" ToolTip="Visualizar">
+                  <i class="fa fa-eye"></i>
+                </asp:LinkButton>
+              </ItemTemplate>
+            </asp:TemplateField>
+          </Columns>
+        </asp:GridView>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery fallback (DataTables depende de jQuery) -->
+  <script>
+    if (typeof window.jQuery === 'undefined') {
+      document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"><\/script>');
+    }
+  </script>
+
+  <!-- DataTables (CDN) -->
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+  <script type="text/javascript">
+    (function () {
+      "use strict";
+
+      // apenas números no RH
+      (function onlyNumbersOnRH() {
+        var tb = document.getElementById('<%= txbProntuario.ClientID %>');
+        if (!tb) return;
+        tb.addEventListener('keypress', function (e) {
+          var ch = e.which || e.keyCode;
+          if (ch === 8 || ch === 9 || ch === 13) return;
+          if (ch < 48 || ch > 57) e.preventDefault();
+        });
+      })();
+
+      function ensureThead($tbl) {
+        if ($tbl.find('thead').length === 0) {
+          var $first = $tbl.find('tr:first');
+          if ($first.length) $tbl.prepend($('<thead/>').append($first));
+        }
+      }
+
+      function initDT() {
+        var $tbl = $('#<%= GridView1.ClientID %>');
+              if (!$tbl.length || !$.fn || !$.fn.DataTable) return;
+              if ($tbl.find('tbody tr').length === 0) return;
+
+              ensureThead($tbl);
+              if ($.fn.DataTable.isDataTable($tbl[0])) $tbl.DataTable().clear().destroy();
+
+              $tbl.DataTable({
+                  paging: true, pageLength: 10, ordering: true, stateSave: true, responsive: true, autoWidth: false,
+                  dom: '<"top d-flex justify-content-between align-items-center"lfr>t<"bottom d-flex justify-content-between align-items-center"ip>',
+                  columnDefs: [
+                      {
+                          targets: [3], // Data do Pedido
+                          render: function (data) {
+                              if (!data) return "";
+                              var s = String(data);
+                              if (s.indexOf(' ') > -1) return s.split(' ')[0];
+                              if (s.indexOf('T') > -1) return s.split('T')[0].split('-').reverse().join('/');
+                              return s;
+                          }
+                      }
+                  ],
+                  language: {
+                      processing: "Processando...",
+                      search: "Buscar:",
+                      lengthMenu: "Mostrar _MENU_ registros por página",
+                      info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                      infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                      infoFiltered: "(filtrado de _MAX_ no total)",
+                      loadingRecords: "Carregando...",
+                      zeroRecords: "Nenhum registro encontrado",
+                      emptyTable: "Nenhum dado disponível",
+                      paginate: { first: "Primeiro", previous: "Anterior", next: "Próximo", last: "Último" }
+                  }
+              });
+          }
+
+          $(function () { initDT(); });
+
+          // re-inicializa após postback parcial (UpdatePanel)
+          if (window.Sys && Sys.Application) {
+              Sys.Application.add_load(function () { setTimeout(initDT, 0); });
+          }
+      })();
+  </script>
+</asp:Content>

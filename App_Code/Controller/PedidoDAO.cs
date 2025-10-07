@@ -671,4 +671,69 @@ public class PedidoDAO
 
     }
 
+    public static object getListaPedidoConsultaArquivadaPorRH(int prontuario)
+    {
+        var listaPedidos = new List<Pedido_>();
+        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
+        {
+            SqlCommand cmm = cnn.CreateCommand();
+
+
+            string sqlConsulta = "SELECT [cod_pedido]" +
+                              ",[prontuario]" +
+                              ",[nome_paciente]" +
+                              ",[data_pedido]" +
+                              ",[data_cadastro]" +
+                              ",[cod_especialidade]" +
+                              ",[exames_solicitados]" +
+                              ",[outras_informacoes]" +
+                              ",[solicitante]" +
+                              ",[usuario_baixa]" +
+                              ",[retirado_informacoes]" +
+                              " FROM [pedido_consulta] " +
+                              " WHERE  [status] = 2" +
+                              " AND [prontuario] = " + prontuario +
+                              " ORDER BY cod_pedido DESC";
+
+            cmm.CommandText = sqlConsulta;
+
+            try
+            {
+                cnn.Open();
+                SqlDataReader dr1 = cmm.ExecuteReader();
+
+                //char[] ponto = { '.', ' ' };
+                while (dr1.Read())
+                {
+                    Especialidade espec = new Especialidade();
+                    Pedido_ p = new Pedido_();
+                    p.cod_pedido = dr1.GetInt32(0);
+                    p.prontuario = dr1.GetInt32(1);
+                    p.nome_paciente = dr1.GetString(2);
+                    p.lista_exames = obterListaDeExames(p.cod_pedido);
+                    p.lista_ressonancia = obterListaDeRessonancia(p.cod_pedido);
+                    p.data_pedido = dr1.GetDateTime(3);
+                    p.data_cadastro = dr1.GetDateTime(4);
+                    p.cod_especialidade = dr1.GetInt32(5);
+                    p.descricao_espec = EspecialidadeDAO.getEspecialidade(p.cod_especialidade);
+                    p.exames_solicitados = dr1.GetString(6);
+                    p.outras_informacoes = dr1.IsDBNull(7) ? "" : dr1.GetString(7);
+                    p.solicitante = dr1.GetString(8);
+                    p.usuario_baixa = dr1.GetString(9);
+                    p.retirado_informacoes = dr1.IsDBNull(10) ? "" : dr1.GetString(10);
+
+                    listaPedidos.Add(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+
+
+            return listaPedidos;
+        }
+    }
+
+   
 }

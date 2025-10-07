@@ -112,8 +112,7 @@
           </div>
           <div class="row mt-2">
             <div class="col-12">
-              <asp:TextBox ID="txbOb" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3"
-                Text="Retirado por:&#10;RG ou CPF:&#10;Data:&#10;Hora:"></asp:TextBox>
+              <asp:TextBox ID="txbOb" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3"></asp:TextBox>
             </div>
           </div>
         </div>
