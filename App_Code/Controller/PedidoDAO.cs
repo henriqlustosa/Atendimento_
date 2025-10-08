@@ -155,7 +155,7 @@ public class PedidoDAO
                     p.cod_especialidade = dr1.GetInt32(5);
                     p.descricao_espec = EspecialidadeDAO.getEspecialidade(p.cod_especialidade);
                     p.exames_solicitados = dr1.GetString(6);
-                    p.outras_informacoes = dr1.GetString(7);
+                    p.outras_informacoes = dr1.IsDBNull(7) ? "" : dr1.GetString(7);
                     p.solicitante = dr1.GetString(8);
                     p.usuario = dr1.GetString(9);
 
@@ -215,7 +215,7 @@ public class PedidoDAO
                     p.cod_especialidade = dr1.GetInt32(5);
                     p.descricao_espec = EspecialidadeDAO.getEspecialidade(p.cod_especialidade);
                     p.exames_solicitados = dr1.GetString(6);
-                    p.outras_informacoes = dr1.GetString(7);
+                    p.outras_informacoes = dr1.IsDBNull(7) ? "" : dr1.GetString(7);
                     p.solicitante = dr1.GetString(8);
                     p.usuario = dr1.GetString(9);
 
@@ -250,6 +250,7 @@ public class PedidoDAO
                               ",[solicitante]" +
                               ",[usuario]" +
                               ",[usuario_baixa]" +
+                              ",[retirado_informacoes]" +
                               " FROM [pedido_consulta] " +
                               " where status = 2 ORDER BY cod_pedido DESC";
 
@@ -263,8 +264,16 @@ public class PedidoDAO
                 //char[] ponto = { '.', ' ' };
                 while (dr1.Read())
                 {
+                    
                     Especialidade espec = new Especialidade();
                     Pedido_ p = new Pedido_();
+                    string info = dr1.IsDBNull(11) ? "" : dr1.GetString(11);
+
+                    // Reformatar para várias linhas
+                    info = info.Replace("RG ou CPF:", "<br/>RG ou CPF: ")
+                               .Replace("Data:", "<br/>Data: ");
+
+                    p.retirado_informacoes = info;
                     p.cod_pedido = dr1.GetInt32(0);
                     p.lista_exames = obterListaDeExames(p.cod_pedido);
                     p.lista_ressonancia = obterListaDeRessonancia(p.cod_pedido);
@@ -275,10 +284,11 @@ public class PedidoDAO
                     p.cod_especialidade = dr1.GetInt32(5);
                     p.descricao_espec = EspecialidadeDAO.getEspecialidade(p.cod_especialidade);
                     p.exames_solicitados = dr1.GetString(6);
-                    p.outras_informacoes = dr1.GetString(7);
+                    p.outras_informacoes = dr1.IsDBNull(7) ? "" : dr1.GetString(7);
                     p.solicitante = dr1.GetString(8);
                     p.usuario = dr1.GetString(9);
                     p.usuario_baixa = dr1.GetString(10);
+                    p.retirado_informacoes = info;
 
                     listaPedidos.Add(p);
                 }
@@ -412,7 +422,7 @@ public class PedidoDAO
                     pedido.cod_especialidade = dr1.GetInt32(5);
                     pedido.descricao_espec = EspecialidadeDAO.getEspecialidade(pedido.cod_especialidade);
                     pedido.exames_solicitados = dr1.GetString(6);
-                    pedido.outras_informacoes = dr1.GetString(7);
+                    pedido.outras_informacoes = dr1.IsDBNull(7) ? "" : dr1.GetString(7);
                     pedido.solicitante = dr1.GetString(8);
                     pedido.usuario = dr1.GetString(9);
                     pedido.status_pedido = dr1.GetInt32(10);
@@ -707,6 +717,12 @@ public class PedidoDAO
                 {
                     Especialidade espec = new Especialidade();
                     Pedido_ p = new Pedido_();
+
+                    string info = dr1.IsDBNull(10) ? "" : dr1.GetString(10);
+
+                    // Reformatar para várias linhas
+                    info = info.Replace("RG ou CPF:", "<br/>RG ou CPF: ")
+                               .Replace("Data:", "<br/>Data: ");
                     p.cod_pedido = dr1.GetInt32(0);
                     p.prontuario = dr1.GetInt32(1);
                     p.nome_paciente = dr1.GetString(2);
@@ -720,7 +736,7 @@ public class PedidoDAO
                     p.outras_informacoes = dr1.IsDBNull(7) ? "" : dr1.GetString(7);
                     p.solicitante = dr1.GetString(8);
                     p.usuario_baixa = dr1.GetString(9);
-                    p.retirado_informacoes = dr1.IsDBNull(10) ? "" : dr1.GetString(10);
+                    p.retirado_informacoes = info;
 
                     listaPedidos.Add(p);
                 }

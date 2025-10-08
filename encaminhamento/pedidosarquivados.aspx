@@ -39,18 +39,10 @@
         <div class="form-inline">
           <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
 
-          <asp:TextBox ID="txbProntuario" runat="server"
-                       CssClass="form-control"
-                       placeholder="Digite o RH"
-                       MaxLength="9"
-                       aria-label="Prontuário (RH)"></asp:TextBox>
-
-          <asp:RequiredFieldValidator ID="rfvProntuario" runat="server"
-              ControlToValidate="txbProntuario" ForeColor="red" Display="Dynamic"
-              ErrorMessage="Obrigatório" ValidationGroup="pesquisa" />
-
-          <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary"
-              Text="Pesquisar" ValidationGroup="pesquisa" OnClick="btnPesquisar_Click" />
+          <asp:TextBox ID="txbProntuario" runat="server" CssClass="form-control"
+                       placeholder="Digite o RH" />
+          <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary mt-2"
+                      Text="Pesquisar" OnClick="btnPesquisar_Click" />
         </div>
       </div>
 
@@ -71,11 +63,18 @@
             <asp:BoundField DataField="cod_pedido" HeaderText="Código do Pedido" SortExpression="cod_pedido" />
             <asp:BoundField DataField="prontuario" HeaderText="Prontuário" SortExpression="prontuario" />
             <asp:BoundField DataField="nome_paciente" HeaderText="Paciente" SortExpression="nome_paciente" />
+
+        
             <asp:BoundField DataField="data_pedido" HeaderText="Data do Pedido" SortExpression="data_pedido" />
             <asp:BoundField DataField="data_cadastro" HeaderText="Data de Cadastro" SortExpression="data_cadastro" />
+
             <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
             <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
             <asp:BoundField DataField="outras_informacoes" HeaderText="Outras Informações" SortExpression="outras_informacoes" />
+
+         
+            <asp:BoundField DataField="retirado_informacoes" HeaderText="Informações de Arquivamento"
+                            SortExpression="retirado_informacoes" HtmlEncode="false" />
             <asp:BoundField DataField="usuario_baixa" HeaderText="Arquivado por" SortExpression="usuario_baixa" />
 
             <asp:TemplateField HeaderText=" " ItemStyle-CssClass="actions-col" HeaderStyle-CssClass="sorting_disabled">
@@ -106,8 +105,15 @@
     }
   </script>
 
-  <!-- DataTables (CDN) -->
+  <!-- DataTables (core) -->
   <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+  <!-- Moment + locale pt-br (necessário para render.moment) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/pt-br.min.js"></script>
+
+  <!-- DataTables datetime renderer (usa Moment internamente) -->
+  <script src="https://cdn.datatables.net/plug-ins/1.13.6/dataRender/datetime.js"></script>
 
   <script type="text/javascript">
     (function () {
@@ -139,21 +145,39 @@
               ensureThead($tbl);
               if ($.fn.DataTable.isDataTable($tbl[0])) $tbl.DataTable().clear().destroy();
 
+              // Locale do moment
+              moment.locale('pt-br');
+
               $tbl.DataTable({
-                  paging: true, pageLength: 10, ordering: true, stateSave: true, responsive: true, autoWidth: false,
+                  paging: true,
+                  pageLength: 10,
+                  ordering: true,
+                  stateSave: true,
+                  responsive: true,
+                  autoWidth: false,
                   dom: '<"top d-flex justify-content-between align-items-center"lfr>t<"bottom d-flex justify-content-between align-items-center"ip>',
                   columnDefs: [
                       {
-                          targets: [3], // Data do Pedido
-                          render: function (data) {
-                              if (!data) return "";
-                              var s = String(data);
-                              if (s.indexOf(' ') > -1) return s.split(' ')[0];
-                              if (s.indexOf('T') > -1) return s.split('T')[0].split('-').reverse().join('/');
-                              return s;
-                          }
+                          // 3: Data do Pedido — exibir só a DATA
+                          targets: 3,
+                          render: $.fn.dataTable.render.moment(
+                              ['DD/MM/YYYY HH:mm:ss', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD[T]HH:mm:ss'],
+                              'DD/MM/YYYY',
+                              'pt-br'
+                          )
+                      },
+                      {
+                          // 4: Data de Cadastro — exibir DATA + HORA
+                          targets: 4,
+                          render: $.fn.dataTable.render.moment(
+                              ['DD/MM/YYYY HH:mm:ss', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD[T]HH:mm:ss'],
+                              'DD/MM/YYYY HH:mm:ss',
+                              'pt-br'
+                          )
                       }
                   ],
+                  // Ex.: ordenar por Data do Pedido (coluna 3) desc → mais recentes primeiro
+                  // order: [[3, 'desc']],
                   language: {
                       processing: "Processando...",
                       search: "Buscar:",

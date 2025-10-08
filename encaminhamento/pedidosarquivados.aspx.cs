@@ -60,14 +60,15 @@ public partial class encaminhamento_pedidosarquivados : BasePage
     {
         try
         {
-            // Se não tiver método específico no DAO, você pode filtrar por parâmetro em um método único.
-            // Ex.: getListaPedidoConsultaArquivadosPorRH(int prontuario)
-            if (prontuario > 0 )
+            // Se o campo prontuário não tiver valor, busca todos os registros
+            if (prontuario > 0)
             {
+                // Quando o prontuário é informado
                 GridView1.DataSource = PedidoDAO.getListaPedidoConsultaArquivadaPorRH(prontuario);
             }
             else
             {
+                // Quando não há prontuário informado, retorna tudo
                 GridView1.DataSource = PedidoDAO.getListaPedidoConsultaArquivados();
             }
 
@@ -93,6 +94,10 @@ public partial class encaminhamento_pedidosarquivados : BasePage
         // Carrega todos por padrão (ou deixe vazio se preferir carregar só após pesquisa)
         BindArquivadosTodos();
     }
+    private static bool IsNullOrWhiteSpace(string value)
+    {
+        return value == null || value.Trim().Length == 0;
+    }
 
     protected void GridView1_PreRender(object sender, EventArgs e)
     {
@@ -104,22 +109,26 @@ public partial class encaminhamento_pedidosarquivados : BasePage
     {
         try
         {
-            string s = SafeTrim(txbProntuario.Text);
-            if (s.Length == 0)
+            var s = SafeTrim(txbProntuario.Text);
+
+            // Sem valor => traz todos
+            if (IsNullOrWhiteSpace(s))
             {
-                ShowToast("Informe o prontuário.");
                 BindArquivadosTodos();
                 return;
             }
-
             int pront;
-            if (!int.TryParse(s, out pront))
+            // Com valor => valida e filtra
+            if (int.TryParse(s, out  pront) && pront > 0)
+            {
+                BindArquivadosPorRH(pront);
+            }
+            else
             {
                 ShowToast("Prontuário inválido. Digite apenas números.");
-                return;
+                // opcional: ainda assim mostrar todos
+                BindArquivadosTodos();
             }
-
-            BindArquivadosPorRH(pront);
         }
         catch (Exception ex)
         {

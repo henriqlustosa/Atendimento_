@@ -67,7 +67,7 @@
 
       <div class="table-responsive" style="margin-top:14px;">
 
-        <!-- NOVO: Painel Pendentes (contém o Grid atual) -->
+        <!-- Painel Pendentes -->
         <asp:Panel ID="pnlPendentes" runat="server" Visible="true">
           <asp:GridView ID="GridView1" runat="server"
             AutoGenerateColumns="False"
@@ -110,7 +110,7 @@
           </asp:GridView>
         </asp:Panel>
 
-        <!-- NOVO: Painel Arquivadas (novo Grid) -->
+        <!-- Painel Arquivadas -->
         <asp:Panel ID="pnlArquivadas" runat="server" Visible="false">
           <asp:GridView ID="GridViewArquivados" runat="server"
             AutoGenerateColumns="False"
@@ -129,18 +129,15 @@
               <asp:BoundField DataField="data_cadastro" HeaderText="Data de Cadastro" SortExpression="data_cadastro" />
               <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
               <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
-                 <asp:BoundField DataField="retirado_informacoes" HeaderText="Retirado Por" SortExpression="retirado_informacoes" />
-   
-              <asp:BoundField DataField="usuario" HeaderText="Arquivado por" SortExpression="usuario" />
-             
+              <asp:BoundField DataField="retirado_informacoes" HeaderText="Retirado Por" SortExpression="retirado_informacoes" HtmlEncode="false"  />
+              <asp:BoundField DataField="usuario_baixa" HeaderText="Arquivado por" SortExpression="usuario_baixa" />
             </Columns>
           </asp:GridView>
         </asp:Panel>
 
-        <!-- Hidden para levar o ID ao servidor -->
         <asp:HiddenField ID="hfPedidoId" runat="server" />
 
-        <!-- MODAL Arquivamento (Bootstrap 5) -->
+        <!-- MODAL Arquivamento -->
         <div class="modal fade" id="modalArquivo" tabindex="-1" aria-labelledby="lblModalArquivo" aria-hidden="true">
           <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -192,15 +189,22 @@
     </div>
   
 
-  <!-- jQuery fallback (DataTables depende de jQuery) -->
+  <!-- jQuery fallback -->
   <script>
       if (typeof window.jQuery === 'undefined') {
           document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"><\/script>');
       }
   </script>
 
-  <!-- DataTables (CDN) -->
+  <!-- DataTables (core) -->
   <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+  <!-- Moment + locale pt-br (necessário para render.moment) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/pt-br.min.js"></script>
+
+  <!-- DataTables datetime renderer (usa Moment) -->
+  <script src="https://cdn.datatables.net/plug-ins/1.13.6/dataRender/datetime.js"></script>
 
   <script type="text/javascript">
       (function () {
@@ -217,7 +221,7 @@
               });
           })();
 
-          // --------- DataTables (para o grid visível) ----------
+          // --------- DataTables ----------
           function ensureThead($tbl) {
               if ($tbl.find('thead').length === 0) {
                   var $first = $tbl.find('tr:first');
@@ -232,22 +236,37 @@
               ensureThead($tbl);
               if ($.fn.DataTable.isDataTable($tbl[0])) $tbl.DataTable().clear().destroy();
 
+              // Locale do moment
+              moment.locale('pt-br');
+
               $tbl.DataTable({
                   paging: true, pageLength: 10, ordering: true, stateSave: true, responsive: true, autoWidth: false,
                   dom: '<"top d-flex justify-content-between align-items-center"lfr>t<"bottom d-flex justify-content-between align-items-center"ip>',
                   columnDefs: [
+                      // Desabilita ordenação na última coluna (ações) se existir
                       { targets: -1, orderable: false, searchable: false },
+
+                      // Coluna 3: Data do Pedido (exibir só data, ordenar corretamente)
                       {
-                          targets: [3],
-                          render: function (data) {
-                              if (!data) return "";
-                              var s = String(data);
-                              if (s.indexOf(' ') > -1) return s.split(' ')[0];
-                              if (s.indexOf('T') > -1) return s.split('T')[0].split('-').reverse().join('/');
-                              return s;
-                          }
+                          targets: 3,
+                          render: $.fn.dataTable.render.moment(
+                              ['DD/MM/YYYY HH:mm:ss', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD[T]HH:mm:ss'],
+                              'DD/MM/YYYY',
+                              'pt-br'
+                          )
+                      },
+                      // Coluna 4: Data de Cadastro (exibir data+hora, ordenar corretamente)
+                      {
+                          targets: 4,
+                          render: $.fn.dataTable.render.moment(
+                              ['DD/MM/YYYY HH:mm:ss', 'DD/MM/YYYY', 'YYYY-MM-DD', 'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD[T]HH:mm:ss'],
+                              'DD/MM/YYYY HH:mm:ss',
+                              'pt-br'
+                          )
                       }
                   ],
+                  // Se quiser iniciar ordenado por "Data do Pedido" desc, descomente:
+                  // order: [[3, 'desc']],
                   language: {
                       processing: "Processando...",
                       search: "Buscar:",
@@ -264,12 +283,11 @@
           }
 
           function initDT() {
-              // tenta inicializar o que estiver visível
               initDTFor('#<%= GridView1.ClientID %>');
               initDTFor('#<%= GridViewArquivados.ClientID %>');
           }
 
-          // --------- Modal Arquivar (como já estava) ----------
+          // --------- Modal Arquivar ----------
           function registerOpenArquivoModal() {
               window.openArquivoModal = function (id) {
                   try {
@@ -305,7 +323,7 @@
               };
           }
 
-          // --------- Delegação de clique para Arquivar ----------
+          // Delegação de clique para Arquivar
           function registerArquivoClickHandler() {
               $(document).off('click.arquivar', '.js-arquivar').on('click.arquivar', '.js-arquivar', function (e) {
                   e.preventDefault();
@@ -314,13 +332,13 @@
               });
           }
 
-          // --------- Confirmações ----------
+          // Confirmações
           function registerConfirmations() {
               window.file = function () { return confirm("Você realmente quer arquivar o registro?"); };
               window.confirmation = function () { return confirm("Você realmente quer deletar o registro?"); };
           }
 
-          // --------- Hooks ----------
+          // Hooks
           $(function () {
               registerOpenArquivoModal();
               registerArquivoClickHandler();
