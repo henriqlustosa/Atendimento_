@@ -27,32 +27,54 @@ public partial class encaminhamento_pedidospendentes : BasePage
     private static void EnsureGridHeader(GridView gv)
     {
         if (gv == null) return;
-
         if (gv.HeaderRow != null)
         {
             gv.UseAccessibleHeader = true;
             gv.HeaderRow.TableSection = TableRowSection.TableHeader;
         }
         if (gv.FooterRow != null)
-        {
             gv.FooterRow.TableSection = TableRowSection.TableFooter;
-        }
+    }
+
+    // Tenta ler o filtro do campo "RH"; se não existir, usa txbProntuario
+    private string GetRhFiltro()
+    {
+        TextBox rhCtl = FindControl("txbRH") as TextBox; // novo campo RH (se existir)
+        if (rhCtl != null) return SafeTrim(rhCtl.Text);
+        return SafeTrim(txbProntuario.Text);             // compatibilidade com páginas antigas
     }
 
     protected string FormatCargaGeral(object value)
     {
-        string s = (value ?? "").ToString().Trim().ToLower();
+        string s = (value == null ? "" : value.ToString()).Trim().ToLower();
         return (s == "1" || s == "true" || s == "sim") ? "Sim" : "Não";
     }
 
     private void RebindDepoisDeAcao()
     {
-        string s = SafeTrim(txbProntuario.Text);
-        int pront;
-        if (int.TryParse(s, out pront))
-            BindPendentesPorRH(pront);
-        else
+        string rh = GetRhFiltro();
+
+        // NOVA REGRA: RH vazio => retorna todos
+        if (rh.Length == 0)
+        {
             BindPendentesTodos();
+            return;
+        }
+
+        // Se sua busca por RH for numérica (ex.: prontuário), mantém o TryParse
+        int pront;
+        if (int.TryParse(rh, out pront))
+        {
+            BindPendentesPorRH(pront);
+        }
+        else
+        {
+            // Caso RH precise ser string, troque por um método string no DAO:
+            // BindPendentesPorRHString(rh);
+            // Enquanto isso, evita quebra e mostra todos.
+            ShowToast("Filtro de RH inválido. Exibindo todos.");
+            BindPendentesTodos();
+        }
     }
 
     // -------- Binds --------
@@ -84,7 +106,7 @@ public partial class encaminhamento_pedidospendentes : BasePage
             EnsureGridHeader(GridView1);
 
             if (GridView1.Rows.Count == 0)
-                ShowToast("Nenhum registro pendente encontrado para o prontuário informado.");
+                ShowToast("Nenhum registro pendente encontrado para o filtro informado.");
         }
         catch (Exception ex)
         {
@@ -100,7 +122,7 @@ public partial class encaminhamento_pedidospendentes : BasePage
         if (IsPostBack) return;
 
         lbTitulo.Text = "Solicitações de Exames Cadastrados (Pendentes)";
-        BindPendentesTodos(); // ou comente para carregar apenas após pesquisar
+        BindPendentesTodos(); // carrega tudo ao abrir
     }
 
     protected void GridView1_PreRender(object sender, EventArgs e)
@@ -113,22 +135,32 @@ public partial class encaminhamento_pedidospendentes : BasePage
     {
         try
         {
-            string s = SafeTrim(txbProntuario.Text);
-            if (s.Length == 0)
+            string rh = GetRhFiltro();
+
+            // NOVA REGRA: RH vazio => retorna todos (sem exigir nada do usuário)
+            if (rh.Length == 0)
             {
-                ShowToast("Informe o prontuário.");
                 BindPendentesTodos();
                 return;
             }
 
+            // Se seu filtro de RH é numérico
             int pront;
-            if (!int.TryParse(s, out pront))
+            if (int.TryParse(rh, out pront))
             {
-                ShowToast("Prontuário inválido. Digite apenas números.");
+                BindPendentesPorRH(pront);
                 return;
             }
 
-            BindPendentesPorRH(pront);
+            // Se precisar aceitar RH alfanumérico, crie no DAO um método string:
+            // GridView1.DataSource = PedidoDAO.getListaPedidoConsultaPendentePorRH(rh);
+            // GridView1.DataBind();
+            // EnsureGridHeader(GridView1);
+            // return;
+
+            // Fallback até existir método string:
+            ShowToast("Filtro de RH inválido. Exibindo todos.");
+            BindPendentesTodos();
         }
         catch (Exception ex)
         {
@@ -139,7 +171,6 @@ public partial class encaminhamento_pedidospendentes : BasePage
     // -------- Ações da Grid (Editar/Excluir) --------
     protected void grdMain_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        // Observação: o "Arquivar" agora é feito via modal + btnConfirmarArquivo_Click.
         int index;
         int idPedido;
 
@@ -170,7 +201,6 @@ public partial class encaminhamento_pedidospendentes : BasePage
             return;
         }
 
-        // Se ainda houver algum botão antigo que dispare "fileRecord", ignore ou avise:
         if (e.CommandName == "fileRecord")
         {
             ShowToast("Use o botão verde (ícone de arquivo) para abrir o modal e arquivar.");
@@ -181,8 +211,7 @@ public partial class encaminhamento_pedidospendentes : BasePage
     // -------- Arquivamento via Modal --------
     protected void btnConfirmarArquivo_Click(object sender, EventArgs e)
     {
-        // Valida o ID vindo do HiddenField setado pelo JS ao abrir o modal
-        if (hfPedidoId == null || hfPedidoId.Value == null || hfPedidoId.Value.Trim() == "")
+        if (hfPedidoId == null || hfPedidoId.Value == null || hfPedidoId.Value.Trim().Length == 0)
         {
             ShowToast("Nenhum pedido selecionado.");
             return;
@@ -195,36 +224,22 @@ public partial class encaminhamento_pedidospendentes : BasePage
             return;
         }
 
-        // Campos do modal
         string retiradoPor = SafeTrim(txtRetiradoPor.Text);
         string rgCpf = SafeTrim(txtRgCpf.Text);
         string data = SafeTrim(txtData.Text);
         string hora = SafeTrim(txtHora.Text);
 
-        // Monta a string conforme padrão já utilizado (sem interpolação)
         string info = string.Format("Retirado por: {0} RG ou CPF: {1} Data:{2} Hora:{3}",
                                     retiradoPor, rgCpf, data, hora);
 
         try
         {
-            // 1) Atualiza "outras_informacoes" (se houver esse método/coluna no seu schema)
-            try
-            {
-                // Se não existir este método no seu DAO, remova este bloco.
-                PedidoDAO.AtualizarOutrasInformacoes(id, info);
-            }
-            catch
-            {
-                // silencioso — se não houver método, seguir para o arquivamento
-            }
+            try { PedidoDAO.AtualizarOutrasInformacoes(id, info); } catch { /* opcional log */ }
 
-            // 2) Efetiva a baixa/arquivamento (usa o método que você já possui)
             string usuario = (Session["login"] == null) ? "desconhecido" : Session["login"].ToString();
             PedidoDAO.filePedidodeConsulta(id, usuario);
 
-            // 3) Recarrega a grid respeitando o filtro atual
             RebindDepoisDeAcao();
-
             ShowToast("Pedido arquivado com sucesso.");
         }
         catch (Exception ex)

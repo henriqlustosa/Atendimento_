@@ -38,25 +38,29 @@
   <div class="card">
     <div class="card-body">
 
-      <!-- Toolbar (filtro por RH) -->
-      <div class="toolbar">
-        <div class="form-inline">
-          <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
+    <!-- Toolbar (filtro por RH) -->
+<div class="toolbar">
+  <div class="form-inline">
+    <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
 
-          <asp:TextBox ID="txbProntuario" runat="server"
-                       CssClass="form-control"
-                       placeholder="Digite o RH"
-                       MaxLength="9"
-                       aria-label="Prontuário (RH)"></asp:TextBox>
+    <asp:TextBox ID="txbProntuario" runat="server"
+                 CssClass="form-control"
+                 placeholder="Digite o RH (opcional)"
+                 MaxLength="9"
+                 aria-label="Prontuário (RH)"></asp:TextBox>
 
-          <asp:RequiredFieldValidator ID="rfvProntuario" runat="server"
-              ControlToValidate="txbProntuario" ForeColor="red" Display="Dynamic"
-              ErrorMessage="Obrigatório" ValidationGroup="pesquisa" />
+    <!-- REMOVIDO: RequiredFieldValidator -->
+    <%-- 
+    <asp:RequiredFieldValidator ID="rfvProntuario" runat="server"
+        ControlToValidate="txbProntuario" ForeColor="red" Display="Dynamic"
+        ErrorMessage="Obrigatório" ValidationGroup="pesquisa" />
+    --%>
 
-          <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary"
-              Text="Pesquisar" ValidationGroup="pesquisa" OnClick="btnPesquisar_Click" />
-        </div>
-      </div>
+    <!-- Tira o ValidationGroup para não disparar validação -->
+    <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary"
+        Text="Pesquisar" OnClick="btnPesquisar_Click" CausesValidation="false" />
+  </div>
+</div>
 
       <div class="table-responsive" style="margin-top:14px;">
         <asp:GridView ID="GridView1" runat="server"

@@ -5,8 +5,16 @@ using System.Web.UI.WebControls;
 
 public partial class encaminhamento_pedidosarquivados : BasePage
 {
-    // Helpers
-    private static string SafeTrim(string s) { return s == null ? "" : s.Trim(); }
+    // -------- Helpers --------
+    private static string SafeTrim(string s)
+    {
+        return s == null ? "" : s.Trim();
+    }
+
+    private static bool IsNullOrWhiteSpace(string value)
+    {
+        return value == null || value.Trim().Length == 0;
+    }
 
     private static string ToJsString(string s)
     {
@@ -36,7 +44,18 @@ public partial class encaminhamento_pedidosarquivados : BasePage
         }
     }
 
-    // Binds
+    private string GetRhFiltro()
+    {
+        return SafeTrim(txbProntuario.Text);
+    }
+
+    protected string FormatCargaGeral(object value)
+    {
+        string s = (value == null ? "" : value.ToString()).Trim().ToLower();
+        return (s == "1" || s == "true" || s == "sim") ? "Sim" : "Não";
+    }
+
+    // -------- Binds --------
     private void BindArquivadosTodos()
     {
         try
@@ -60,18 +79,7 @@ public partial class encaminhamento_pedidosarquivados : BasePage
     {
         try
         {
-            // Se o campo prontuário não tiver valor, busca todos os registros
-            if (prontuario > 0)
-            {
-                // Quando o prontuário é informado
-                GridView1.DataSource = PedidoDAO.getListaPedidoConsultaArquivadaPorRH(prontuario);
-            }
-            else
-            {
-                // Quando não há prontuário informado, retorna tudo
-                GridView1.DataSource = PedidoDAO.getListaPedidoConsultaArquivados();
-            }
-
+            GridView1.DataSource = PedidoDAO.getListaPedidoConsultaArquivadaPorRH(prontuario);
             GridView1.DataBind();
             EnsureGridHeader(GridView1);
 
@@ -86,53 +94,44 @@ public partial class encaminhamento_pedidosarquivados : BasePage
         }
     }
 
-    // Eventos de Página
+    // -------- Eventos de Página --------
     protected void Page_Load(object sender, EventArgs e)
     {
         if (IsPostBack) return;
+
         lbTitulo.Text = "Solicitações de Exames Arquivadas";
-        // Carrega todos por padrão (ou deixe vazio se preferir carregar só após pesquisa)
+        // Carrega todos ao abrir
         BindArquivadosTodos();
     }
-    private static bool IsNullOrWhiteSpace(string value)
-    {
-        return value == null || value.Trim().Length == 0;
-    }
-    protected string FormatCargaGeral(object value)
-    {
-        var s = (value ?? "").ToString().Trim().ToLower();
-        return (s == "1" || s == "true" || s == "sim") ? "Sim" : "Não";
-    }
+
     protected void GridView1_PreRender(object sender, EventArgs e)
     {
         EnsureGridHeader(GridView1);
     }
 
-    // Botão Pesquisar
+    // -------- Botão Pesquisar --------
     protected void btnPesquisar_Click(object sender, EventArgs e)
     {
         try
         {
-            var s = SafeTrim(txbProntuario.Text);
+            string s = GetRhFiltro();
 
-            // Sem valor => traz todos
+            // RH vazio => traz todos
             if (IsNullOrWhiteSpace(s))
             {
                 BindArquivadosTodos();
                 return;
             }
+
             int pront;
-            // Com valor => valida e filtra
-            if (int.TryParse(s, out  pront) && pront > 0)
+            if (int.TryParse(s, out pront) && pront > 0)
             {
                 BindArquivadosPorRH(pront);
+                return;
             }
-            else
-            {
-                ShowToast("Prontuário inválido. Digite apenas números.");
-                // opcional: ainda assim mostrar todos
-                BindArquivadosTodos();
-            }
+
+            ShowToast("Prontuário inválido. Digite apenas números.");
+            BindArquivadosTodos();
         }
         catch (Exception ex)
         {
@@ -140,26 +139,30 @@ public partial class encaminhamento_pedidosarquivados : BasePage
         }
     }
 
-    // Ações da Grid
+    // -------- Ações da Grid --------
     protected void grdMain_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         int index;
+        int idPedido;
 
-        if (e.CommandName.Equals("printRecord"))
+        if (e.CommandName == "printRecord")
         {
             index = Convert.ToInt32(e.CommandArgument);
-            int _id_pedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString());
-            // Caso tenha uma rota de impressão dedicada:
-            // Response.Redirect("~/Encaminhamento/impressaoArquivo.aspx?idpedido=" + _id_pedido);
-            // Mantendo seu redirecionamento atual:
+            idPedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString());
+
+            // Ajuste para sua rota real de impressão, se existir:
+            // Response.Redirect("~/Encaminhamento/impressaoArquivo.aspx?idpedido=" + idPedido);
+            // Mantendo comportamento atual (place-holder):
             Response.Redirect("~/Encaminhamento/pedidosarquivados.aspx");
+            return;
         }
 
-        if (e.CommandName.Equals("viewRecord"))
+        if (e.CommandName == "viewRecord")
         {
             index = Convert.ToInt32(e.CommandArgument);
-            int _id_pedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString());
-            Response.Redirect("~/Encaminhamento/arquivomarcado.aspx?idpedido=" + _id_pedido);
+            idPedido = Convert.ToInt32(GridView1.DataKeys[index].Value.ToString());
+            Response.Redirect("~/Encaminhamento/arquivomarcado.aspx?idpedido=" + idPedido);
+            return;
         }
     }
 }

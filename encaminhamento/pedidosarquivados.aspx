@@ -34,17 +34,18 @@
   <div class="card">
     <div class="card-body">
 
-      <!-- Toolbar (filtro por RH) -->
-      <div class="toolbar">
-        <div class="form-inline">
-          <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
+     <!-- Toolbar (filtro por RH) -->
+<div class="toolbar">
+  <div class="form-inline">
+    <label for="<%= txbProntuario.ClientID %>" class="mb-0">Prontuário:</label>
 
-          <asp:TextBox ID="txbProntuario" runat="server" CssClass="form-control"
-                       placeholder="Digite o RH" />
-          <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary mt-2"
-                      Text="Pesquisar" OnClick="btnPesquisar_Click" />
-        </div>
-      </div>
+    <asp:TextBox ID="txbProntuario" runat="server" CssClass="form-control"
+                 placeholder="Digite o RH (opcional)" />
+    <!-- Sem RequiredFieldValidator; botão sem validação -->
+    <asp:Button ID="btnPesquisar" runat="server" CssClass="btn btn-primary mt-2"
+                Text="Pesquisar" OnClick="btnPesquisar_Click" CausesValidation="false" />
+  </div>
+</div>
 
       <div class="table-responsive" style="margin-top:14px;">
         <asp:GridView ID="GridView1" runat="server"
