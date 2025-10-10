@@ -38,6 +38,11 @@
                 <asp:LinkButton ID="tabTeleconsulta" runat="server" CssClass="nav-link"
                     OnClick="Tab_Click" CommandArgument="teleconsulta">Teleconsulta</asp:LinkButton>
             </li>
+            
+            <li class="nav-item">
+                <asp:LinkButton ID="tabEspecialidade" runat="server" CssClass="nav-link"
+                    OnClick="Tab_Click" CommandArgument="especialidade">Especialidade</asp:LinkButton>
+            </li>
         </ul>
 
         <asp:HiddenField ID="hfCategoria" runat="server" />

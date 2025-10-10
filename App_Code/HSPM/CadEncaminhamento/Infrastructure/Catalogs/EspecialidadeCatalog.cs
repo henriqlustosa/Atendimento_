@@ -20,14 +20,14 @@ namespace Hspm.CadEncaminhamento.Infrastructure
 
             using (SqlConnection conn = _factory.Create())
             using (SqlCommand cmd = new SqlCommand(
-                "SELECT cod_especialidade, descricao_espec FROM especialidade WHERE [status_espec] = 'A' ORDER BY descricao_espec;", conn))
+                "SELECT cod_especialidade, descricao_especialidade FROM especialidade WHERE [status_especialidade] = 'A' ORDER BY descricao_especialidade;", conn))
             {
                 conn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
                 {
                     while (rd.Read())
                     {
-                        string text = rd["descricao_espec"] as string;
+                        string text = rd["descricao_especialidade"] as string;
                         int val = Convert.ToInt32(rd["cod_especialidade"]);
                         if (string.IsNullOrEmpty(text)) continue;
 

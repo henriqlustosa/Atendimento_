@@ -5,12 +5,12 @@ using System.Data.SqlClient;
 
 public class TipoMeta
 {
-    public string Categoria;        // "exames_unico" | "pre_operatorio" | "ressonancia" | "teleconsulta"
+    public string Categoria;
     public string Tabela;
     public string ColId;
     public string ColDescricao;
     public string ColStatus;
-    public bool StatusChar1;        // true: CHAR(1) ("A"/"I") ; false: NVARCHAR(50) ("Ativo"/"Inativo")
+    public bool StatusChar1; // true: "A"/"I" ; false: "Ativo"/"Inativo"
 
     public static TipoMeta FromCategoria(string cat)
     {
@@ -46,6 +46,17 @@ public class TipoMeta
                     ColStatus = "status_teleconsulta",
                     StatusChar1 = true
                 };
+            // NOVO: Especialidade (status em texto)
+            case "especialidade":
+                return new TipoMeta
+                {
+                    Categoria = "especialidade",
+                    Tabela = "dbo.especialidade",
+                    ColId = "cod_especialidade",
+                    ColDescricao = "descricao_especialidade",
+                    ColStatus = "status_especialidade",
+                    StatusChar1 = true
+                };
             default:
                 return new TipoMeta
                 {
@@ -59,13 +70,13 @@ public class TipoMeta
         }
     }
 
-    public string ToDbStatus(string statusPadrao) // "A"|"I" -> valor da coluna
+    public string ToDbStatus(string statusPadrao)
     {
-        if (StatusChar1) return statusPadrao;                 // mantém "A"/"I"
-        return statusPadrao == "A" ? "Ativo" : "Inativo";     // NVARCHAR(50)
+        if (StatusChar1) return statusPadrao;             // "A" ou "I"
+        return statusPadrao == "A" ? "Ativo" : "Inativo"; // texto
     }
 
-    public string ToPadraoStatus(object dbValue) // coluna -> "A"/"I"
+    public string ToPadraoStatus(object dbValue)
     {
         if (dbValue == null || dbValue is DBNull) return "A";
         string s = Convert.ToString(dbValue).Trim();
@@ -127,7 +138,6 @@ public static class TiposExameDAO
             using (var rd = cmd.ExecuteReader())
             {
                 if (!rd.Read()) return null;
-
                 return new TipoRegistro
                 {
                     Id = Convert.ToInt32(rd["Id"]),
@@ -173,9 +183,7 @@ public static class TiposExameDAO
 
     public static void Excluir(TipoMeta m, int id)
     {
-        string sql = string.Format(
-            "DELETE FROM {0} WHERE {1}=@id",
-            m.Tabela, m.ColId);
+        string sql = string.Format("DELETE FROM {0} WHERE {1}=@id", m.Tabela, m.ColId);
 
         using (var conn = new SqlConnection(CS))
         using (var cmd = new SqlCommand(sql, conn))

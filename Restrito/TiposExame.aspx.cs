@@ -6,27 +6,24 @@ using System.Web.UI.WebControls;
 
 public partial class restrito_TiposExame : BasePage
 {
-    // Classe view-model para bind no Grid (substitui dynamic/anon type)
     private class ViewItem
     {
         public int Id { get; set; }
         public string Descricao { get; set; }
-        public string StatusBadge { get; set; } // "A" ou "I"
-        public string StatusTexto { get; set; } // "Ativo" ou "Inativo"
+        public string StatusBadge { get; set; }
+        public string StatusTexto { get; set; }
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            // categoria padrão
-            hfCategoria.Value = "exames_unico";
+            hfCategoria.Value = "exames_unico"; // categoria padrão
             SelecionaAba();
             BindGrid();
         }
     }
 
-    // Alterna aba/categoria
     protected void Tab_Click(object sender, EventArgs e)
     {
         LinkButton btn = (LinkButton)sender;
@@ -43,47 +40,37 @@ public partial class restrito_TiposExame : BasePage
         tabPreOp.CssClass = "nav-link" + (cat == "pre_operatorio" ? " active" : "");
         tabRessonancia.CssClass = "nav-link" + (cat == "ressonancia" ? " active" : "");
         tabTeleconsulta.CssClass = "nav-link" + (cat == "teleconsulta" ? " active" : "");
+        // NOVO: marca a aba Especialidade
+        tabEspecialidade.CssClass = "nav-link" + (cat == "especialidade" ? " active" : "");
     }
 
     private void BindGrid()
     {
-        // 1) Busca dados e projeta para a View
         TipoMeta meta = TipoMeta.FromCategoria(hfCategoria.Value);
         List<TipoRegistro> lista = TiposExameDAO.Listar(meta);
 
-        List<ViewItem> view = new List<ViewItem>();
-        foreach (TipoRegistro r in lista)
+        var view = new List<ViewItem>();
+        foreach (var r in lista)
         {
             string badge = (r.StatusPadrao == "A") ? "A" : "I";
             string texto = (r.StatusPadrao == "A") ? "Ativo" : "Inativo";
             view.Add(new ViewItem { Id = r.Id, Descricao = r.Descricao, StatusBadge = badge, StatusTexto = texto });
         }
 
-        // 2) Bind no Grid
-        gvTipos.DataKeyNames = new string[] { "Id" }; // garantia extra
-        gvTipos.ShowFooter = false;                   // evita <td colspan=...>
-        gvTipos.AllowPaging = false;                  // paginação fica com o DataTables
+        gvTipos.DataKeyNames = new[] { "Id" };
+        gvTipos.ShowFooter = false;
+        gvTipos.AllowPaging = false;
         gvTipos.DataSource = view;
         gvTipos.DataBind();
 
-        // 3) Força header dentro de <thead> (ajuda o DataTables a contar colunas)
         gvTipos.UseAccessibleHeader = true;
         if (gvTipos.HeaderRow != null)
             gvTipos.HeaderRow.TableSection = TableRowSection.TableHeader;
 
-        // 4) Atualiza o UpdatePanel
         updGrid.Update();
-
-        // 5) Re-inicializa DataTables no cliente após o async postback
-        //    (safeInitDataTable() está no .aspx e já trata THEAD/colspan/mismatch)
-        ScriptManager.RegisterStartupScript(
-            this, GetType(),
-            "reinitDT",
-            "if(window.safeInitDataTable){ safeInitDataTable(); }",
-            true
-        );
+        ScriptManager.RegisterStartupScript(this, GetType(), "reinitDT",
+            "if(window.safeInitDataTable){ safeInitDataTable(); }", true);
     }
-
 
     protected void gvTipos_RowCommand(object sender, GridViewCommandEventArgs e)
     {
@@ -93,7 +80,7 @@ public partial class restrito_TiposExame : BasePage
 
         if (e.CommandName == "editRecord")
         {
-            TipoRegistro reg = TiposExameDAO.Obter(meta, id);
+            var reg = TiposExameDAO.Obter(meta, id);
             if (reg == null) { ShowError("Registro não encontrado."); return; }
 
             hfEditId.Value = reg.Id.ToString();
@@ -112,7 +99,7 @@ public partial class restrito_TiposExame : BasePage
 
     protected void btnSalvarNovo_Click(object sender, EventArgs e)
     {
-        TipoMeta meta = TipoMeta.FromCategoria(hfCategoria.Value);
+        var meta = TipoMeta.FromCategoria(hfCategoria.Value);
         try
         {
             string desc = SafeTrim(txtDescricaoNovo.Text);
@@ -131,7 +118,7 @@ public partial class restrito_TiposExame : BasePage
 
     protected void btnSalvarEdit_Click(object sender, EventArgs e)
     {
-        TipoMeta meta = TipoMeta.FromCategoria(hfCategoria.Value);
+        var meta = TipoMeta.FromCategoria(hfCategoria.Value);
         try
         {
             int id = int.Parse(hfEditId.Value);
@@ -140,6 +127,9 @@ public partial class restrito_TiposExame : BasePage
 
             TiposExameDAO.Atualizar(meta, id, desc, statusPadrao);
             ShowOk("Registro atualizado com sucesso.");
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "hideEditModal", "$('#mdlEdit').modal('hide');", true);
+            ClearEditForm();
             BindGrid();
         }
         catch (Exception ex) { ShowError("Erro ao atualizar: " + ex.Message); }
@@ -147,7 +137,7 @@ public partial class restrito_TiposExame : BasePage
 
     protected void btnConfirmDel_Click(object sender, EventArgs e)
     {
-        TipoMeta meta = TipoMeta.FromCategoria(hfCategoria.Value);
+        var meta = TipoMeta.FromCategoria(hfCategoria.Value);
         try
         {
             int id = int.Parse(hfDelId.Value);
@@ -158,34 +148,19 @@ public partial class restrito_TiposExame : BasePage
         catch (Exception ex) { ShowError("Erro ao excluir: " + ex.Message); }
     }
 
-    // utilidades (compatíveis com C# 3 / .NET 3.5)
-    private static string SafeTrim(string s)
-    {
-        return (s == null) ? "" : s.Trim();
-    }
-
+    // utilidades
+    private static string SafeTrim(string s) { return (s == null) ? "" : s.Trim(); }
     private static bool IsNullOrWhiteSpace35(string s)
     {
-        if (s == null) return true;
-        for (int i = 0; i < s.Length; i++)
-        {
-            if (!char.IsWhiteSpace(s[i])) return false;
-        }
+        if (s == null) return true; for (int i = 0; i < s.Length; i++) { if (!char.IsWhiteSpace(s[i])) return false; }
         return true;
     }
-
-    private void ShowOk(string msg)
+    private void ShowOk(string msg) { lblOk.Text = msg; lblErr.Text = ""; }
+    private void ShowError(string msg) { lblErr.Text = msg; lblOk.Text = ""; }
+    private void LimpaMensagens() { lblOk.Text = ""; lblErr.Text = ""; }
+    private void ClearEditForm()
     {
-        lblOk.Text = msg; lblErr.Text = "";
-    }
-
-    private void ShowError(string msg)
-    {
-        lblErr.Text = msg; lblOk.Text = "";
-    }
-
-    private void LimpaMensagens()
-    {
-        lblOk.Text = ""; lblErr.Text = "";
+        hfEditId.Value = ""; txtDescricaoEdit.Text = "";
+        ddlStatusEdit.ClearSelection(); var li = ddlStatusEdit.Items.FindByValue("A"); if (li != null) li.Selected = true;
     }
 }
