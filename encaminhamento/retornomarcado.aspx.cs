@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Hspm.CadEncaminhamento;
+using Hspm.CadEncaminhamento.Application;
+using Hspm.CadEncaminhamento.Domain;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
-using Hspm.CadEncaminhamento;
-using Hspm.CadEncaminhamento.Domain;
-using Hspm.CadEncaminhamento.Application;
 
 public partial class encaminhamento_retornomarcado : BasePage
 {
@@ -51,6 +51,50 @@ public partial class encaminhamento_retornomarcado : BasePage
 
         // 3) Carrega dados
         CarregarPedido(idPedido);
+
+        hfReturnUrl.Value = GetSafeReturnUrl();
+    }
+    private string GetSafeReturnUrl()
+    {
+        // 1) QueryString
+        string ret = Request.QueryString["returnUrl"];
+
+        // 2) Se não veio, tenta referer
+        // 2) Se não veio, tenta referer
+        if (string.IsNullOrEmpty(ret) || ret.Trim().Length == 0)
+        {
+            if (Request.UrlReferrer != null)
+                ret = Request.UrlReferrer.PathAndQuery;
+        }
+
+        // 3) Normaliza
+        ret = (ret ?? "").Trim();
+
+        // Whitelist de rotas locais permitidas (ajuste se precisar)
+        string[] allowList =
+        {
+            ResolveUrl("~/encaminhamento/pedidospendentes.aspx").ToLowerInvariant(),
+            ResolveUrl("~/encaminhamento/pedidospendentesporrh.aspx").ToLowerInvariant()
+        };
+
+        // Aceita tanto caminho absoluto do site quanto relativo
+        // Ex.: /encaminhamento/pedidospendentes.aspx?... OU /Atendimento/encaminhamento/pedidospendentes.aspx?...
+        var appPath = Request.ApplicationPath; // geralmente "/Atendimento" ou "/"
+        string toLower = ret.ToLowerInvariant();
+
+        bool permitido =
+            allowList.Any(allowed =>
+                toLower.Contains(allowed) ||
+                toLower.EndsWith(allowed.Substring(allowed.LastIndexOf('/'))) // compara apenas o final (/encaminhamento/pedidospendentes.aspx)
+            );
+
+        // Default seguro
+        if (!permitido)
+            return ResolveUrl("~/encaminhamento/pedidospendentesporrh.aspx");
+
+        // Se for só caminho relativo simples, mantém
+        // Se for absoluto dentro do app, também funciona (PathAndQuery já é relativo)
+        return ret;
     }
 
     // -------------------- Carregar dados --------------------
@@ -124,7 +168,7 @@ public partial class encaminhamento_retornomarcado : BasePage
             DataPedido = dtPedido,
             CodEspecialidade = codEsp,
             Observacoes = txbOb.Text,
-            
+
             Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString(),
 
             CodigosPreOperatorio = GetSelectedCodes(select2),
@@ -136,12 +180,17 @@ public partial class encaminhamento_retornomarcado : BasePage
 
             // NOVO: 1 = Sim, 0 = Não
             CargaGeral = rbCargaSim.Checked ? 1 : 0
+
         };
 
         try
         {
             _atualizarPedido.Handle(cmd);
-            ShowSuccessModal(); // abre #myModal
+            ShowSuccessModal(); 
+            // abre #myModal
+           // Mostra o modal de sucesso (mantém como está no seu front)
+            ScriptManager.RegisterStartupScript(
+                this, GetType(), "showModalOk", "$('#myModal').modal('show');", true);
         }
         catch (ApplicationException ex)
         {
