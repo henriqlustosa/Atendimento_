@@ -30,8 +30,9 @@ namespace Hspm.CadEncaminhamento.Application
                 c.CodEspecialidade,
                 c.ExamesPreOpTextoParaHistorico,
                 c.OutrasInformacoes,
-                c.Solicitante,
-                c.Usuario
+                c.Usuario,
+                c.CargaGeral
+                
             );
 
             int id = _repo.Gravar(pedido);

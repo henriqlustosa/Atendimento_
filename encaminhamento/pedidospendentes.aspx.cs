@@ -35,6 +35,11 @@ public partial class encaminhamento_pedidospendentes : BasePage
             gv.FooterRow.TableSection = TableRowSection.TableFooter;
         }
     }
+    protected string FormatCargaGeral(object value)
+    {
+        var s = (value ?? "").ToString().Trim().ToLower();
+        return (s == "1" || s == "true" || s == "sim") ? "Sim" : "Não";
+    }
 
     // Binds
     private void BindPendentesTodos()

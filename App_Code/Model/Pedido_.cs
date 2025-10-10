@@ -22,7 +22,7 @@ public class Pedido_: Especialidade
     public DateTime data_cadastro { get; set; }
     public string exames_solicitados { get; set; }
     public string outras_informacoes { get; set; }
-    public string solicitante { get; set; }
+    public int carga_geral { get; set; }
     public int status_pedido { get; set; }
     public string usuario { get; set; }
     public string usuario_baixa { get; set; }

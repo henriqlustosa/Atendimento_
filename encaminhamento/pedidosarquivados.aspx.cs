@@ -98,7 +98,11 @@ public partial class encaminhamento_pedidosarquivados : BasePage
     {
         return value == null || value.Trim().Length == 0;
     }
-
+    protected string FormatCargaGeral(object value)
+    {
+        var s = (value ?? "").ToString().Trim().ToLower();
+        return (s == "1" || s == "true" || s == "sim") ? "Sim" : "Não";
+    }
     protected void GridView1_PreRender(object sender, EventArgs e)
     {
         EnsureGridHeader(GridView1);

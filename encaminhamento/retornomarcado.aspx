@@ -13,6 +13,10 @@
         .x_title i { color:#007bff; }
         .form-control { border-radius:6px !important; }
         .chosen-container { width:100% !important; }
+
+        /* alinhamento dos radios */
+        .rb-row { display:flex; align-items:center; gap:18px; }
+        .rb-row .rb-item { display:flex; align-items:center; gap:8px; }
     </style>
 </asp:Content>
 
@@ -87,11 +91,20 @@
         <select id="select4" multiple class="form-control chosen-select" runat="server" clientidmode="Static"></select>
     </div>
 
-    <!-- Profissional -->
+    <!-- Cargas em geral (NOVO: substitui 'Solicitante') -->
     <div class="x_panel">
-        <div class="x_title"><i class="fa fa-user-md"></i> Solicitante</div>
-        <label>Médico/Profissional</label>
-        <asp:TextBox ID="txbprofissional" runat="server" CssClass="form-control"></asp:TextBox>
+        <div class="x_title"><i class="fa fa-truck"></i> Informações de Cargas em geral</div>
+        <div class="mb-2">Este formulário é relacionado a <strong>carga</strong>?</div>
+        <div class="rb-row">
+            <label class="rb-item">
+                <asp:RadioButton ID="rbCargaSim" runat="server" GroupName="CargaRel" />
+                <span>Sim</span>
+            </label>
+            <label class="rb-item">
+                <asp:RadioButton ID="rbCargaNao" runat="server" GroupName="CargaRel" />
+                <span>Não</span>
+            </label>
+        </div>
     </div>
 
     <div class="row text-center mb-5">
@@ -125,13 +138,24 @@
 
             $("input").attr("autocomplete", "off");
 
+            // iCheck (aplica a radios e checkboxes)
             $('input[type="checkbox"], input[type="radio"]').iCheck({
                 checkboxClass: 'icheckbox_flat-green',
                 radioClass: 'iradio_flat-green'
             });
 
+            // força "Não" como padrão se nenhum estiver marcado (após iCheck)
+            var rbNao = $('#<%= rbCargaNao.ClientID %>');
+            var rbSim = $('#<%= rbCargaSim.ClientID %>');
+            // quando iCheck envolve o input, usamos .iCheck('check')
+            if (!rbNao.is(':checked') && !rbSim.is(':checked')) {
+                rbNao.iCheck('check');
+            }
+
+            // apenas números
             $('.numeric').keyup(function () { $(this).val(this.value.replace(/\D/g, '')); });
 
+            // chosen
             $(".chosen-select").chosen({
                 no_results_text: "Nada encontrado!",
                 placeholder_text_multiple: "Selecione uma ou mais opções",

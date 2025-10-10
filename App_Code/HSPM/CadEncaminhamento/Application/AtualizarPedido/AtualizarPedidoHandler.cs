@@ -39,8 +39,9 @@ namespace Hspm.CadEncaminhamento.Application
                 cmd.CodEspecialidade,
                 cmd.ExamesPreOpTextoParaHistorico,
                 cmd.Observacoes,
-                (cmd.Solicitante ?? "").Trim().ToUpperInvariant(),
-                cmd.Usuario
+               
+                cmd.Usuario,
+                 cmd.CargaGeral
             );
 
             _repo.Atualizar(p);

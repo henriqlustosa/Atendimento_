@@ -11,7 +11,7 @@ namespace Hspm.CadEncaminhamento.Application
         public DateTime DataPedido { get; set; }
         public int CodEspecialidade { get; set; }
         public string Observacoes { get; set; }
-        public string Solicitante { get; set; }
+        public int CargaGeral { get; set; }
         public string Usuario { get; set; }
 
         // opcional: texto consolidado dos exames para histórico

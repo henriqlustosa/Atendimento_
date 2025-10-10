@@ -30,6 +30,14 @@
     .action-bar{position:sticky;bottom:0;z-index:10;background:rgba(248,249,250,.95);backdrop-filter:saturate(150%) blur(6px);
                 border-top:1px solid #e9ecef;padding:.75rem 0;box-shadow:0 -2px 6px rgba(0,0,0,.05)}
     .action-bar-inner{display:flex;justify-content:center;}
+    .gap-4{gap:1rem;}
+
+    /* Radios de Carga: visual e alinhamento */
+    .rb-group{
+      display:flex; align-items:center; gap:24px;
+      background:#f9fafb; border:1px solid #e9ecef; border-radius:10px; padding:10px 12px;
+    }
+    .rb-item{ display:flex; align-items:center; gap:8px; font-weight:600; }
   </style>
 </asp:Content>
 
@@ -202,19 +210,39 @@
       ErrorMessage="Selecione pelo menos um item em Pré-operatório, Ressonância, Teleconsulta ou Exames Únicos."
       Display="None" ValidationGroup="Salvar" ValidateEmptyText="true" />
 
-    <!-- Solicitante -->
+    <!-- Cargas em geral (melhorado) -->
     <div class="card">
-      <div class="card-header" id="hSol">
+      <div class="card-header" id="hCarga">
         <button class="btn btn-link collapsed" type="button"
-                data-bs-toggle="collapse" data-bs-target="#cSol"
-                aria-expanded="false" aria-controls="cSol">
-          <i class="fa fa-user-md"></i> Informações do Solicitante <i class="fa fa-chevron-down chev"></i>
+                data-bs-toggle="collapse" data-bs-target="#cCarga"
+                aria-expanded="false" aria-controls="cCarga">
+          <i class="fa fa-truck"></i> Informações de Cargas em geral <i class="fa fa-chevron-down chev"></i>
         </button>
       </div>
-      <div id="cSol" class="collapse" data-bs-parent="#accAtendimento">
+      <div id="cCarga" class="collapse" data-bs-parent="#accAtendimento">
         <div class="card-body">
-          <label>Médico/Profissional</label>
-          <asp:TextBox ID="txbprofissional" runat="server" CssClass="form-control" placeholder="Digite o nome do profissional"></asp:TextBox>
+          <label class="form-label mb-2">Este formulário é relacionado a <strong>carga</strong>?</label>
+
+          <div class="rb-group">
+            <label class="rb-item">
+              <asp:RadioButton ID="rbCargaSim" runat="server" GroupName="CargaRel" Text="Sim" />
+            </label>
+            <label class="rb-item">
+              <!-- padrão: Não -->
+              <asp:RadioButton ID="rbCargaNao" runat="server" GroupName="CargaRel" Text="Não" Checked="true" />
+            </label>
+          </div>
+
+          <div class="form-text mt-1">
+            Selecione <strong>Não</strong> caso o pedido não envolva movimentação de cargas.
+          </div>
+
+          <!-- Validação: obrigar escolha entre Sim/Não -->
+          <asp:CustomValidator ID="cvCargaRel" runat="server"
+            ClientValidationFunction="validateCargaRel"
+            OnServerValidate="cvCargaRel_ServerValidate"
+            ErrorMessage="Informe se o formulário é relacionado a carga (Sim ou Não)."
+            Display="None" ValidationGroup="Salvar" ValidateEmptyText="true" />
         </div>
       </div>
     </div>
@@ -265,6 +293,13 @@
     }
     function validateAlgumExame(sender, args) { args.IsValid = anyExamSelected(); }
 
+    // >>> Validação cliente: Carga (Sim/Não)
+    function validateCargaRel(sender, args) {
+        var sim = $('#<%= rbCargaSim.ClientID %>').is(':checked');
+        var nao = $('#<%= rbCargaNao.ClientID %>').is(':checked');
+        args.IsValid = sim || nao;
+    }
+
     function validateBeforeSubmit() {
         if (!Page_ClientValidate('Salvar')) {
             var invalid = null;
@@ -294,66 +329,73 @@
     $(function () {
         // datepicker
         flatpickr("#<%= txbDtPedido.ClientID %>", {
-          dateFormat: "d/m/Y",
-          locale: {
-              firstDayOfWeek: 1,
-              weekdays: { shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'], longhand: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'] },
-              months: { shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] }
-          }
-      });
+            dateFormat: "d/m/Y",
+            locale: {
+                firstDayOfWeek: 1,
+                weekdays: { shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'], longhand: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'] },
+                months: { shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] }
+            }
+        });
 
-      // apenas números
-      $('.numeric').on('input', function () { this.value = this.value.replace(/\D/g, ''); });
+        // apenas números
+        $('.numeric').on('input', function () { this.value = this.value.replace(/\D/g, ''); });
 
-      // iCheck
-      $('input[type="checkbox"], input[type="radio"]').iCheck({
-          checkboxClass: 'icheckbox_flat-green',
-          radioClass: 'iradio_flat-green',
-          increaseArea: '20%'
-      });
+        // iCheck
+        $('input[type="checkbox"], input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green',
+            increaseArea: '20%'
+        });
 
-      // bootstrap-select
-      $('.selectpicker').each(function () {
-          var $s = $(this);
-          if (!$s.data('selectpicker')) $s.selectpicker({ dropupAuto: false, liveSearch: true });
-          dedupeOptionsByText($s); toggleSearchBox($s); ensureUniqueSelection($s);
-          $s.selectpicker('render');
-      });
+        // força "Não" como padrão se nada estiver marcado (após iCheck)
+        var rbNao = $('#<%= rbCargaNao.ClientID %>');
+        var rbSim = $('#<%= rbCargaSim.ClientID %>');
+        if (!rbNao.is(':checked') && !rbSim.is(':checked')) {
+            rbNao.iCheck('check');
+        }
 
-      // acordeão exclusivo (fecha outros quando um abre)
-      $('#accAtendimento').on('show.bs.collapse', function (e) {
-          $('#accAtendimento .collapse.show').not(e.target).each(function () {
-              bootstrap.Collapse.getOrCreateInstance(this, { toggle: false }).hide();
-          });
-      }).on('shown.bs.collapse', function (e) {
-          $(e.target).find('select.selectpicker').each(function () {
-              var $s = $(this); toggleSearchBox($s); ensureUniqueSelection($s); $s.selectpicker('render');
-          });
-          $('html,body').animate({ scrollTop: $(e.target).closest('.card').offset().top - 16 }, 180);
-      });
+        // bootstrap-select
+        $('.selectpicker').each(function () {
+            var $s = $(this);
+            if (!$s.data('selectpicker')) $s.selectpicker({ dropupAuto: false, liveSearch: true });
+            dedupeOptionsByText($s); toggleSearchBox($s); ensureUniqueSelection($s);
+            $s.selectpicker('render');
+        });
 
-      // garantir seleção única no selectpicker
-      $(document).on('changed.bs.select', 'select.selectpicker', function () {
-          var $s = $(this); ensureUniqueSelection($s); $s.selectpicker('render');
-      });
+        // acordeão exclusivo (fecha outros quando um abre)
+        $('#accAtendimento').on('show.bs.collapse', function (e) {
+            $('#accAtendimento .collapse.show').not(e.target).each(function () {
+                bootstrap.Collapse.getOrCreateInstance(this, { toggle: false }).hide();
+            });
+        }).on('shown.bs.collapse', function (e) {
+            $(e.target).find('select.selectpicker').each(function () {
+                var $s = $(this); toggleSearchBox($s); ensureUniqueSelection($s); $s.selectpicker('render');
+            });
+            $('html,body').animate({ scrollTop: $(e.target).closest('.card').offset().top - 16 }, 180);
+        });
 
-      function toggleSearchBox($s) { $s.parent('.bootstrap-select').toggleClass('no-search', $s.find('option').length < 8); }
-      function ensureUniqueSelection($s) {
-          var seen = {};
-          $s.find('option:selected').each(function () {
-              var k = $(this).text().trim().toLowerCase();
-              if (seen[k]) this.selected = false; else seen[k] = true;
-          });
-      }
-      function dedupeOptionsByText($s) {
-          var map = {};
-          $s.find('option').each(function () {
-              var t = $(this).text().trim().toLowerCase();
-              if (map[t]) $(this).remove(); else map[t] = true;
-          });
-      }
+        // garantir seleção única no selectpicker
+        $(document).on('changed.bs.select', 'select.selectpicker', function () {
+            var $s = $(this); ensureUniqueSelection($s); $s.selectpicker('render');
+        });
 
-      $('#btnCloseModal').on('click', function () { location.href = 'cadencaminhamento.aspx'; });
-  });
+        function toggleSearchBox($s) { $s.parent('.bootstrap-select').toggleClass('no-search', $s.find('option').length < 8); }
+        function ensureUniqueSelection($s) {
+            var seen = {};
+            $s.find('option:selected').each(function () {
+                var k = $(this).text().trim().toLowerCase();
+                if (seen[k]) this.selected = false; else seen[k] = true;
+            });
+        }
+        function dedupeOptionsByText($s) {
+            var map = {};
+            $s.find('option').each(function () {
+                var t = $(this).text().trim().toLowerCase();
+                if (map[t]) $(this).remove(); else map[t] = true;
+            });
+        }
+
+        $('#btnCloseModal').on('click', function () { location.href = 'cadencaminhamento.aspx'; });
+    });
 </script>
 </asp:Content>

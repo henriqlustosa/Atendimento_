@@ -78,6 +78,11 @@
             <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
             <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
             <asp:BoundField DataField="outras_informacoes" HeaderText="Outras Informações" SortExpression="outras_informacoes" />
+           <asp:TemplateField HeaderText="Carga Geral" SortExpression="carga_geral">
+  <ItemTemplate>
+    <%# FormatCargaGeral(Eval("carga_geral")) %>
+  </ItemTemplate>
+</asp:TemplateField>
             <asp:BoundField DataField="usuario" HeaderText="Usuário" SortExpression="usuario" />
 
             <asp:TemplateField HeaderText=" " ItemStyle-CssClass="actions-col" HeaderStyle-CssClass="sorting_disabled">

@@ -20,7 +20,11 @@ public partial class encaminhamento_pedidospendentesporrh : BasePage
         ScriptManager.RegisterStartupScript(this, GetType(), "msg",
             "alert(" + ToJsString(msg) + ");", true);
     }
-
+    protected string FormatCargaGeral(object value)
+    {
+        var s = (value ?? "").ToString().Trim().ToLower();
+        return (s == "1" || s == "true" || s == "sim") ? "Sim" : "Não";
+    }
     private static void EnsureGridHeader(GridView gv)
     {
         if (gv == null) return;

@@ -15,7 +15,11 @@ public partial class publico_cadencaminhamento : BasePage
     private readonly IEspecialidadeCatalog _especialidades;
     private readonly IExameCatalog _exames;
     private readonly IGravarPedidoHandler _gravarPedido;
-
+    protected void cvCargaRel_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        // Validação servidor: exige que ao menos um dos radios esteja marcado
+        args.IsValid = rbCargaSim.Checked || rbCargaNao.Checked;
+    }
     public publico_cadencaminhamento()
     {
         _pacientes = CompositionRoot.Pacientes;
@@ -33,7 +37,8 @@ public partial class publico_cadencaminhamento : BasePage
         BindHtmlSelect(select1, _exames.ListarRessonancia());
         BindHtmlSelect(select3, _exames.ListarTeleconsulta());
         BindHtmlSelect(select4, _exames.ListarExamesUnicos());
-
+        rbCargaNao.Checked = true;  // padrão “Não”
+        rbCargaSim.Checked = false;
         if (ddlEspecialidade.Items.Count == 0 || ddlEspecialidade.Items[0].Value != "")
             ddlEspecialidade.Items.Insert(0, new ListItem("Selecione...", ""));
         ddlEspecialidade.SelectedIndex = 0;
@@ -115,7 +120,7 @@ public partial class publico_cadencaminhamento : BasePage
             DataPedido = dtPedido,
             CodEspecialidade = codEsp,
             OutrasInformacoes = txbOb.Text,
-            Solicitante = (txbprofissional.Text ?? "").Trim().ToUpperInvariant(),
+            CargaGeral = rbCargaSim.Checked ? 1 : 0,
             Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString(),
             ExamesPreOpTextoParaHistorico = historicoTodosExames,
             Exames = BuildExamesSelecionados()
@@ -155,34 +160,45 @@ public partial class publico_cadencaminhamento : BasePage
         dtPedido = default(DateTime);
         codEsp = 0;
 
+        // Normalização básica
         txbProntuario.Text = (txbProntuario.Text ?? "").Trim();
         txbDtPedido.Text = (txbDtPedido.Text ?? "").Trim();
         txbNomePaciente.Text = (txbNomePaciente.Text ?? "").Trim();
-        txbprofissional.Text = (txbprofissional.Text ?? "").Trim();
 
+        // Se houver validações ASP.NET que já falharam, registramos uma msg geral
         if (!Page.IsValid)
             AddPageError("Existem campos obrigatórios não preenchidos ou inválidos.");
 
         var errors = new List<string>();
 
+        // Prontuário
         if (!TryGetIntPositive(txbProntuario.Text, out prontuario))
             errors.Add("Prontuário inválido.");
 
+        // Data do pedido (pt-BR)
         if (!TryParseDatePtBr(txbDtPedido.Text, out dtPedido))
             errors.Add("Data do pedido inválida.");
 
+        // Especialidade
         if (!TryGetIntPositive(ddlEspecialidade.SelectedValue, out codEsp))
             errors.Add("Selecione a especialidade.");
 
+        // Ao menos um exame selecionado (Pré-op, Ressonância, Teleconsulta ou Exames Únicos)
         if (!HasAnySelection(select2, select1, select3, select4))
             errors.Add("Selecione pelo menos um item em Pré-operatório, Ressonância, Teleconsulta ou Exames Únicos.");
 
+        // Nome do paciente deve estar preenchido após a busca
         if (string.IsNullOrEmpty(txbNomePaciente.Text))
             errors.Add("Pesquise o paciente para preencher o nome.");
 
+        // Nova regra: radios de carga precisam ter uma escolha (Sim OU Não)
+        // (Geralmente o padrão é 'Não', mas garantimos aqui.)
+        if (!rbCargaSim.Checked && !rbCargaNao.Checked)
+            errors.Add("Informe se o formulário é relacionado a carga (Sim ou Não).");
+
         if (!Page.IsValid || errors.Count > 0)
         {
-            for (int i = 0; i < errors.Count; i++) AddPageError(errors[i]);
+            foreach (var err in errors) AddPageError(err);
             return false;
         }
 
@@ -272,7 +288,10 @@ public partial class publico_cadencaminhamento : BasePage
         txbNomePaciente.Text = string.Empty;
         txbDtPedido.Text = string.Empty;
         txbOb.Text = string.Empty;
-        txbprofissional.Text = string.Empty;
+
+        // RadioButtons de carga (padrão: "Não" marcado)
+        rbCargaSim.Checked = false;
+        rbCargaNao.Checked = true;
 
         // DropDownList de especialidade (volta para "Selecione...")
         ddlEspecialidade.ClearSelection();
@@ -286,6 +305,7 @@ public partial class publico_cadencaminhamento : BasePage
         ClearHtmlSelect(select3);
         ClearHtmlSelect(select4);
     }
+
 
     private static void ClearHtmlSelect(HtmlSelect sel)
     {

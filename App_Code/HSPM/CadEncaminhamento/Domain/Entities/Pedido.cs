@@ -11,12 +11,16 @@ namespace Hspm.CadEncaminhamento.Domain
         public int CodEspecialidade { get; private set; }
         public string ExamesSolicitadosTexto { get; private set; }
         public string OutrasInformacoes { get; private set; }
-        public string Solicitante { get; private set; }
+       
         public string Usuario { get; private set; }
+
+        // 🔹 Novo campo
+        public int CargaGeral { get; private set; }
 
         public Pedido(int prontuario, string nomePaciente, DateTime dataPedido,
                       int codEspecialidade, string examesSolicitadosTexto,
-                      string outrasInformacoes, string solicitante, string usuario)
+                      string outrasInformacoes, string usuario,
+                      int cargaGeral)
         {
             Prontuario = prontuario;
             NomePaciente = (nomePaciente ?? string.Empty).Trim();
@@ -24,27 +28,34 @@ namespace Hspm.CadEncaminhamento.Domain
             CodEspecialidade = codEspecialidade;
             ExamesSolicitadosTexto = examesSolicitadosTexto ?? string.Empty;
             OutrasInformacoes = outrasInformacoes ?? string.Empty;
-            Solicitante = (solicitante ?? string.Empty).Trim();
+        
             Usuario = usuario ?? string.Empty;
+            CargaGeral = cargaGeral;
         }
 
         public Pedido()
         {
         }
-        public void DefinirId(int value) { this.Id = value; }
+
+        public void DefinirId(int value)
+        {
+            Id = value;
+        }
 
         public void AlterarCabecalho(int prontuario, string nome, DateTime data, int codEsp,
-                             string examesTexto, string obs, string solicitante, string usuario)
+                                     string examesTexto, string obs,
+                                     string usuario, int cargaGeral)
         {
-            // validações de domínio aqui, se houver
-            this.Prontuario = prontuario;
-            this.NomePaciente = nome;
-            this.DataPedido = data;
-            this.CodEspecialidade = codEsp;
-            this.ExamesSolicitadosTexto = examesTexto;
-            this.OutrasInformacoes = obs;
-            this.Solicitante = solicitante;
-            this.Usuario = usuario;
+            // Validações de domínio (se existirem) podem ser aplicadas aqui.
+            Prontuario = prontuario;
+            NomePaciente = nome;
+            DataPedido = data;
+            CodEspecialidade = codEsp;
+            ExamesSolicitadosTexto = examesTexto;
+            OutrasInformacoes = obs;
+            
+            Usuario = usuario;
+            CargaGeral = cargaGeral;
         }
     }
 }

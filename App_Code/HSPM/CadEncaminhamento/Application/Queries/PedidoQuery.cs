@@ -29,7 +29,7 @@ namespace Hspm.CadEncaminhamento.Application
             dto.CodEspecialidade = p.CodEspecialidade;
             // No seu domínio o campo de observações é "OutrasInformacoes"
             dto.Observacoes = p.OutrasInformacoes;
-            dto.Solicitante = p.Solicitante;
+            dto.CargaGeral = p.CargaGeral;
 
             // Listas de selecionados
             dto.Ressonancia = _repo.ObterRessonanciaSelecionados(id);

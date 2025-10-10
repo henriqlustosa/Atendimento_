@@ -67,16 +67,28 @@ public partial class encaminhamento_retornomarcado : BasePage
         txbNomePaciente.Text = (p.NomePaciente ?? "").Trim().ToUpperInvariant();
         txbDtPedido.Text = p.DataPedido.ToString("dd/MM/yyyy");
         txbOb.Text = p.Observacoes ?? "";
-        txbprofissional.Text = (p.Solicitante ?? "").Trim();
 
-        ListItem it = ddlEspecialidade.Items.FindByValue(p.CodEspecialidade.ToString(CultureInfo.InvariantCulture));
-        if (it != null) { ddlEspecialidade.ClearSelection(); it.Selected = true; }
+        // Especialidade
+        ListItem it = ddlEspecialidade.Items.FindByValue(
+            p.CodEspecialidade.ToString(CultureInfo.InvariantCulture)
+        );
+        if (it != null)
+        {
+            ddlEspecialidade.ClearSelection();
+            it.Selected = true;
+        }
 
+        // Radios de Carga Geral (1 = Sim, 0 = Não)
+        rbCargaSim.Checked = (p.CargaGeral == 1);
+        rbCargaNao.Checked = !rbCargaSim.Checked;
+
+        // Seções de seleção múltipla
         ApplySelected(select1, p.Ressonancia);
         ApplySelected(select2, p.PreOperatorio);
         ApplySelected(select3, p.Teleconsulta);
         ApplySelected(select4, p.ExamesUnicos);
     }
+
 
     private static void ApplySelected(HtmlSelect sel, IList<int> codes)
     {
@@ -104,22 +116,27 @@ public partial class encaminhamento_retornomarcado : BasePage
 
         string historicoTodosExames = JoinSelectedTexts(select1, select2, select3, select4);
 
-        AtualizarPedidoCommand cmd = new AtualizarPedidoCommand();
-        cmd.Id = idPedido;
-        cmd.Prontuario = prontuario;
-        cmd.NomePaciente = (txbNomePaciente.Text ?? "").Trim().ToUpperInvariant();
-        cmd.DataPedido = dtPedido;
-        cmd.CodEspecialidade = codEsp;
-        cmd.Observacoes = txbOb.Text;
-        cmd.Solicitante = (txbprofissional.Text ?? "").Trim().ToUpperInvariant();
-        cmd.Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString();
+        var cmd = new AtualizarPedidoCommand
+        {
+            Id = idPedido,
+            Prontuario = prontuario,
+            NomePaciente = (txbNomePaciente.Text ?? "").Trim().ToUpperInvariant(),
+            DataPedido = dtPedido,
+            CodEspecialidade = codEsp,
+            Observacoes = txbOb.Text,
+            
+            Usuario = Session["login"] == null ? "desconhecido" : Session["login"].ToString(),
 
-        cmd.CodigosPreOperatorio = GetSelectedCodes(select2);
-        cmd.CodigosRessonancia = GetSelectedCodes(select1);
-        cmd.CodigosTeleconsulta = GetSelectedCodes(select3);
-        cmd.CodigosExamesUnicos = GetSelectedCodes(select4);
+            CodigosPreOperatorio = GetSelectedCodes(select2),
+            CodigosRessonancia = GetSelectedCodes(select1),
+            CodigosTeleconsulta = GetSelectedCodes(select3),
+            CodigosExamesUnicos = GetSelectedCodes(select4),
 
-        cmd.ExamesPreOpTextoParaHistorico = historicoTodosExames;
+            ExamesPreOpTextoParaHistorico = historicoTodosExames,
+
+            // NOVO: 1 = Sim, 0 = Não
+            CargaGeral = rbCargaSim.Checked ? 1 : 0
+        };
 
         try
         {
@@ -136,39 +153,54 @@ public partial class encaminhamento_retornomarcado : BasePage
         }
     }
 
+
     private bool TryValidateInputsForEdit(out int prontuario, out DateTime dtPedido, out int codEsp)
     {
-        prontuario = 0; dtPedido = default(DateTime); codEsp = 0;
+        prontuario = 0;
+        dtPedido = default(DateTime);
+        codEsp = 0;
 
+        // Normalização
         txbProntuario.Text = (txbProntuario.Text ?? "").Trim();
         txbDtPedido.Text = (txbDtPedido.Text ?? "").Trim();
         txbNomePaciente.Text = (txbNomePaciente.Text ?? "").Trim();
-        txbprofissional.Text = (txbprofissional.Text ?? "").Trim();
 
         var errors = new List<string>();
 
+        // Prontuário
         if (!TryGetIntPositive(txbProntuario.Text, out prontuario))
             errors.Add("Prontuário inválido.");
 
+        // Data do pedido (pt-BR)
         if (!TryParseDatePtBr(txbDtPedido.Text, out dtPedido))
             errors.Add("Data do pedido inválida.");
 
+        // Especialidade
         if (!TryGetIntPositive(ddlEspecialidade.SelectedValue, out codEsp))
             errors.Add("Selecione a especialidade.");
 
+        // Pelo menos um exame
         if (!HasAnySelection(select2, select1, select3, select4))
             errors.Add("Selecione ao menos um item em Pré-operatório, Ressonância, Teleconsulta ou Exames Únicos.");
 
+        // Nome do paciente
         if (string.IsNullOrEmpty(txbNomePaciente.Text))
             errors.Add("Informe o nome do paciente.");
 
+        // Radios de Carga (Sim/Não)
+        if (!rbCargaSim.Checked && !rbCargaNao.Checked)
+            errors.Add("Informe se o formulário é relacionado a carga (Sim ou Não).");
+
+        // Respeita validadores ASP.NET e lista de erros
         if (!Page.IsValid || errors.Count > 0)
         {
-            for (int i = 0; i < errors.Count; i++) AddPageError(errors[i]);
+            foreach (var err in errors) AddPageError(err);
             return false;
         }
+
         return true;
     }
+
 
     private static IList<int> GetSelectedCodes(HtmlSelect sel)
     {

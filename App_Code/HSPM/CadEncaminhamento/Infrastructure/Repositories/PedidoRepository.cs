@@ -27,8 +27,8 @@ namespace Hspm.CadEncaminhamento.Infrastructure
                         // Se seu SQL for 2005, troque por GETDATE()
                         const string sql = @"
 INSERT INTO pedido_consulta
-  (prontuario, nome_paciente, data_pedido, cod_especialidade, exames_solicitados, outras_informacoes, solicitante, usuario, data_cadastro)
-VALUES (@prontuario, @nome, @data, @cod_esp, @exames_texto, @obs, @solicitante, @usuario, GETDATE());
+  (prontuario, nome_paciente, data_pedido, cod_especialidade, exames_solicitados, outras_informacoes, carga_geral, usuario, data_cadastro)
+VALUES (@prontuario, @nome, @data, @cod_esp, @exames_texto, @obs, @carga_geral, @usuario, GETDATE());
 SELECT SCOPE_IDENTITY();";
 
                         using (SqlCommand cmd = new SqlCommand(sql, conn, tx))
@@ -39,7 +39,7 @@ SELECT SCOPE_IDENTITY();";
                             cmd.Parameters.AddWithValue("@cod_esp", pedido.CodEspecialidade);
                             cmd.Parameters.AddWithValue("@exames_texto", (object)pedido.ExamesSolicitadosTexto ?? DBNull.Value);
                             cmd.Parameters.AddWithValue("@obs", (object)pedido.OutrasInformacoes ?? DBNull.Value);
-                            cmd.Parameters.AddWithValue("@solicitante", (object)pedido.Solicitante ?? DBNull.Value);
+                            cmd.Parameters.AddWithValue("@carga_geral", pedido.CargaGeral);
                             cmd.Parameters.AddWithValue("@usuario", (object)pedido.Usuario ?? DBNull.Value);
 
                             object scalar = cmd.ExecuteScalar();
@@ -155,7 +155,7 @@ SELECT SCOPE_IDENTITY();";
             {
                 cmd.CommandText =
         @"SELECT cod_pedido, prontuario, nome_paciente, data_pedido, cod_especialidade,
-         exames_solicitados, outras_informacoes, solicitante, usuario
+         exames_solicitados, outras_informacoes, carga_geral,usuario
   FROM pedido_consulta WITH (NOLOCK)
  WHERE cod_pedido = @id";
                 cmd.Parameters.AddWithValue("@id", id);
@@ -172,14 +172,14 @@ SELECT SCOPE_IDENTITY();";
                     int codEsp = System.Convert.ToInt32(rd["cod_especialidade"]);
                     string examesTexto = rd["exames_solicitados"] == System.DBNull.Value ? null : System.Convert.ToString(rd["exames_solicitados"]);
                     string outrasInfo = rd["outras_informacoes"] == System.DBNull.Value ? null : System.Convert.ToString(rd["outras_informacoes"]);
-                    string solicitante = rd["solicitante"] == System.DBNull.Value ? null : System.Convert.ToString(rd["solicitante"]);
+                    int cargaGeral = System.Convert.ToInt32(rd["carga_geral"]);
                     string usuario = rd["usuario"] == System.DBNull.Value ? null : System.Convert.ToString(rd["usuario"]);
                     int idPedido = System.Convert.ToInt32(rd["cod_pedido"]);
 
                     // Cria a entidade com o construtor rico
                     var p = new Hspm.CadEncaminhamento.Domain.Pedido(
                         prontuario, nome, data, codEsp,
-                        examesTexto, outrasInfo, solicitante, usuario
+                        examesTexto, outrasInfo, usuario, cargaGeral 
                     );
 
                     // Define o Id (use a opção que existir no seu domínio)
@@ -249,7 +249,7 @@ SELECT SCOPE_IDENTITY();";
        cod_especialidade = @cod_esp,
        exames_solicitados= @exames_texto,
        outras_informacoes= @obs,
-       solicitante       = @solicitante,
+       carga_geral       = @carga_geral,
        usuario_atualizacao = @usuario,
       data_atualizacao   = GETDATE()   
  WHERE cod_pedido = @id";
@@ -259,7 +259,7 @@ SELECT SCOPE_IDENTITY();";
                 cmd.Parameters.AddWithValue("@cod_esp", p.CodEspecialidade);
                 cmd.Parameters.AddWithValue("@exames_texto", (object)p.ExamesSolicitadosTexto ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@obs", (object)p.OutrasInformacoes ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@solicitante", (object)p.Solicitante ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@carga_geral", p.CargaGeral);
                 cmd.Parameters.AddWithValue("@usuario", (object)p.Usuario ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@id", p.Id);
 
