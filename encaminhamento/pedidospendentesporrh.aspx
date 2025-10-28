@@ -120,6 +120,7 @@
           <asp:GridView ID="GridViewArquivados" runat="server"
             AutoGenerateColumns="False"
             DataKeyNames="cod_pedido"
+                OnRowCommand="grdArquivados_RowCommand"
             OnPreRender="GridViewArquivados_PreRender"
             CssClass="table table-striped table-bordered"
             GridLines="Horizontal" BorderColor="#e0ddd1" Width="100%"
@@ -134,6 +135,7 @@
               <asp:BoundField DataField="data_cadastro" HeaderText="Data de Cadastro" SortExpression="data_cadastro" />
               <asp:BoundField DataField="descricao_espec" HeaderText="Especialidade" SortExpression="descricao_espec" />
               <asp:BoundField DataField="exames_solicitados" HeaderText="Exames Solicitados" SortExpression="exames_solicitados" />
+                <asp:BoundField DataField="outras_informacoes" HeaderText="Outras Informações" SortExpression="outras_informacoes" />
               <asp:BoundField DataField="retirado_informacoes" HeaderText="Retirado Por" SortExpression="retirado_informacoes" HtmlEncode="false"  />
 <asp:TemplateField HeaderText="Carga Geral" SortExpression="carga_geral">
   <ItemTemplate>
@@ -141,7 +143,23 @@
   </ItemTemplate>
 </asp:TemplateField>
               <asp:BoundField DataField="usuario_baixa" HeaderText="Arquivado por" SortExpression="usuario_baixa" />
-            </Columns>
+        
+           
+              <asp:TemplateField HeaderText=" " ItemStyle-CssClass="actions-col" HeaderStyle-CssClass="sorting_disabled">
+                <ItemTemplate>
+          
+                  <asp:LinkButton ID="gvlnkEdit" CommandName="editRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
+                    CssClass="btn btn-info btn-icon" runat="server" ToolTip="Editar" CausesValidation="false">
+                    <i class="fa fa-pen"></i>
+                  </asp:LinkButton>
+                  <asp:LinkButton ID="gvlnkDelete" CommandName="deleteRecord" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
+                    CssClass="btn btn-danger btn-icon" runat="server" OnClientClick="return confirmation();"
+                    ToolTip="Excluir" CausesValidation="false">
+                    <i class="fa fa-trash"></i>
+                  </asp:LinkButton>
+                </ItemTemplate>
+              </asp:TemplateField>
+              </Columns>
           </asp:GridView>
         </asp:Panel>
 

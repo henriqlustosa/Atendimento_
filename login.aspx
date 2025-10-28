@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Login" %>
+﻿﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Login" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Atendimento SAC</title>
+    <title>Atendimento Controle de Acesso</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link href="css/login_responsivo.css" rel="stylesheet" />
  
@@ -37,7 +37,7 @@
 <body>
     <form id="form1" runat="server">
         <div class="login__container">
-            <div class="login__titulo">Atendimento SAC</div>
+            <div class="login__titulo">Atendimento Controle de Acesso</div>
 
             <div class="login__imagem">
                 <img src="img/LoginAtendimentoSACTransparente.svg" alt="Arquivo SAC" />

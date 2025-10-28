@@ -23,7 +23,7 @@ public class EspecialidadeDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["gtaConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-            cmm.CommandText = "SELECT descricao_espec" +
+            cmm.CommandText = "SELECT descricao_especialidade" +
                              " FROM [hspmAtendimento].[dbo].[especialidade] " +
                              " WHERE cod_especialidade = " + _cod;
 

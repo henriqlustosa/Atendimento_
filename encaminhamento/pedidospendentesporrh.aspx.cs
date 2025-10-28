@@ -61,8 +61,8 @@ public partial class encaminhamento_pedidospendentesporrh : BasePage
             GridView1.DataBind();
             EnsureGridHeader(GridView1);
 
-            if (GridView1.Rows.Count == 0)
-                ShowToast("Nenhum registro pendente encontrado para o prontuário informado.");
+            if (GridView1.Rows.Count == 0 && rblTipo != null && rblTipo.SelectedValue == "P")
+                ShowToast("Nenhum registro arquivado encontrado para o prontuário informado.");
         }
         catch (Exception ex)
         {
@@ -77,12 +77,12 @@ public partial class encaminhamento_pedidospendentesporrh : BasePage
         try
         {
             // Implemente este método no DAO:
-            // getListaPedidoConsultaArquivadaPorRH(int prontuario)
+    
             GridViewArquivados.DataSource = PedidoDAO.getListaPedidoConsultaArquivadaPorRH(prontuario);
             GridViewArquivados.DataBind();
             EnsureGridHeader(GridViewArquivados);
 
-            if (GridViewArquivados.Rows.Count == 0)
+            if (GridViewArquivados.Rows.Count == 0 && rblTipo != null && rblTipo.SelectedValue == "A")
                 ShowToast("Nenhum registro arquivado encontrado para o prontuário informado.");
         }
         catch (Exception ex)
@@ -173,6 +173,44 @@ public partial class encaminhamento_pedidospendentesporrh : BasePage
             return;
         }
     }
+    protected void grdArquivados_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e == null || e.CommandArgument == null) return;
+
+        int index;
+        if (!int.TryParse(e.CommandArgument.ToString(), out index)) return;
+        if (index < 0 || index >= GridViewArquivados.Rows.Count) return;
+
+        int idPedido;
+        if (!int.TryParse(GridViewArquivados.DataKeys[index].Value.ToString(), out idPedido)) return;
+
+        if (e.CommandName == "editRecord")
+        {
+            Response.Redirect("~/encaminhamento/retornomarcado.aspx?idpedido=" + idPedido);
+            return;
+        }
+
+        if (e.CommandName == "deleteRecord")
+        {
+            try
+            {
+                PedidoDAO.deletePedidodeConsulta(idPedido);
+
+                int pront;
+                if (int.TryParse(SafeTrim(txbProntuario.Text), out pront))
+                    BindArquivados(pront);
+
+                ShowToast("Registro excluído com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                ShowToast("Erro ao excluir: " + ex.Message);
+            }
+            return;
+        }
+
+     
+    }
 
     // ---------------- Modal: Confirmar Arquivo ----------------
     protected void btnConfirmarArquivo_Click(object sender, EventArgs e)
@@ -195,70 +233,57 @@ public partial class encaminhamento_pedidospendentesporrh : BasePage
         string data = SafeTrim(txtData.Text);
         string hora = SafeTrim(txtHora.Text);
 
-        string info = string.Format(
-            "Retirado por: {0} RG ou CPF: {1} Data:{2} Hora:{3}",
-            retiradoPor, rgCpf, data, hora);
+        string info = string.Format("Retirado por: {0} RG ou CPF: {1} Data:{2} Hora:{3}",
+                                    retiradoPor, rgCpf, data, hora);
 
         try
         {
-            try { PedidoDAO.AtualizarOutrasInformacoes(id, info); } catch { /* log opcional */ }
+            // Atualiza "outras informações" (ignora falha)
+            try { PedidoDAO.AtualizarOutrasInformacoes(id, info); } catch { }
 
+            // Arquiva o pedido
             string usuario = (Session["login"] == null) ? "desconhecido" : Session["login"].ToString();
             PedidoDAO.filePedidodeConsulta(id, usuario);
 
-            int pront;
-            if (int.TryParse(SafeTrim(txbProntuario.Text), out pront))
-            {
-                if (rblTipo.SelectedValue == "P")
-                    BindPendentes(pront);
-                else
-                    BindArquivados(pront);
-            }
+            // Fecha o modal e limpa campos no cliente
+            string closeAndClear = string.Format(@"
+(function(){{
+  var el=document.getElementById('modalArquivo');
+  var ids={{ret:'{0}',rg:'{1}',dt:'{2}',hr:'{3}',hid:'{4}'}};
+  ['ret','rg','dt','hr','hid'].forEach(function(k){{var c=document.getElementById(ids[k]); if(c) c.value='';}});
+  if(window.bootstrap&&typeof bootstrap.Modal==='function'){{ var m=bootstrap.Modal.getInstance(el)||new bootstrap.Modal(el); m.hide(); }}
+  else if(window.jQuery&&jQuery.fn&&jQuery.fn.modal){{ jQuery('#modalArquivo').modal('hide'); }}
+  else if(el){{ el.classList.remove('show'); el.style.display='none'; document.body.classList.remove('modal-open');
+    var backs=document.querySelectorAll('.modal-backdrop'); for(var i=0;i<backs.length;i++){{ var b=backs[i]; if(b.remove) b.remove(); else b.parentNode.removeChild(b); }}
+  }}
+}})();",
+                txtRetiradoPor.ClientID, txtRgCpf.ClientID, txtData.ClientID, txtHora.ClientID, hfPedidoId.ClientID);
 
-            // Limpa campos do modal (server)
+            ScriptManager.RegisterStartupScript(this, GetType(), "closeAndClearModal", closeAndClear, true);
+
+            // Limpa server-side
             txtRetiradoPor.Text = "";
             txtRgCpf.Text = "";
             txtData.Text = "";
             txtHora.Text = "";
             hfPedidoId.Value = "";
 
-            // Fecha o modal no cliente (formato compatível c/ C#3 via string.Format)
-            string closeAndClear = string.Format(@"
-            (function () {{
-              var el  = document.getElementById('modalArquivo');
-              var ids = {{
-                retirado:'{0}',
-                rg:'{1}',
-                data:'{2}',
-                hora:'{3}',
-                hid:'{4}'
-              }};
-              ['retirado','rg','data','hora','hid'].forEach(function(k){{
-                var c = document.getElementById(ids[k]); if (c) c.value = '';
-              }});
+            // Alterna UI para a "aba" Arquivadas
+            ShowAbaArquivadas();
 
-              if (window.bootstrap && typeof bootstrap.Modal === 'function') {{
-                var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
-                m.hide();
-              }} else if (window.jQuery && jQuery.fn && jQuery.fn.modal) {{
-                jQuery('#modalArquivo').modal('hide');
-              }} else if (el) {{
-                el.classList.remove('show'); el.style.display='none';
-                document.body.classList.remove('modal-open');
-                var backs = document.querySelectorAll('.modal-backdrop');
-                for (var i = 0; i < backs.length; i++) {{
-                  if (backs[i].remove) backs[i].remove();
-                  else backs[i].parentNode.removeChild(backs[i]);
-                }}
-              }}
-            }})();",
-            txtRetiradoPor.ClientID,
-            txtRgCpf.ClientID,
-            txtData.ClientID,
-            txtHora.ClientID,
-            hfPedidoId.ClientID);
+            // Recarrega os DOIS grids (respeitando RH se informado)
+            int pront;
+            bool temPront = int.TryParse(SafeTrim(txbProntuario.Text), out pront);
 
-            ScriptManager.RegisterStartupScript(this, GetType(), "closeAndClearModal", closeAndClear, true);
+            if (temPront)
+            {
+                try { BindArquivados(pront); } catch { }
+                try { BindPendentes(pront); } catch { }
+            }
+           
+
+            // Reinit DataTables (JS do .aspx)
+            ReinitDataTables();
 
             ShowToast("Pedido arquivado com sucesso.");
         }
@@ -267,6 +292,54 @@ public partial class encaminhamento_pedidospendentesporrh : BasePage
             ShowToast("Erro ao arquivar: " + ex.Message);
         }
     }
+
+
+
+    private void ShowAbaArquivadas()
+    {
+        // Seleciona "A" no RadioButtonList (se existir)
+        if (rblTipo != null)
+        {
+            rblTipo.ClearSelection();
+            var li = rblTipo.Items.FindByValue("A");
+            if (li != null) li.Selected = true;
+        }
+
+        // Mostra/Esconde painéis
+        if (pnlPendentes != null) pnlPendentes.Visible = false;
+        if (pnlArquivadas != null) pnlArquivadas.Visible = true;
+    }
+
+    private void ShowAbaPendentes()
+    {
+        if (rblTipo != null)
+        {
+            rblTipo.ClearSelection();
+            var li = rblTipo.Items.FindByValue("P");
+            if (li != null) li.Selected = true;
+        }
+        if (pnlPendentes != null) pnlPendentes.Visible = true;
+        if (pnlArquivadas != null) pnlArquivadas.Visible = false;
+    }
+
+    // Chama o initDT() do seu .aspx após DataBind
+    private void ReinitDataTables()
+    {
+        ScriptManager.RegisterStartupScript(this, GetType(), "initDTafterBind", "try{initDT();}catch(e){}", true);
+    }
+
+    /// <summary>
+    /// Limpa os campos de consulta/pesquisa da página (ajuste os IDs conforme seus controles).
+    /// </summary>
+    private void ClearConsultaCampos()
+    {
+        if (txbProntuario != null) txbProntuario.Text = "";
+        // Se possuir outros filtros, limpe aqui:
+        // if (txbDtPedido != null) txbDtPedido.Text = "";
+        // if (ddlStatus   != null) ddlStatus.ClearSelection();
+        // if (txbNome     != null) txbNome.Text = "";
+    }
+
 
     // ---------------- Botão Pesquisar ----------------
     protected void btnPesquisar_Click(object sender, EventArgs e)
