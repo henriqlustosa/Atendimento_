@@ -253,17 +253,17 @@
       </div><!-- /accordion -->
 
       <!-- BOTÃO GRAVAR FIXO -->
-      <div class="action-bar">
+ 
+        <div class="action-bar">
         <div class="action-bar-inner">
           <asp:Button ID="btnGravar" runat="server" Text="Gravar"
             CssClass="btn btn-success btn-lg shadow-sm"
             ValidationGroup="Salvar" CausesValidation="true"
-            UseSubmitBehavior="false"
-            OnClientClick="return validateBeforeSubmit();"
+            UseSubmitBehavior="true"
             OnClick="btnGravar_Click" />
         </div>
-      </div>
-
+         </div> <!-- /.page-compact -->
+</asp:Panel>
       <!-- Modal sucesso (BS5) -->
       <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
@@ -274,9 +274,9 @@
           </div>
         </div>
       </div>
-    </div> <!-- /.page-compact -->
 
-    </asp:Panel>
+
+    
 
     <!-- Scripts de plugins (jQuery/Bootstrap já vêm da Master) -->
     <script src="https://cdn.jsdelivr.net/npm/icheck@1.0.2/icheck.min.js"></script>
